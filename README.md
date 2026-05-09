@@ -121,11 +121,29 @@ Each generated guide can contain up to 12 parts; which to use depends on the mat
 
 ---
 
-## 一个用过这个 skill 的产物示例 · An example output
+## 怎么用 · How to feed material
 
-这个 skill 第一次成型时，是为了把 CB Insights 的 *Mastercard Strategy Map* 截图（60+ 家 Mastercard 合作 / 投资 / 收购的公司）打成一份 130KB 的可交互 HTML，从中给 [Nexar](https://www.nexar.app)（一个 creator-payout decision layer 创业公司）提取可执行的竞争情报。最终产物包括 12 个 part、24 个 Constellation Map 节点（每个可点击查看公司画像）、4 位独立分析师（Marc Rubinstein / Patrick McKenzie / Acquired / Alex Rampell）的引用整合、加上一张 5 件事的"稳定币 inflection point"时间线。
+任何你想研究的**行业、公司、生态、赛道、主题**——把素材丢给 Claude 就行。素材可以是任何形式：
 
-> The skill was originally built to turn a CB Insights *Mastercard Strategy Map* screenshot (60+ Mastercard partner / investee / acquisition companies) into a 130KB interactive HTML report extracting actionable competitive intelligence for [Nexar](https://www.nexar.app), a creator-payout decision layer startup.
+- 一张行业图谱截图（CB Insights / Crunchbase / 你自己整理的 PPT 截图）
+- 一份调研笔记 / Google Doc 链接 / Notion 文档
+- 你已经收集的公司列表 / 财报数据 / 访谈记录
+- 几篇你觉得相关的文章链接 + 一句话研究问题
+- 甚至只是一句"帮我做一份 [行业] 的 field guide"——Claude 会自己搜素材、找独立分析师观点、整合成文档
+
+skill 会自己决定哪些 part 用、哪些跳，主动搜 Net Interest / Acquired / Stratechery 这些独立分析师补充材料，最后生成一份 **专属的、有论点的、可探索的** HTML 研究报告——不是套模板的填空，是真的研究。
+
+> Bring any research topic — an industry, a company, an ecosystem, a vertical, a thesis. Drop in your raw material (screenshots, notes, links, company lists, earnings data, interview transcripts — or just a one-line research question). The skill picks which of the 12 parts fit your material, sources independent-analyst perspectives proactively, and generates a polished, opinionated, explorable HTML field guide tailored to your topic — not template fill-in-the-blanks, real research.
+
+**典型素材输入 → 输出对应 · Material → output mapping:**
+
+| 你给的素材 / Your input | 生成的 field guide 类型 / Output type |
+|---|---|
+| 一张行业玩家图谱截图 / Industry landscape screenshot | 生态战略图（突出 Constellation Map）/ Ecosystem map (constellation-heavy) |
+| 一家公司的财报 + 战略动作清单 / Company financials + strategy moves | 公司深度分析（重 2×2 矩阵 + inflection）/ Deep company analysis (2×2 matrix + inflection) |
+| N 个赛道的代表玩家清单 / Players across N verticals | 竞争格局报告（重 paired-bar + heatmap）/ Competitive landscape (paired-bar + heatmap) |
+| 一个投资主题 + 你看好的几家公司 / Investment thesis + watchlist | 基金 thesis（重 tier 判断 + 案例研究）/ Fund thesis (tiered judgments + case tabs) |
+| 一份长访谈或长文 / A long interview or article | 主题研究报告（重 deep-dive + glossary）/ Topic research memo (deep-dive + glossary) |
 
 ---
 
