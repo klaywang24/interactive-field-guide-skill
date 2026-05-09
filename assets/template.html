@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[YOUR INDUSTRY] · Interactive Field Guide Template</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{--bg:#F1ECDF;--bg-card:#FAF6E8;--bg-card-hover:#F5EFD9;--bg-deep:#EBE5D6;--ink:#1A1410;--ink-soft:#3D352D;--ink-light:#8A7E6E;--muted:#6B5D4F;--accent:#A0392F;--accent-soft:#C16B5C;--accent-light:#E8C9C2;--gold:#B8893E;--gold-light:#F0E1C2;--teal:#2D4A48;--teal-light:#C8DBD8;--moss:#5A7A4A;--moss-light:#DCE5D2;--sky:#5C7C9A;--sky-light:#D4DEE8;--rule:#C8BFA8;--rule-soft:#D8CFB8;}
+body.dark{--bg:#1C1612;--bg-card:#25201A;--bg-card-hover:#2C2620;--bg-deep:#15110D;--ink:#F1ECDF;--ink-soft:#D8CFB8;--ink-light:#8A7E6E;--muted:#A09486;--accent:#E8826F;--accent-soft:#B85F4E;--accent-light:#4A2820;--gold:#D4A654;--gold-light:#3A2F1A;--teal:#6FA29E;--teal-light:#1F3635;--moss:#8FAA7A;--moss-light:#2A3520;--sky:#8AA5BE;--sky-light:#1F2D3A;--rule:#4D4338;--rule-soft:#3A3128;}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;scroll-padding-top:80px;}
+body{margin:0;background:var(--bg);color:var(--ink-soft);font-family:"Microsoft YaHei","Noto Serif SC",-apple-system,sans-serif;font-size:16px;line-height:1.75;transition:background .3s,color .3s;}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));width:0%;z-index:100;transition:width .1s;}
+.toolbar{position:fixed;top:16px;right:24px;display:flex;gap:8px;z-index:90;background:var(--bg-card);border:1px solid var(--rule);border-radius:999px;padding:6px;backdrop-filter:blur(8px);}
+.icon-btn{background:transparent;border:none;color:var(--ink-soft);cursor:pointer;padding:8px 14px;border-radius:999px;font-family:inherit;font-size:13px;display:flex;align-items:center;gap:6px;transition:all .2s;}
+.icon-btn:hover{background:var(--bg-deep);color:var(--accent);}
+.icon-btn .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);padding:2px 5px;background:var(--bg-deep);border-radius:3px;}
+.toc{position:fixed;left:24px;top:50%;transform:translateY(-50%);width:240px;max-height:80vh;overflow-y:auto;z-index:80;background:var(--bg-card);border:1px solid var(--rule);padding:16px;border-radius:4px;font-size:12px;display:none;}
+.toc.show{display:block;animation:slideIn .3s ease;}
+@keyframes slideIn{from{opacity:0;transform:translateY(-50%) translateX(-10px);}to{opacity:1;transform:translateY(-50%) translateX(0);}}
+.toc h4{font-family:'Fraunces',serif;font-size:11px;letter-spacing:.18em;color:var(--accent);margin:0 0 10px;text-transform:uppercase;font-weight:600;}
+.toc ul{list-style:none;padding:0;margin:0;}.toc li{margin-bottom:4px;}
+.toc a{color:var(--ink-soft);text-decoration:none;display:block;padding:4px 8px;border-radius:3px;border-left:2px solid transparent;transition:all .15s;line-height:1.5;}
+.toc a:hover,.toc a.active{background:var(--bg-deep);border-left-color:var(--accent);color:var(--accent);}
+.toc a.active{font-weight:600;}
+@media(max-width:1500px){.toc{display:none!important;}}
+
+.hero{min-height:80vh;display:flex;flex-direction:column;justify-content:center;padding:80px 60px 60px;max-width:1100px;margin:0 auto;}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--accent);text-transform:uppercase;margin-bottom:24px;}
+.hero h1{font-family:'Fraunces','Noto Serif SC',serif;font-weight:400;font-size:clamp(28px,4.2vw,56px);line-height:1.15;letter-spacing:-.015em;color:var(--ink);margin:0 0 32px;}
+.hero h1 em{font-style:italic;color:var(--accent);font-weight:500;}
+.hero-sub{font-size:18px;color:var(--ink-soft);max-width:820px;line-height:1.7;margin-bottom:48px;}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding-top:48px;border-top:1px solid var(--rule);}
+@media(max-width:800px){.hero-stats{grid-template-columns:repeat(2,1fr);}}
+.stat-block .num{font-family:'Fraunces',serif;font-size:36px;font-weight:500;color:var(--ink);line-height:1.1;display:block;}
+.stat-block .label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-top:6px;display:block;}
+.stat-block .detail{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4;}
+
+.section{max-width:1080px;margin:0 auto;padding:80px 60px;}
+@media(max-width:768px){.section{padding:60px 24px;}.hero{padding:60px 24px;}}
+.section-num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;}
+.section h2{font-family:'Fraunces','Noto Serif SC',serif;font-size:clamp(32px,4vw,48px);font-weight:500;line-height:1.15;color:var(--ink);margin:0 0 24px;letter-spacing:-.01em;}
+.section h2 em{font-style:italic;color:var(--accent);}
+.section .lede{font-family:'Fraunces',serif;font-size:20px;font-style:italic;color:var(--muted);line-height:1.65;margin-bottom:48px;max-width:820px;}
+.section h3{font-family:'Noto Serif SC',serif;font-size:22px;font-weight:600;color:var(--ink);margin:48px 0 18px;}
+.section h4{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin:28px 0 12px;font-weight:600;}
+.section p{font-size:16px;line-height:1.8;margin:0 0 18px;color:var(--ink-soft);}
+.section p strong{color:var(--ink);font-weight:600;}.section p em{color:var(--accent);font-style:italic;}
+.section ul,.section ol{padding-left:28px;margin:18px 0;}
+.section li{margin-bottom:8px;line-height:1.7;font-size:15px;}
+.section li::marker{color:var(--accent);}
+
+.callout{margin:24px 0;padding:18px 22px;background:var(--bg-card);border:1px solid var(--rule);border-left:4px solid var(--accent);border-radius:0 4px 4px 0;}
+.callout.fact{border-left-color:var(--accent);}.callout.lesson{border-left-color:var(--sky);}.callout.investor{border-left-color:var(--teal);}.callout.data{border-left-color:var(--gold);}
+.callout-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:8px;display:block;}
+.callout.fact .callout-label{color:var(--accent);}.callout.lesson .callout-label{color:var(--sky);}.callout.investor .callout-label{color:var(--teal);}.callout.data .callout-label{color:var(--gold);}
+.callout p{margin:0 0 8px;font-size:14.5px;line-height:1.7;}.callout p:last-child{margin-bottom:0;}
+
+a{color:var(--accent);text-decoration:none;border-bottom:1px dotted;transition:color .2s;}a:hover{color:var(--gold);}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--rule) 20%,var(--rule) 80%,transparent);margin:50px 0;position:relative;}
+.divider::after{content:'✦';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 16px;color:var(--gold);font-size:14px;}
+
+.condition-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:28px 0;}
+@media(max-width:900px){.condition-strip{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.condition-strip{grid-template-columns:1fr;}}
+.cc-card{background:var(--bg-card);border:1px solid var(--rule);border-top:3px solid var(--accent);border-radius:4px;padding:16px 14px;transition:all .2s;display:flex;flex-direction:column;gap:6px;min-height:200px;}
+.cc-card:nth-child(1){border-top-color:var(--sky);}.cc-card:nth-child(2){border-top-color:var(--gold);}.cc-card:nth-child(3){border-top-color:var(--accent);}.cc-card:nth-child(4){border-top-color:var(--teal);}.cc-card:nth-child(5){border-top-color:var(--moss);}
+.cc-card:hover{background:var(--bg-card-hover);transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,.06);}
+.cc-num{font-family:'Fraunces',serif;font-size:22px;font-weight:500;color:var(--accent);}
+.cc-title{font-family:'Noto Serif SC',serif;font-size:14px;font-weight:600;color:var(--ink);margin:0;line-height:1.35;}
+.cc-desc{font-size:12px;color:var(--muted);line-height:1.55;margin:0;}
+
+.tab-row{display:flex;gap:4px;flex-wrap:wrap;background:var(--bg-deep);padding:4px;border-radius:4px;}
+.tab-btn{flex:1;min-width:120px;padding:10px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;background:transparent;border:1px solid transparent;color:var(--ink-soft);border-radius:3px;text-align:center;transition:all .15s;user-select:none;}
+/* Sector grid - 8 in one row, crypto-red theme */
+.sector-grid{display:grid!important;grid-template-columns:repeat(8,1fr)!important;gap:3px!important;flex-wrap:nowrap!important;background:var(--accent-light)!important;border:1px solid var(--accent)!important;}
+.sector-grid .tab-btn{min-width:0;padding:8px 6px;color:var(--accent);}
+.sector-grid .tab-btn:hover{background:rgba(160,57,47,.12);}
+.sector-grid .tab-btn.active{background:var(--accent);color:white;border-color:var(--accent);}
+.sector-grid .tab-btn .tab-num{font-size:8.5px;}
+.sector-grid .tab-btn .tab-meta{font-size:8.5px;}
+@media(max-width:760px){.sector-grid{grid-template-columns:repeat(4,1fr)!important;}}
+.tab-btn:hover{background:var(--bg-card);color:var(--accent);}
+.tab-btn.active{background:var(--accent);color:white;border-color:var(--accent);font-weight:600;}
+.tab-btn .tab-num{display:block;font-size:9px;opacity:.65;margin-bottom:2px;}
+.tab-btn .tab-meta{display:block;font-size:9.5px;opacity:.6;margin-top:3px;}
+.tab-panel{background:var(--bg-card);border:1px solid var(--rule);border-top:none;padding:24px 28px;border-radius:0 0 4px 4px;}
+.tab-panel-header{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:18px;flex-wrap:wrap;gap:12px;}
+.tab-panel-title{font-family:'Fraunces',serif;font-size:22px;font-weight:500;color:var(--ink);margin:0;}
+.tab-panel-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+
+.layer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:18px 0;}
+@media(max-width:760px){.layer-grid{grid-template-columns:1fr;}}
+.layer-cell{background:var(--bg);border:1px solid var(--rule);border-radius:4px;padding:14px 16px;}
+.layer-status{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.05em;display:block;margin-bottom:6px;}
+.layer-status.go{color:var(--moss);}
+.layer-status.warn{color:var(--gold);}
+.layer-status.no{color:var(--accent);}
+.layer-name{font-family:'Noto Serif SC',serif;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.layer-desc{font-size:12.5px;line-height:1.6;color:var(--ink-soft);margin:0;}
+.layer-desc strong{color:var(--ink);}
+.layer-desc em{color:var(--accent);font-style:normal;font-weight:600;}
+
+.paired-bar-wrap{display:grid;grid-template-columns:1fr 180px 1fr;gap:8px;align-items:center;padding:4px 0;}
+@media(max-width:720px){.paired-bar-wrap{grid-template-columns:1fr 110px 1fr;gap:4px;}}
+.bar-left{text-align:right;}
+.bar-fill{height:22px;background:var(--ink-light);border-radius:2px;display:inline-block;padding:0 7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:white;font-weight:600;line-height:22px;white-space:nowrap;vertical-align:middle;min-width:30px;}
+.bar-right .bar-fill{display:inline-block;text-align:left;}
+.bar-left .bar-fill{display:inline-block;text-align:right;}
+.bar-label{font-family:'Noto Serif SC',serif;font-size:13px;text-align:center;color:var(--ink);font-weight:500;line-height:1.3;padding:0 4px;}
+.bar-label .bar-sub{display:block;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted);font-weight:400;margin-top:2px;}
+.bar-headers{display:grid;grid-template-columns:1fr 180px 1fr;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px;}
+@media(max-width:720px){.bar-headers{grid-template-columns:1fr 110px 1fr;gap:4px;font-size:9px;}}
+.bar-headers .h-left{text-align:right;padding-right:8px;}.bar-headers .h-mid{text-align:center;}.bar-headers .h-right{padding-left:8px;}
+
+.sector-insight{margin-top:18px;padding:14px 16px;background:var(--bg-deep);border-left:3px solid var(--gold);font-size:14px;line-height:1.7;color:var(--ink-soft);}
+.sector-insight strong{color:var(--ink);font-weight:600;}.sector-insight em{color:var(--accent);font-style:normal;font-weight:600;}
+.sector-players{margin-top:12px;padding-top:12px;border-top:1px dashed var(--rule);font-size:12.5px;line-height:1.65;color:var(--muted);}
+.sector-players strong{color:var(--ink);}
+
+.tl-grid{display:grid;gap:14px;margin:32px 0;}
+.tl-card{background:var(--bg-card);border:1px solid var(--rule);border-radius:4px;padding:0;display:grid;grid-template-columns:110px 1fr;overflow:hidden;transition:all .2s;}
+@media(max-width:600px){.tl-card{grid-template-columns:1fr;}}
+.tl-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(160,57,47,.08);}
+.tl-marker{background:var(--bg-deep);border-right:1px solid var(--rule);padding:18px 14px;display:flex;flex-direction:column;gap:4px;text-align:center;justify-content:center;}
+@media(max-width:600px){.tl-marker{border-right:none;border-bottom:1px solid var(--rule);flex-direction:row;justify-content:flex-start;gap:12px;}}
+.tl-marker .tl-yr{font-family:'Fraunces',serif;font-size:22px;font-weight:500;color:var(--accent);line-height:1;}
+.tl-marker .tl-q{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.08em;}
+.tl-marker .tl-num{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;font-weight:600;margin-top:auto;}
+.tl-body{padding:18px 22px;}
+.tl-body h3{font-family:'Noto Serif SC',serif;font-size:17px;font-weight:600;color:var(--ink);margin:0 0 8px!important;}
+.tl-body p{font-size:13.5px;line-height:1.7;margin:0 0 8px;color:var(--ink-soft);}
+.tl-body p:last-child{margin:0;}
+
+.constellation-wrap{background:var(--bg-card);border:1px solid var(--rule);border-radius:4px;padding:16px;margin:28px 0;}
+.constellation-svg{width:100%;height:auto;max-height:780px;}
+.cn-ring{fill:none;stroke:var(--rule);stroke-width:1;stroke-dasharray:3,4;}
+.cn-ring-label{font-family:'JetBrains Mono',monospace;font-size:9px;fill:var(--ink-light);letter-spacing:.1em;font-weight:600;text-transform:uppercase;}
+.cn-line{stroke:var(--rule);stroke-width:1;fill:none;}
+.cn-line.warm{stroke:var(--gold);stroke-width:1.4;}
+.cn-line.cold{stroke:var(--rule-soft);stroke-dasharray:2,3;}
+.cn-node{cursor:pointer;transition:all .15s;}
+.cn-node text{pointer-events:none;}
+.cn-node:hover .cn-circle{stroke-width:3.5;filter:drop-shadow(0 0 5px #7B4FA0);}
+.cn-node:hover .cn-name{fill:#4A2D6E;font-weight:700;}
+.cn-circle{stroke:var(--ink);stroke-width:1.5;fill:var(--bg-card);}
+.cn-circle.center{fill:url(#centerGradient);stroke:none;}
+.cn-circle.local{fill:#D8E5EE;stroke:#6B9BBD;}
+.cn-circle.global{fill:#A8C5DB;stroke:#4A7DA8;}
+.cn-circle.crypto{fill:#BBD3DD;stroke:#5C8499;}
+.cn-circle.local-tier1{fill:#4A7DA8;stroke:#2C5F8D;}
+.cn-circle.exit{fill:#5C7C9A;stroke:#1F3D5C;stroke-width:2.5;}
+.cn-name{font-family:'Noto Serif SC',serif;font-size:11px;fill:var(--ink);font-weight:600;}
+.cn-sub{font-family:'JetBrains Mono',monospace;font-size:8.5px;fill:var(--muted);}
+.cn-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid var(--rule);font-size:11.5px;font-family:'JetBrains Mono',monospace;}
+.cn-legend-item{display:flex;align-items:center;gap:6px;color:var(--muted);}
+.cn-legend-dot{width:11px;height:11px;border-radius:50%;border:1.5px solid;flex-shrink:0;}
+
+.region-tabs{display:flex;gap:4px;flex-wrap:wrap;background:var(--bg-deep);padding:4px;border-radius:4px;margin-bottom:16px;}
+.region-tab{padding:8px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;background:transparent;border:1px solid transparent;color:var(--ink-soft);border-radius:3px;transition:all .15s;}
+.region-tab:hover{background:var(--bg-card);color:var(--accent);}
+.region-tab.active{background:var(--accent);color:white;border-color:var(--accent);font-weight:600;}
+
+.matrix-2x2{display:grid;grid-template-columns:60px 1fr 1fr;grid-template-rows:30px 1fr 1fr 30px;background:var(--bg-card);border:1px solid var(--ink);aspect-ratio:1.45/1;margin:32px 0;}
+@media(max-width:700px){.matrix-2x2{aspect-ratio:1/1.45;grid-template-columns:40px 1fr 1fr;}}
+.matrix-axis-y{grid-column:1;grid-row:2/4;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;align-self:center;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+.matrix-axis-x{grid-column:2/4;grid-row:4;text-align:center;align-self:center;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+.matrix-axis-top{grid-column:2/4;grid-row:1;text-align:right;align-self:center;padding-right:10px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.08em;}
+.matrix-quad{padding:16px;border:1px solid var(--rule);overflow:hidden;cursor:default;transition:all .15s;position:relative;}
+.matrix-quad.q1{background:var(--moss-light);grid-column:3;grid-row:2;}
+.matrix-quad.q2{background:var(--gold-light);grid-column:2;grid-row:2;}
+.matrix-quad.q3{background:var(--bg-deep);grid-column:2;grid-row:3;}
+.matrix-quad.q4{background:var(--sky-light);grid-column:3;grid-row:3;}
+.matrix-quad-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;font-weight:600;}
+.matrix-quad.q1 .matrix-quad-label{color:var(--moss);}.matrix-quad.q2 .matrix-quad-label{color:var(--gold);}
+.matrix-quad.q3 .matrix-quad-label{color:var(--ink-light);}.matrix-quad.q4 .matrix-quad-label{color:var(--sky);}
+.matrix-quad-title{font-family:'Fraunces',serif;font-size:15px;font-weight:500;color:var(--ink);margin-bottom:10px;line-height:1.3;}
+.archetype-badge{display:inline-block;font-size:11px;font-family:'Noto Serif SC',serif;padding:3px 10px;background:var(--bg-card);border:1px solid var(--rule);border-radius:3px;margin:3px 4px 3px 0;cursor:pointer;transition:all .15s;color:var(--ink);}
+.archetype-badge:hover{background:var(--accent);color:white;border-color:var(--accent);}
+.archetype-badge.featured{background:var(--accent);color:white;border-color:var(--accent);font-weight:600;}
+
+.drawer-backdrop{position:fixed;inset:0;background:rgba(26,20,16,.4);opacity:0;pointer-events:none;transition:opacity .25s;z-index:95;}
+.drawer-backdrop.show{opacity:1;pointer-events:auto;}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(540px,90vw);background:var(--bg);border-left:1px solid var(--ink);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);z-index:96;overflow-y:auto;padding:28px 32px 40px;box-shadow:-10px 0 40px rgba(26,20,16,.15);}
+.drawer.show{transform:translateX(0);}
+.drawer-close{position:absolute;top:18px;right:18px;width:32px;height:32px;background:var(--bg-card);border:1px solid var(--rule);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:monospace;font-size:16px;}
+.drawer-close:hover{background:var(--accent);color:white;border-color:var(--accent);}
+.drawer-section{margin-top:22px;padding-top:18px;border-top:1px solid var(--rule);}
+.drawer-section:first-of-type{margin-top:0;padding-top:0;border-top:none;}
+.drawer-section .small-caps{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;font-weight:600;margin-bottom:8px;display:block;}
+.drawer-section h2{font-family:'Fraunces',serif;font-size:22px;font-weight:500;color:var(--ink);margin:0 0 6px;line-height:1.2;}
+.drawer-section .meta-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:10px;}
+.drawer-section .tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 8px;background:var(--bg-deep);color:var(--ink-soft);border-radius:3px;margin:0 4px 4px 0;}
+.drawer-section .tag.local{background:var(--moss-light);color:var(--moss);}
+.drawer-section .tag.global{background:var(--accent-light);color:var(--accent);}
+.drawer-section .tag.crypto{background:var(--gold-light);color:var(--gold);}
+.drawer-section .tag.exit{background:var(--teal-light);color:var(--teal);}
+.drawer-section ul{padding-left:20px;margin:6px 0 0;}
+.drawer-section li{font-size:13.5px;line-height:1.65;color:var(--ink-soft);margin-bottom:4px;}
+.drawer-section p{font-size:14px;line-height:1.7;color:var(--ink-soft);margin:0 0 10px;}
+.drawer-section p strong{color:var(--ink);}
+.drawer-section .source-row{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);background:var(--bg-deep);padding:8px 10px;border-radius:3px;margin-top:8px;line-height:1.5;}
+
+.modal{position:fixed;inset:0;background:rgba(26,20,16,.5);display:none;align-items:flex-start;justify-content:center;z-index:100;padding-top:80px;backdrop-filter:blur(4px);}
+.modal.open{display:flex;animation:fadeIn .2s;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.modal-content{background:var(--bg-card);border:1px solid var(--rule);border-radius:4px;width:90%;max-width:720px;max-height:80vh;overflow-y:auto;padding:32px;}
+.modal-close{float:right;background:transparent;border:1px solid var(--rule);cursor:pointer;padding:6px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);border-radius:3px;}
+.modal-close:hover{border-color:var(--accent);color:var(--accent);}
+#searchInput,#glossarySearch{width:100%;padding:14px 18px;font-family:inherit;font-size:16px;background:var(--bg);color:var(--ink);border:1px solid var(--rule);border-radius:4px;margin-bottom:16px;outline:none;}
+#searchInput:focus,#glossarySearch:focus{border-color:var(--accent);}
+.search-result{padding:12px 14px;border-bottom:1px solid var(--rule);cursor:pointer;border-radius:3px;}
+.search-result:hover{background:var(--bg-card-hover);}
+.search-result strong{color:var(--accent);}
+.search-result .sr-context{font-size:12px;color:var(--muted);margin-top:4px;}
+.glossary-term{padding:14px 16px;border-bottom:1px solid var(--rule);}
+.glossary-term:last-child{border-bottom:none;}
+.glossary-term .gt-name{font-family:'Noto Serif SC',serif;font-weight:600;font-size:15px;color:var(--accent);margin-bottom:4px;}
+.glossary-term .gt-def{font-size:13.5px;line-height:1.65;color:var(--ink-soft);}
+
+.heat-pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;letter-spacing:.04em;}
+.heat-high{background:rgba(160,57,47,.18);color:var(--accent);}
+.heat-mid{background:rgba(184,137,62,.20);color:var(--gold);}
+.heat-low{background:rgba(45,74,72,.16);color:var(--teal);}
+
+.tier-block{background:var(--bg-card);border:1px solid var(--rule);border-left:4px solid;border-radius:0 4px 4px 0;padding:18px 22px;margin-bottom:14px;}
+.tier-block.tier1{border-left-color:var(--accent);}.tier-block.tier2{border-left-color:var(--gold);}.tier-block.tier3{border-left-color:var(--ink-light);}
+.tier-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:6px;display:block;}
+.tier-block.tier1 .tier-label{color:var(--accent);}.tier-block.tier2 .tier-label{color:var(--gold);}.tier-block.tier3 .tier-label{color:var(--ink-light);}
+.tier-title{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:600;color:var(--ink);margin:0 0 8px;}
+.tier-block ol{padding-left:22px;margin:6px 0 0;}
+.tier-block li{font-size:13.5px;line-height:1.65;margin-bottom:5px;}
+
+.table-wrap{margin:24px 0;border:1px solid var(--rule);border-radius:4px;overflow-x:auto;background:var(--bg-card);}
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+table th,table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top;}
+table th{background:var(--bg-deep);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+table tbody tr:hover{background:var(--bg-card-hover);}
+table tbody tr:last-child td{border-bottom:none;}
+table strong{color:var(--ink);font-weight:600;}
+
+.click-hint{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:6px;padding:3px 9px;background:var(--gold-light);border-radius:999px;animation:pulse-hint 2s ease-in-out infinite;}
+@keyframes pulse-hint{0%,100%{opacity:.85;}50%{opacity:1;}}
+.verify-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9.5px;padding:2px 7px;background:var(--moss-light);color:var(--moss);border-radius:3px;margin-left:6px;}
+
+.footer{padding:80px 60px 40px;text-align:center;border-top:1px solid var(--rule);margin-top:80px;font-size:13px;color:var(--muted);}
+.footer .ornament{font-family:'Fraunces',serif;font-style:italic;color:var(--accent);font-size:28px;margin-bottom:20px;}
+
+.toc::-webkit-scrollbar,.modal-content::-webkit-scrollbar,.drawer::-webkit-scrollbar{width:6px;}
+.toc::-webkit-scrollbar-track,.modal-content::-webkit-scrollbar-track,.drawer::-webkit-scrollbar-track{background:transparent;}
+.toc::-webkit-scrollbar-thumb,.modal-content::-webkit-scrollbar-thumb,.drawer::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px;}
+</style>
+</head>
+<body>
+<!--
+============================================================================
+  📘 INTERACTIVE FIELD GUIDE TEMPLATE · 编辑指南
+  ============================================================================
+  这是一个可重用的行业研究 HTML 模板。所有交互组件已就绪 —— 你只需要填充内容。
+
+  ▍如何使用本模板
+  ────────────────────────────────────────────────
+  1. 整篇文档分两类内容:
+     A. 静态文字 (HTML 内) —— 标记为 <!-- ✏️ EDIT_X -->,直接改文字即可
+     B. 交互数据 (JS 内) —— 在文件底部 SCRIPT 标签里的 CONFIG 对象里改
+  
+  2. 12 个 Part 的内容类型 + 编辑位置:
+     ✏️ Part 1   序言/第一性原理      → HTML 段落
+     ✏️ Part 2   5 项条件 / 关键框架   → HTML 5 张卡
+     ⚙️  Part 3   案例研究 (Tab 切换)   → JS · CASE_STUDY_DATA
+     ⚙️  Part 4   板块分析 (paired bar) → JS · SECTOR_DATA
+     ⚙️  Part 5   Constellation Map    → JS · CN_NODES + DETAIL_DATA
+     ⚙️  Part 6   2×2 战略象限          → HTML 4 个 quadrant + JS DETAIL_DATA
+     ✏️ Part 7   匹配矩阵 (热力表)     → HTML 表格
+     ✏️ Part 8   主题深度研究 (可选)   → HTML
+     ✏️ Part 9   近期重大事件 (可选)   → HTML
+     ⚙️  Part 10  时间线 (5 张卡)       → HTML 直接改
+     ✏️ Part 11  分档结论              → HTML 3 档
+     ✏️ Part 12  术语 + 数据来源       → HTML 列表
+  
+  3. 配色定制 (CSS 顶部 :root 变量):
+     --accent  主色 (当前砖红 #A0392F)
+     --gold    辅色 (当前金色)
+     --teal    辅色 (当前墨青)
+     Constellation 中心紫色渐变在 svg 内的 #centerGradient (可改为任何渐变)
+
+  4. 所有交互组件已经 wired up:
+     · Tab 切换 → 自动渲染对应数据
+     · Paired bar 图 → 根据 SECTOR_DATA 数值自动绘制
+     · Constellation 节点 → 点击触发 drawer
+     · 2×2 矩阵 archetype-badge → 点击触发 drawer
+     · ⌘K 全文搜索 / ⌘G 术语表 / ⌘/ 深色模式
+     · Drawer / Modal / TOC / 进度条 全部就绪
+  
+  5. 不要改的部分:
+     · CSS 中的组件样式 (除了上面的颜色变量)
+     · JS 中的渲染函数 (renderCase / renderSector / renderConstellation 等)
+     · Drawer / Modal 的 HTML 结构
+============================================================================
+-->
+<div class="progress-bar" id="progressBar"></div>
+<div class="toolbar">
+  <button class="icon-btn" id="searchBtn" title="搜索"><span>🔍</span><span>搜索</span><span class="kbd">⌘K</span></button>
+  <button class="icon-btn" id="glossaryBtn" title="术语表"><span>A</span></button>
+  <button class="icon-btn" id="darkBtn" title="切换深色"><span>◐</span></button>
+</div>
+<nav class="toc" id="toc">
+  <h4>目录</h4>
+  <ul>
+    <li><a href="#part-1">序言 · 第一性原理</a></li>
+    <li><a href="#part-2">[关键框架名称]</a></li>
+    <li><a href="#part-3">[案例研究]</a></li>
+    <li><a href="#part-4">[板块分析]</a></li>
+    <li><a href="#part-5">[Constellation Map]</a></li>
+    <li><a href="#part-6">[2×2 战略象限]</a></li>
+    <li><a href="#part-7">[匹配矩阵]</a></li>
+    <li><a href="#part-8">[主题深度] (可选)</a></li>
+    <li><a href="#part-9">[近期重大事件] (可选)</a></li>
+    <li><a href="#part-10">[时间线]</a></li>
+    <li><a href="#part-11">综合判断</a></li>
+    <li><a href="#part-12">术语 + 来源</a></li>
+  </ul>
+</nav>
+
+<!-- ✏️ EDIT_HERO: hero 区域 标语+主标题+4 个数据 -->
+<section class="hero">
+  <div class="hero-tag">[Industry] · Interactive Field Guide</div>
+  <h1>[主标题第一行]<br>[<em>highlight 词</em> 配合 <em>另一个 highlight</em> 让标题有韵律]</h1>
+  <p class="hero-sub">[副标题段落 — 一两句话说清楚这份手册要回答什么问题。点击 tabs / 节点 / 标签查看细节。所有数据可验证,有出处。]</p>
+  <div class="hero-stats">
+    <div class="stat-block"><span class="num">[$X]</span><span class="label">[数据描述 1]</span><span class="detail">[出处]</span></div>
+    <div class="stat-block"><span class="num">[NN%]</span><span class="label">[数据描述 2]</span><span class="detail">[出处]</span></div>
+    <div class="stat-block"><span class="num">[$Y]</span><span class="label">[数据描述 3]</span><span class="detail">[出处]</span></div>
+    <div class="stat-block"><span class="num">[NN]</span><span class="label">[数据描述 4]</span><span class="detail">[出处]</span></div>
+  </div>
+</section>
+
+<!-- ✏️ EDIT_PART_1: 序言 — 阐述行业第一性原理 + 数据可信度承诺 -->
+<section class="section" id="part-1">
+  <div class="section-num">PART 1 · 序言</div>
+  <h2>[第一性原理标题]:<em>[关键概念 1]</em>vs<em>[关键概念 2]</em></h2>
+  <p class="lede">[导语 — 用一两句话引出本手册要回答的核心问题。点击 tabs / 节点 / 标签查看细节。]</p>
+  <p>[<strong>核心论点段落</strong>。这里展开你想用第一性原理表述的论断。例如:为什么这个行业跨地区复制困难/容易?为什么某种范式有效?给出 2-3 个反例或类比让读者快速理解你的视角。]</p>
+  <p>[过渡段:下一章会把"X 问题"拆成 N 项可分析维度。这 N 项都满足,模型才成立;<strong>任意一项不通,就 port 不过去</strong>。]</p>
+  <div class="callout fact">
+    <span class="callout-label">数据可信度承诺</span>
+    <p>每个具体数字都有出处。涉及"行业估算"的(如各地区收入占比),会明确标 <strong>directional estimate</strong>。事实有出处的标 <span class="verify-tag">已核实</span>。所有创始人背景、融资数据、收购金额均通过 [来源 1] / [来源 2] / [来源 3] 多源核实。</p>
+  </div>
+</section>
+
+<!-- ✏️ EDIT_PART_2: 5 项核心条件/框架 (5 张卡片) -->
+<section class="section" id="part-2">
+  <div class="section-num">PART 2</div>
+  <h2>[关键框架名]:<em>[简短描述]</em></h2>
+  <p class="lede">[导语 — 简介这 5 张卡的逻辑结构,例如"5 个 AND 而非 OR",或"5 阶段瀑布"。]</p>
+  <div class="condition-strip">
+    <div class="cc-card"><div class="cc-num">01</div><h5 class="cc-title">[条件 1 标题]<br>[简短副标]</h5><p class="cc-desc">[20-40 字描述,什么是这个条件,典型反例是什么。]</p></div>
+    <div class="cc-card"><div class="cc-num">02</div><h5 class="cc-title">[条件 2 标题]<br>[简短副标]</h5><p class="cc-desc">[20-40 字描述。]</p></div>
+    <div class="cc-card"><div class="cc-num">03</div><h5 class="cc-title">[条件 3 标题]<br>[简短副标]</h5><p class="cc-desc">[20-40 字描述。]</p></div>
+    <div class="cc-card"><div class="cc-num">04</div><h5 class="cc-title">[条件 4 标题]<br>[简短副标]</h5><p class="cc-desc">[20-40 字描述。]</p></div>
+    <div class="cc-card"><div class="cc-num">05</div><h5 class="cc-title">[条件 5 标题]<br>[简短副标]</h5><p class="cc-desc">[20-40 字描述。]</p></div>
+  </div>
+  <div class="callout fact"><span class="callout-label">第一性原理</span>
+    <p>[<strong>关键洞察</strong>。把上述 5 项串起来,给读者一个 "啊哈 moment"——为什么这 5 项是 AND 关系,任何一项不通就崩。可以用一个具体例子说明。]</p>
+  </div>
+</section>
+
+<!-- ⚙️ EDIT_PART_3: Tab 案例研究 (5 个标签切换) — 数据在 JS · CASE_STUDY_DATA -->
+<section class="section" id="part-3">
+  <div class="section-num">PART 3 · 互动</div>
+  <h2>[案例研究标题]:<em>[N 个目标对象]</em>逐一分析</h2>
+  <p class="lede">[导语 — 介绍这个案例为什么值得拆解。点击下方 tab 切换 [对象类型] 看具体分析。]</p>
+  <h3>[案例对象的产品 / 维度结构]</h3>
+  <div class="table-wrap"><table><thead><tr><th>层 / 维度</th><th>名称</th><th>说明</th></tr></thead><tbody>
+    <tr><td><strong>[Layer A · 标签]</strong></td><td>[组件名]</td><td>[价值描述,可加 <span class="verify-tag">已核实</span> 标记]</td></tr>
+    <tr><td><strong>[Layer B · 标签]</strong></td><td>[组件名]</td><td>[价值描述]</td></tr>
+    <tr><td><strong>[Layer C · 标签]</strong></td><td>[组件名]</td><td>[价值描述]</td></tr>
+  </tbody></table></div>
+  <span class="click-hint">👉 点击 tab 切换</span>
+  <!-- ⚙️ tab 按钮的 data-region 必须对应 CASE_STUDY_DATA 的 key -->
+  <div class="tab-row" id="caseTabs" style="margin-top:8px;">
+    <button class="tab-btn active" data-region="region-a"><span class="tab-num">本部</span>[地区/对象 A]<span class="tab-meta">[简短标签]</span></button>
+    <button class="tab-btn" data-region="region-b"><span class="tab-num">02</span>[地区/对象 B]<span class="tab-meta">[简短标签]</span></button>
+    <button class="tab-btn" data-region="region-c"><span class="tab-num">03 ⭐</span>[地区/对象 C]<span class="tab-meta">[最优窗口]</span></button>
+    <button class="tab-btn" data-region="region-d"><span class="tab-num">04</span>[地区/对象 D]<span class="tab-meta">[简短标签]</span></button>
+    <button class="tab-btn" data-region="region-e"><span class="tab-num">05</span>[地区/对象 E]<span class="tab-meta">[简短标签]</span></button>
+  </div>
+  <div class="tab-panel" id="casePanel"></div>
+</section>
+<!-- ⚙️ EDIT_PART_4: 板块/维度 paired-bar 图表 — 数据在 JS · SECTOR_DATA -->
+<section class="section" id="part-4">
+  <div class="section-num">PART 4 · 互动</div>
+  <h2>[N 大板块/维度]:<em>[左侧指标]</em> vs <em>[右侧指标]</em></h2>
+  <p class="lede">[导语 — 解释为什么这个对比有信息量。点击 tab 切换板块。]</p>
+  <div class="callout data" style="margin-bottom:24px;"><span class="callout-label">数据声明</span>
+    <p>各板块的总量来自<strong>已核实的来源</strong>。<strong>分布的 % 是 directional estimates</strong>(基于公开数据综合估算),用于可视化对比相对量级,而非精确数据。</p>
+  </div>
+  <span class="click-hint">👉 点击板块切换图表</span>
+  <!-- ⚙️ sector-grid 让 8 个 tab 强制一行 + 主题色;按钮的 data-sector 必须对应 SECTOR_DATA 的 key -->
+  <div class="tab-row sector-grid" id="sectorTabs" style="margin-top:8px;">
+    <button class="tab-btn active" data-sector="sector-1"><span class="tab-num">01</span>[板块 1]<span class="tab-meta">[规模]</span></button>
+    <button class="tab-btn" data-sector="sector-2"><span class="tab-num">02</span>[板块 2]<span class="tab-meta">[规模]</span></button>
+    <button class="tab-btn" data-sector="sector-3"><span class="tab-num">03 ⭐</span>[板块 3]<span class="tab-meta">[规模]</span></button>
+    <button class="tab-btn" data-sector="sector-4"><span class="tab-num">04</span>[板块 4]<span class="tab-meta">[规模]</span></button>
+    <button class="tab-btn" data-sector="sector-5"><span class="tab-num">05</span>[板块 5]<span class="tab-meta">[规模]</span></button>
+    <button class="tab-btn" data-sector="sector-6"><span class="tab-num">06 ⭐</span>[板块 6]<span class="tab-meta">[规模]</span></button>
+    <button class="tab-btn" data-sector="sector-7"><span class="tab-num">07</span>[板块 7]<span class="tab-meta">[规模]</span></button>
+    <button class="tab-btn" data-sector="sector-8"><span class="tab-num">08 ⭐</span>[板块 8]<span class="tab-meta">[规模]</span></button>
+  </div>
+  <div class="tab-panel" id="sectorPanel"></div>
+  <div class="callout fact" style="margin-top:24px;"><span class="callout-label">综合判断</span>
+    <p><strong>[最高的 3 板块]</strong>:[名单]——共同特征:<em>[共性洞察]</em></p>
+    <p><strong>[最低的 3 板块]</strong>:[名单]——共同特征:<em>[共性洞察]</em></p>
+  </div>
+</section>
+
+<!-- ⚙️ EDIT_PART_5: Constellation Map — 节点 + drawer 详情数据在 JS · CN_NODES / DETAIL_DATA -->
+<section class="section" id="part-5">
+  <div class="section-num">PART 5 · 互动</div>
+  <h2>[全景图标题] <em>Constellation Map</em></h2>
+  <p class="lede">[导语 — 解释中心代表什么,外圈代表什么。<strong>点击任一节点看 verified 公司详情</strong>。]</p>
+  <span class="click-hint">👉 点击节点看公司详情</span>
+  <!-- ⚙️ region-tab 的 data-cregion 必须对应 CN_NODES 中节点的 cat 字段 -->
+  <div class="region-tabs" id="cMapRegionTabs" style="margin-top:8px;">
+    <button class="region-tab active" data-cregion="all">全部</button>
+    <button class="region-tab" data-cregion="cat-1">[分类 1]</button>
+    <button class="region-tab" data-cregion="cat-2">[分类 2]</button>
+    <button class="region-tab" data-cregion="cat-3">[分类 3]</button>
+    <button class="region-tab" data-cregion="cat-4">[分类 4]</button>
+    <button class="region-tab" data-cregion="cat-5">[分类 5]</button>
+  </div>
+  <div class="constellation-wrap">
+    <svg viewBox="0 0 960 720" class="constellation-svg" id="constellationSvg" xmlns="http://www.w3.org/2000/svg">
+      <!-- ⚙️ 中心圆渐变色 — 改这 3 个 stop-color 即可换主题色 -->
+      <defs><radialGradient id="centerGradient" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A57AC0"/><stop offset="60%" stop-color="#7B4FA0"/><stop offset="100%" stop-color="#4A2D6E"/></radialGradient></defs>
+      <circle cx="480" cy="360" r="125" class="cn-ring"/>
+      <circle cx="480" cy="360" r="230" class="cn-ring"/>
+      <circle cx="480" cy="360" r="320" class="cn-ring"/>
+      <text x="480" y="220" class="cn-ring-label" text-anchor="middle">RING 1 · [Ring 1 描述]</text>
+      <text x="480" y="115" class="cn-ring-label" text-anchor="middle">RING 2 · [Ring 2 描述]</text>
+      <text x="480" y="25" class="cn-ring-label" text-anchor="middle">RING 3 · [Ring 3 描述]</text>
+      <g id="cnLines"></g>
+      <g class="cn-node">
+        <circle cx="480" cy="360" r="48" class="cn-circle center"/>
+        <text x="480" y="354" text-anchor="middle" style="font-family:'Fraunces',serif;font-size:13px;font-weight:600;fill:white;">[中心标题]</text>
+        <text x="480" y="370" text-anchor="middle" style="font-family:'JetBrains Mono',monospace;font-size:9px;fill:white;opacity:.95;">[中心副标]</text>
+      </g>
+      <g id="cnNodes"></g>
+    </svg>
+    <div class="cn-legend">
+      <div class="cn-legend-item"><span class="cn-legend-dot" style="background:#4A7DA8;border-color:#2C5F8D;"></span>[Tier 1 类型]</div>
+      <div class="cn-legend-item"><span class="cn-legend-dot" style="background:#D8E5EE;border-color:#6B9BBD;"></span>[Tier 2 类型]</div>
+      <div class="cn-legend-item"><span class="cn-legend-dot" style="background:#BBD3DD;border-color:#5C8499;"></span>[特殊类型 1]</div>
+      <div class="cn-legend-item"><span class="cn-legend-dot" style="background:#5C7C9A;border-color:#1F3D5C;border-width:2.5px;"></span>[特殊类型 2 ★]</div>
+      <div class="cn-legend-item"><span class="cn-legend-dot" style="background:linear-gradient(135deg,#A57AC0,#4A2D6E);border-color:#4A2D6E;"></span>[中心节点]</div>
+    </div>
+  </div>
+</section>
+<section class="section" id="part-6">
+  <div class="section-num">PART 6 · 互动</div>
+  <h2>[象限分析标题]:<em>2×2 战略象限</em></h2>
+  <p class="lede">[导语 — 解释横轴/纵轴含义。<strong>点击姓名标签看 verified 真实案例</strong>。]</p>
+  <span class="click-hint">👉 点击姓名标签看 verified 案例详情</span>
+  <!-- ⚙️ archetype-badge 的 data-id 必须对应 DETAIL_DATA 的 key -->
+  <div class="matrix-2x2">
+    <div class="matrix-axis-top">[图例说明 — 例如:F=金融背景 · ★=ex-大厂 · 点姓名 → drawer]</div>
+    <div class="matrix-axis-y">[纵轴标签] ↑</div>
+    <div class="matrix-quad q2">
+      <div class="matrix-quad-label">Q2 · [Archetype B 名]</div>
+      <div class="matrix-quad-title">[象限 B 的标题]</div>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 8px;">[象限 B 的简短描述,通常 <strong>需要配对什么</strong>。]</p>
+      <span class="archetype-badge" data-id="case-b-1">[案例 B1]</span>
+      <span class="archetype-badge" data-id="case-b-2">[案例 B2]</span>
+      <span class="archetype-badge" data-id="case-b-3">[案例 B3]</span>
+    </div>
+    <div class="matrix-quad q1">
+      <div class="matrix-quad-label">Q1 · [Archetype A 名] · ⭐ 黄金组合</div>
+      <div class="matrix-quad-title">[象限 A 的标题]</div>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 8px;">[象限 A 的简短描述。<strong>+ Archetype C 是黄金组合</strong>。]</p>
+      <span class="archetype-badge featured" data-id="case-a-1">[案例 A1]</span>
+      <span class="archetype-badge" data-id="case-a-2">[案例 A2]</span>
+    </div>
+    <div class="matrix-quad q3">
+      <div class="matrix-quad-label">Q3 · [Archetype C 名]</div>
+      <div class="matrix-quad-title">[象限 C 的标题]</div>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 8px;">[象限 C 的简短描述。]</p>
+      <span class="archetype-badge" data-id="case-c-1">[案例 C1]</span>
+      <span class="archetype-badge" data-id="case-c-2">[案例 C2]</span>
+    </div>
+    <div class="matrix-quad q4">
+      <div class="matrix-quad-label">Q4 · [Archetype D 名] · 本地最强</div>
+      <div class="matrix-quad-title">[象限 D 的标题]</div>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 8px;">[象限 D 的简短描述。]</p>
+      <span class="archetype-badge" data-id="case-d-1">[案例 D1]</span>
+      <span class="archetype-badge" data-id="case-d-2">[案例 D2]</span>
+      <span class="archetype-badge" data-id="case-d-3">[案例 D3]</span>
+    </div>
+    <div class="matrix-axis-x">[横轴标签] →</div>
+  </div>
+  <div class="callout investor"><span class="callout-label">[3 条选择规则标题]</span>
+    <p><strong>规则 1</strong>:[第一条洞察 + 反例]。</p>
+    <p><strong>规则 2</strong>:[第二条洞察,通常涉及"组合"逻辑]。</p>
+    <p><strong>规则 3</strong>:[第三条洞察,可针对读者自身场景]。</p>
+  </div>
+</section>
+
+<!-- ✏️ EDIT_PART_7: 二维匹配矩阵 (热力表) — 直接改 HTML 表格 -->
+<section class="section" id="part-7">
+  <div class="section-num">PART 7</div>
+  <h2>[维度 A] × [维度 B] <em>匹配矩阵</em></h2>
+  <p class="lede">[导语 — 解释这张表想说明什么。]</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>[行维度]</th><th>[列 1]</th><th>[列 2]</th><th>[第三列文字]</th></tr></thead>
+    <tbody>
+      <tr><td>① [行 1]</td><td><span class="heat-pill heat-mid">中</span></td><td><span class="heat-pill heat-low">低</span></td><td>[第三列内容]</td></tr>
+      <tr><td>② [行 2]</td><td><span class="heat-pill heat-low">低</span></td><td><span class="heat-pill heat-low">低</span></td><td>[第三列内容]</td></tr>
+      <tr><td>③ [行 3] ⭐</td><td><span class="heat-pill heat-high">高</span></td><td><span class="heat-pill heat-low">低</span></td><td>[第三列内容]</td></tr>
+      <tr><td>④ [行 4]</td><td><span class="heat-pill heat-mid">中</span></td><td><span class="heat-pill heat-mid">中</span></td><td>[第三列内容]</td></tr>
+      <tr><td>⑤ [行 5]</td><td><span class="heat-pill heat-low">低</span></td><td><span class="heat-pill heat-mid">中</span></td><td>[第三列内容]</td></tr>
+      <tr><td>⑥ [行 6] ⭐</td><td><span class="heat-pill heat-low">低</span></td><td><span class="heat-pill heat-low">低</span></td><td>[第三列内容]</td></tr>
+      <tr><td>⑦ [行 7]</td><td><span class="heat-pill heat-low">低</span></td><td><span class="heat-pill heat-low">低</span></td><td>[第三列内容]</td></tr>
+      <tr><td>⑧ [行 8] ⭐</td><td><span class="heat-pill heat-mid">中</span></td><td><span class="heat-pill heat-high">高</span></td><td>[第三列内容]</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ✏️ EDIT_PART_8: (可选) 主题深度研究 — 表格 + 监管/标准列表 -->
+<section class="section" id="part-8">
+  <div class="section-num">PART 8</div>
+  <h2>[主题深度研究标题]:<em>[关键词]</em></h2>
+  <p class="lede">[导语 — 解释为什么这个主题值得单独深入。]</p>
+  <h3>关键玩家(202X 状态)</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>玩家</th><th>专长</th><th>关键数据</th><th>来源</th></tr></thead>
+    <tbody>
+      <tr><td><strong>[玩家 1]</strong></td><td>[专长]</td><td>[关键数据]</td><td>[来源]</td></tr>
+      <tr><td><strong>[玩家 2 ★]</strong></td><td>[专长]</td><td>[关键数据]</td><td>[来源]</td></tr>
+      <tr><td><strong>[玩家 3]</strong></td><td>[专长]</td><td>[关键数据]</td><td>[来源]</td></tr>
+      <tr><td><strong>[玩家 4]</strong></td><td>[专长]</td><td>[关键数据]</td><td>[来源]</td></tr>
+      <tr><td><strong>[玩家 5]</strong></td><td>[专长]</td><td>[关键数据]</td><td>[来源]</td></tr>
+    </tbody>
+  </table></div>
+  <h3>[次级框架标题:监管 / 标准 / 规则等]</h3>
+  <ul>
+    <li><strong>[市场 1]:[条款]</strong>([年份说明])</li>
+    <li><strong>[市场 2]:[条款]</strong>([年份说明])</li>
+    <li><strong>[市场 3]:[条款]</strong>([年份说明])</li>
+  </ul>
+</section>
+
+<!-- ✏️ EDIT_PART_9: (可选) 近期重大事件 / Inflection Point -->
+<section class="section" id="part-9">
+  <div class="section-num">PART 9 · [日期]最新</div>
+  <h2>[重大事件标题]:<em>[关键玩家]</em></h2>
+  <p class="lede">[导语 — 简介这个事件的发生时间 + 为什么是 inflection point。]</p>
+  <h3>[次级标题:角色分工 / 重要细节]</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>角色</th><th>负责</th><th>关键技术 / 细节</th></tr></thead>
+    <tbody>
+      <tr><td><strong>[角色 1]</strong></td><td>[负责的事]</td><td>[关键细节]</td></tr>
+      <tr><td><strong>[角色 2]</strong></td><td>[负责的事]</td><td>[关键细节]</td></tr>
+      <tr><td><strong>[角色 3]</strong></td><td>[负责的事]</td><td>[关键细节]</td></tr>
+    </tbody>
+  </table></div>
+  <h3>关键数字(已核实)</h3>
+  <ul>
+    <li><strong>[指标 1]</strong>:[数值] <span class="verify-tag">[来源]</span></li>
+    <li><strong>[指标 2]</strong>:[数值] <span class="verify-tag">[来源]</span></li>
+    <li><strong>[指标 3]</strong>:[数值] <span class="verify-tag">[来源]</span></li>
+  </ul>
+  <div class="callout investor"><span class="callout-label">对你 / 你的 startup 的含义</span>
+    <p><strong>[核心论点]</strong>——[展开 1]。</p>
+    <p>[展开 2]。</p>
+    <p>[行动建议]。</p>
+  </div>
+</section>
+<!-- ✏️ EDIT_PART_10: 时间线 (5 张卡片) — 直接改 HTML -->
+<section class="section" id="part-10">
+  <div class="section-num">PART 10 · 时间线</div>
+  <h2>[时间段] [行业] <em>N 大趋势</em></h2>
+  <p class="lede">[导语 — N 件事按时间排列,正在重塑 [行业] 的判断。每件都有日期 + 数据 + 出处。]</p>
+  <div class="tl-grid">
+    <div class="tl-card">
+      <div class="tl-marker"><div class="tl-yr">[年]</div><div class="tl-q">[季度/月份]</div><div class="tl-num">趋势 01</div></div>
+      <div class="tl-body">
+        <h3>[趋势 1 标题 — 事件 + 含义]</h3>
+        <p>[事件描述。<strong>关键数据加粗</strong>。可加 1-2 句解释影响。]</p>
+        <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>:[来源 1] · [来源 2]</p>
+      </div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-marker"><div class="tl-yr">[年]</div><div class="tl-q">[期间]</div><div class="tl-num">趋势 02</div></div>
+      <div class="tl-body">
+        <h3>[趋势 2 标题]</h3>
+        <p>[事件描述。<strong>关键数据加粗</strong>。]</p>
+        <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>:[来源]</p>
+      </div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-marker"><div class="tl-yr">[年]</div><div class="tl-q">[期间]</div><div class="tl-num">趋势 03</div></div>
+      <div class="tl-body">
+        <h3>[趋势 3 标题]</h3>
+        <p>[事件描述。<strong>关键数据加粗</strong>。]</p>
+        <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>:[来源]</p>
+      </div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-marker"><div class="tl-yr">[年]</div><div class="tl-q">[期间]</div><div class="tl-num">趋势 04</div></div>
+      <div class="tl-body">
+        <h3>[趋势 4 标题]</h3>
+        <p>[事件描述。<strong>关键数据加粗</strong>。<em>关键洞察用斜体</em>]</p>
+        <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>:[来源]</p>
+      </div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-marker"><div class="tl-yr">[年]</div><div class="tl-q">[期间]</div><div class="tl-num">趋势 05</div></div>
+      <div class="tl-body">
+        <h3>[趋势 5 标题]</h3>
+        <p>[事件描述。<strong>关键数据加粗</strong>。]</p>
+        <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>:[来源]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ✏️ EDIT_PART_11: 三档结论 (高/中/低优先级) — 直接改 HTML -->
+<section class="section" id="part-11">
+  <div class="section-num">PART 11</div>
+  <h2>综合判断:<em>[关键问题]</em></h2>
+  <p class="lede">[导语 — 把整份手册压缩成可执行的判断清单。]</p>
+  <div class="tier-block tier1">
+    <span class="tier-label">第一档 · [高档标签 e.g. 高白空间]</span>
+    <h3 class="tier-title">[第一档标题 — 推荐做的]</h3>
+    <ol>
+      <li><strong>[选项 1]</strong>——[简短论据]。</li>
+      <li><strong>[选项 2]</strong>——[简短论据]。</li>
+      <li><strong>[选项 3]</strong>——[简短论据]。</li>
+      <li><strong>[选项 4]</strong>——[简短论据]。</li>
+    </ol>
+  </div>
+  <div class="tier-block tier2">
+    <span class="tier-label">第二档 · [中档标签]</span>
+    <h3 class="tier-title">[第二档标题 — 选择性窗口]</h3>
+    <ol>
+      <li>[选项 1]——[简短论据]</li>
+      <li>[选项 2]——[简短论据]</li>
+      <li>[选项 3]——[简短论据]</li>
+      <li>[选项 4]——[简短论据]</li>
+    </ol>
+  </div>
+  <div class="tier-block tier3">
+    <span class="tier-label">第三档 · [低档标签 e.g. 不要做]</span>
+    <h3 class="tier-title">[第三档标题 — 避免做的]</h3>
+    <ol>
+      <li><strong>[反面选项 1]</strong>——[原因]</li>
+      <li><strong>[反面选项 2]</strong>——[原因]</li>
+      <li><strong>[反面选项 3]</strong>——[原因]</li>
+      <li><strong>[反面选项 4]</strong>——[原因]</li>
+      <li><strong>[反面选项 5]</strong>——[原因]</li>
+    </ol>
+  </div>
+  <div class="callout fact" style="margin-top:24px;"><span class="callout-label">一句话总结</span>
+    <p>[这份手册的核心一句话结论。可用 <em>斜体</em> 强调最关键的方向。]</p>
+  </div>
+</section>
+
+<!-- ✏️ EDIT_PART_12: 术语表 + 数据来源 — 直接改 HTML -->
+<section class="section" id="part-12">
+  <div class="section-num">PART 12</div>
+  <h2>术语 + <em>数据来源</em></h2>
+  <p class="lede">本手册涉及的关键术语 + 所有公开来源。</p>
+  <h3>术语表(可用 ⌘G 调出搜索)</h3>
+  <!-- ⚙️ glossaryInline 里的内容会被自动复制到 ⌘G 弹窗 — 添加新条目即可同步 -->
+  <div id="glossaryInline">
+    <div class="glossary-term"><div class="gt-name">[术语 1]</div><div class="gt-def">[定义。可加 <strong>加粗</strong>。]</div></div>
+    <div class="glossary-term"><div class="gt-name">[术语 2]</div><div class="gt-def">[定义。]</div></div>
+    <div class="glossary-term"><div class="gt-name">[术语 3]</div><div class="gt-def">[定义。]</div></div>
+    <div class="glossary-term"><div class="gt-name">[术语 4]</div><div class="gt-def">[定义。]</div></div>
+    <div class="glossary-term"><div class="gt-name">[术语 5]</div><div class="gt-def">[定义。]</div></div>
+    <!-- 添加更多 .glossary-term 即可 -->
+  </div>
+
+  <h3 style="margin-top:48px;">完整数据来源</h3>
+  <h4>[来源类别 1 e.g. 重大事件]</h4>
+  <ul>
+    <li>[来源 1]</li>
+    <li>[来源 2]</li>
+  </ul>
+  <h4>[来源类别 2 e.g. 市场数据]</h4>
+  <ul>
+    <li>[来源 1]</li>
+    <li>[来源 2]</li>
+  </ul>
+  <h4>[来源类别 3 e.g. 公司创始人背景]</h4>
+  <ul>
+    <li>[来源 1]</li>
+    <li>[来源 2]</li>
+  </ul>
+  <h4>数据声明</h4>
+  <p style="font-size:13.5px;">所有数字来自公开来源([日期] 截止)。<strong>没有任何数据是模型猜测或推测</strong>。Part 4 中"分布的 %"明确标为 directional estimate。</p>
+  <p style="font-size:13.5px;"><strong>结构化判断声明</strong>:[关键框架名称] 均为本手册的<strong>分析框架</strong>,不是客观事实。应理解为分析工具而非投资建议。</p>
+</section>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="drawer">
+  <button class="drawer-close" id="drawerClose">×</button>
+  <div id="drawerContent"></div>
+</aside>
+
+<div class="modal" id="searchModal"><div class="modal-content">
+  <button class="modal-close" onclick="closeModal('searchModal')">关闭 ESC</button>
+  <h3 style="font-family:'Fraunces',serif;font-size:22px;margin:0 0 16px;color:var(--ink);">全文搜索</h3>
+  <input type="text" id="searchInput" placeholder="输入关键词...">
+  <div id="searchResults"><p style="color:var(--muted);font-size:13px">输入关键词开始搜索...</p></div>
+</div></div>
+
+<div class="modal" id="glossaryModal"><div class="modal-content">
+  <button class="modal-close" onclick="closeModal('glossaryModal')">关闭 ESC</button>
+  <h3 style="font-family:'Fraunces',serif;font-size:22px;margin:0 0 16px;color:var(--ink);">术语表</h3>
+  <input type="text" id="glossarySearch" placeholder="搜索术语...">
+  <div id="glossaryList"></div>
+</div></div>
+
+<!-- ✏️ EDIT_FOOTER: 页脚标语 -->
+<footer class="footer">
+  <div class="ornament">✦</div>
+  <p>[行业] 手册 · Interactive Field Guide</p>
+  <p style="margin-top:8px;">为 [作者] 编写 · [日期]</p>
+  <p style="margin-top:24px;font-family:'Fraunces',serif;font-style:italic;color:var(--accent);">"[标志性引用 / 一句话总结]"</p>
+</footer>
+<script>
+/* ============================================================================
+   ⚙️ CASE_STUDY_DATA — Part 3 (Tab 案例研究) 数据
+   ============================================================================
+   每个 key 对应 Part 3 HTML 中 button 的 data-region 值。
+   每个对象有: name (顶部标题) / meta (右上 metadata) /
+              layerA, layerB, layerC (3 层评估,可改名/可少于 3 层) /
+              verdict (核心结论) / players (主要玩家列表)
+   
+   layer.status: 'go'(✅绿) / 'warn'(🟡黄) / 'no'(❌红)
+   layer.label: 状态文字标签
+   layer.desc:  描述,支持 <strong>、<em>、<span class="verify-tag">已核实</span>
+============================================================================ */
+const CASE_STUDY_DATA = {
+  'region-a': {
+    name: "[地区/对象 A · 描述]",
+    meta: "[副标:时间 · 状态]",
+    layerA: { status: "go", label: "✅ 跑通", desc: "[Layer A 在该地区的评估描述。可加 <strong>关键数据</strong> 或 <em>判断</em>。]" },
+    layerB: { status: "go", label: "✅ 跑通", desc: "[Layer B 描述。<span class=\"verify-tag\">已核实</span>]" },
+    layerC: { status: "go", label: "✅ 跑通", desc: "[Layer C 描述。]" },
+    verdict: "[核心结论 — 一句话总结这个对象在该地区的状态。]",
+    players: "[该地区主要玩家列表,逗号分隔]"
+  },
+  'region-b': {
+    name: "[地区/对象 B · 描述]",
+    meta: "[副标]",
+    layerA: { status: "no", label: "❌ 已锁住", desc: "[描述。]" },
+    layerB: { status: "warn", label: "🟡 拥挤", desc: "[描述。]" },
+    layerC: { status: "warn", label: "🟡 部分实现", desc: "[描述。]" },
+    verdict: "[结论。]",
+    players: "[玩家列表]"
+  },
+  'region-c': {
+    name: "[地区/对象 C · 最佳 vacuum ⭐]",
+    meta: "[副标]",
+    layerA: { status: "no", label: "❌ 已锁住", desc: "[描述。]" },
+    layerB: { status: "go", label: "✅ 真正白空间 ⭐", desc: "[描述。]" },
+    layerC: { status: "go", label: "✅ 监管清晰", desc: "[描述。]" },
+    verdict: "[结论 — 这是最佳目标。]",
+    players: "[玩家列表]"
+  },
+  'region-d': {
+    name: "[地区/对象 D]",
+    meta: "[副标]",
+    layerA: { status: "no", label: "❌ 模式不成立", desc: "[描述。]" },
+    layerB: { status: "warn", label: "🟡 窗口在", desc: "[描述。]" },
+    layerC: { status: "warn", label: "🟡 门槛高", desc: "[描述。]" },
+    verdict: "[结论。]",
+    players: "[玩家列表]"
+  },
+  'region-e': {
+    name: "[地区/对象 E]",
+    meta: "[副标]",
+    layerA: { status: "no", label: "❌ 已锁住", desc: "[描述。]" },
+    layerB: { status: "warn", label: "🟡 窗口在", desc: "[描述。]" },
+    layerC: { status: "no", label: "❌ 已锁住", desc: "[描述。]" },
+    verdict: "[结论。]",
+    players: "[玩家列表]"
+  }
+};
+
+/* ============================================================================
+   ⚙️ SECTOR_DATA — Part 4 (8 大板块 paired-bar 图) 数据
+   ============================================================================
+   每个 key 对应 Part 4 HTML 中 button 的 data-sector 值。
+   每个对象有: name (顶部标题) / meta (右上 metadata) /
+              layers (8 项数据,每项 {name, rev, profit, note}) /
+              insight (洞察段落) / players (代表玩家)
+   
+   rev: 全球收入 % (左侧条形长度,0-100)
+   profit: 全球利润池 % (右侧条形长度,0-100)
+   SECTOR_MAX 默认是 65(在 renderSector 函数里),所以单项 65% 即为满条
+   
+   配色逻辑(自动):
+   · profit > rev × 1.15 → 利润高于收入,profit 条变红 (高利润板块)
+   · profit < rev × 0.75 → 利润远低于收入,rev 条变红 (低利润板块)
+   · profit ≤ 0          → profit 条深红 (亏损板块)
+============================================================================ */
+const SECTOR_DATA = {
+  'sector-1': {
+    name: "① [板块 1 · 描述]",
+    meta: "全球 ~$XB revenue · profit pool ~$XB",
+    layers: [
+      { name: "USA",    rev: 35, profit: 38, note: "[主要玩家]" },
+      { name: "China",  rev: 22, profit: 18, note: "[主要玩家]" },
+      { name: "Europe", rev: 18, profit: 22, note: "[主要玩家]" },
+      { name: "India",  rev: 8,  profit: 6,  note: "[主要玩家]" },
+      { name: "LatAm",  rev: 6,  profit: 7,  note: "[主要玩家]" },
+      { name: "SEA",    rev: 5,  profit: 4,  note: "[主要玩家]" },
+      { name: "MENA",   rev: 3,  profit: 3,  note: "[主要玩家]" },
+      { name: "Africa", rev: 3,  profit: 2,  note: "[主要玩家]" }
+    ],
+    insight: "[<strong>核心洞察</strong>:解释为什么这个板块的分布意味着什么。可加 <em>反例</em>。]",
+    players: "<strong>代表玩家</strong>:[详细列表,可带创始人背景]"
+  },
+  'sector-2': {
+    name: "② [板块 2]",
+    meta: "全球 ~$XB · profit pool ~$XB (低)",
+    layers: [
+      { name: "USA",    rev: 50, profit: 55, note: "[玩家]" },
+      { name: "China",  rev: 14, profit: 12, note: "[玩家]" },
+      { name: "Europe", rev: 12, profit: 10, note: "[玩家]" },
+      { name: "India",  rev: 8,  profit: 7,  note: "[玩家]" },
+      { name: "LatAm",  rev: 7,  profit: 6,  note: "[玩家]" },
+      { name: "MENA",   rev: 4,  profit: 5,  note: "[玩家]" },
+      { name: "SEA",    rev: 3,  profit: 3,  note: "[玩家]" },
+      { name: "Africa", rev: 2,  profit: 2,  note: "[玩家]" }
+    ],
+    insight: "[洞察]",
+    players: "[代表玩家]"
+  },
+  'sector-3': {
+    name: "③ [板块 3 · ⭐ 最佳 portability]",
+    meta: "全球 ~$XB · profit pool ~$XB (高 NRR)",
+    layers: [
+      { name: "USA",    rev: 55, profit: 58, note: "[玩家]" },
+      { name: "Europe", rev: 18, profit: 17, note: "[玩家]" },
+      { name: "SEA",    rev: 8,  profit: 7,  note: "[玩家]" },
+      { name: "MENA",   rev: 7,  profit: 8,  note: "[玩家]" },
+      { name: "LatAm",  rev: 6,  profit: 5,  note: "[玩家]" },
+      { name: "China",  rev: 3,  profit: 3,  note: "[玩家]" },
+      { name: "India",  rev: 2,  profit: 1,  note: "[玩家]" },
+      { name: "Africa", rev: 1,  profit: 1,  note: "[玩家]" }
+    ],
+    insight: "[洞察 — 这是 ⭐ 最佳 portability 板块的解释]",
+    players: "[代表玩家]"
+  },
+  'sector-4': {
+    name: "④ [板块 4]", meta: "全球 ~$XB",
+    layers: [
+      { name: "USA", rev: 60, profit: 55, note: "[玩家]" },
+      { name: "Europe", rev: 18, profit: 22, note: "[玩家]" },
+      { name: "LatAm", rev: 6, profit: 7, note: "[玩家]" },
+      { name: "MENA", rev: 5, profit: 5, note: "[玩家]" },
+      { name: "India", rev: 4, profit: 4, note: "[玩家]" },
+      { name: "Africa", rev: 3, profit: 3, note: "[玩家]" },
+      { name: "SEA", rev: 3, profit: 3, note: "[玩家]" },
+      { name: "China", rev: 1, profit: 1, note: "[玩家]" }
+    ],
+    insight: "[洞察]", players: "[玩家]"
+  },
+  'sector-5': {
+    name: "⑤ [板块 5]", meta: "全球 ~$XB",
+    layers: [
+      { name: "USA", rev: 65, profit: 70, note: "[玩家]" },
+      { name: "Europe", rev: 12, profit: 10, note: "[玩家]" },
+      { name: "China", rev: 8, profit: 6, note: "[玩家]" },
+      { name: "India", rev: 7, profit: 7, note: "[玩家]" },
+      { name: "SEA", rev: 4, profit: 4, note: "[玩家]" },
+      { name: "LatAm", rev: 2, profit: 2, note: "[玩家]" },
+      { name: "MENA", rev: 1, profit: 1, note: "[玩家]" },
+      { name: "Africa", rev: 1, profit: 0, note: "[玩家]" }
+    ],
+    insight: "[洞察]", players: "[玩家]"
+  },
+  'sector-6': {
+    name: "⑥ [板块 6 · ⭐]", meta: "全球 ~$XB",
+    layers: [
+      { name: "USA", rev: 55, profit: 60, note: "[玩家]" },
+      { name: "Europe", rev: 18, profit: 16, note: "[玩家]" },
+      { name: "China", rev: 10, profit: 8, note: "[玩家]" },
+      { name: "SEA", rev: 6, profit: 5, note: "[玩家]" },
+      { name: "LatAm", rev: 5, profit: 5, note: "[玩家]" },
+      { name: "India", rev: 3, profit: 3, note: "[玩家]" },
+      { name: "MENA", rev: 2, profit: 2, note: "[玩家]" },
+      { name: "Africa", rev: 1, profit: 1, note: "[玩家]" }
+    ],
+    insight: "[洞察]", players: "[玩家]"
+  },
+  'sector-7': {
+    name: "⑦ [板块 7 · 利润为负]", meta: "profit pool 接近 0",
+    layers: [
+      { name: "USA", rev: 55, profit: 35, note: "[玩家]" },
+      { name: "China", rev: 15, profit: 18, note: "[玩家]" },
+      { name: "Europe", rev: 12, profit: 10, note: "[玩家]" },
+      { name: "India", rev: 8, profit: 12, note: "[玩家]" },
+      { name: "SEA", rev: 4, profit: 8, note: "[玩家]" },
+      { name: "LatAm", rev: 3, profit: 8, note: "[玩家]" },
+      { name: "MENA", rev: 2, profit: 5, note: "[玩家]" },
+      { name: "Africa", rev: 1, profit: 4, note: "[玩家]" }
+    ],
+    insight: "[洞察 — 解释为什么这格利润为负]", players: "[玩家]"
+  },
+  'sector-8': {
+    name: "⑧ [板块 8 · ⭐]", meta: "全球 ~$XB",
+    layers: [
+      { name: "USA", rev: 45, profit: 50, note: "[玩家]" },
+      { name: "Europe", rev: 14, profit: 13, note: "[玩家]" },
+      { name: "Asia", rev: 13, profit: 18, note: "[玩家]" },
+      { name: "MENA", rev: 9, profit: 8, note: "[玩家]" },
+      { name: "LatAm", rev: 8, profit: 5, note: "[玩家]" },
+      { name: "JP+KR", rev: 6, profit: 4, note: "[玩家]" },
+      { name: "India", rev: 3, profit: 1, note: "[玩家]" },
+      { name: "Africa", rev: 2, profit: 1, note: "[玩家]" }
+    ],
+    insight: "[洞察]", players: "[玩家]"
+  }
+};
+/*JSPART2*/
+/* ============================================================================
+   ⚙️ CN_NODES — Part 5 (Constellation Map) 节点数据
+   ============================================================================
+   每个节点对象 fields:
+     id     — 唯一标识,需对应 DETAIL_DATA 中的 key
+     x, y   — SVG 坐标 (viewBox 0 0 960 720, 中心是 480,360)
+     r      — 圆半径 (建议 10-13)
+     type   — 'local' / 'local-tier1' / 'crypto' / 'exit' (决定颜色)
+              · local       浅天蓝填充 + 深天蓝边
+              · local-tier1 实心深天蓝 (Tier 1 重要玩家)
+              · crypto      微青调天蓝 + 深蓝边
+              · exit        中沉天蓝 + 加粗深蓝边 (重大 exit)
+     name   — 显示文字
+     sub    — 副标 (融资/状态等)
+     cat    — 分类,需对应 Part 5 region-tab 的 data-cregion 值
+     
+   定位指南(默认 3 圈布局,中心在 480,360):
+     Ring 1 (核心 Local Champions, 半径 ~125):
+       建议 6-8 个节点,围绕中心,如 (380,305) (580,305) (480,245) (480,475) 等
+     Ring 2 (Confirmed Ports, 半径 ~230):
+       建议 6-8 个节点,如 (290,245) (670,245) (290,450) (670,450)
+     Ring 3 (Exits / Crypto / 早期, 半径 ~320):
+       建议 6-12 个节点,(380,175) (580,175) (200,230) (760,230) 等
+   
+   也可以用极坐标公式: x = 480 + r * cos(angle), y = 360 + r * sin(angle)
+============================================================================ */
+const CN_NODES = [
+  // ---- Ring 1 · Tier 1 Local Champions ----
+  { id: 'node-1',  x: 380, y: 305, r: 11, type: 'local-tier1', name: '[玩家 1]', sub: '[融资/状态]', cat: 'cat-1' },
+  { id: 'node-2',  x: 580, y: 305, r: 11, type: 'local-tier1', name: '[玩家 2]', sub: '[融资/状态]', cat: 'cat-1' },
+  { id: 'node-3',  x: 480, y: 245, r: 11, type: 'local-tier1', name: '[玩家 3]', sub: '[融资/状态]', cat: 'cat-2' },
+  { id: 'node-4',  x: 380, y: 415, r: 11, type: 'local-tier1', name: '[玩家 4]', sub: '[融资/状态]', cat: 'cat-2' },
+  { id: 'node-5',  x: 580, y: 415, r: 11, type: 'local-tier1', name: '[玩家 5]', sub: '[融资/状态]', cat: 'cat-3' },
+  { id: 'node-6',  x: 480, y: 475, r: 11, type: 'local-tier1', name: '[玩家 6]', sub: '[融资/状态]', cat: 'cat-3' },
+  // ---- Ring 2 · Confirmed Ports ----
+  { id: 'node-7',  x: 290, y: 245, r: 10, type: 'local',       name: '[玩家 7]', sub: '[融资/地区]', cat: 'cat-1' },
+  { id: 'node-8',  x: 670, y: 245, r: 10, type: 'local',       name: '[玩家 8]', sub: '[融资/地区]', cat: 'cat-2' },
+  { id: 'node-9',  x: 290, y: 450, r: 10, type: 'local',       name: '[玩家 9]', sub: '[融资/地区]', cat: 'cat-3' },
+  { id: 'node-10', x: 670, y: 450, r: 10, type: 'local',       name: '[玩家 10]', sub: '[融资/地区]', cat: 'cat-4' },
+  { id: 'node-11', x: 270, y: 360, r: 10, type: 'local',       name: '[玩家 11]', sub: '[融资/地区]', cat: 'cat-4' },
+  { id: 'node-12', x: 690, y: 360, r: 10, type: 'local',       name: '[玩家 12]', sub: '[融资/地区]', cat: 'cat-5' },
+  // ---- Ring 3 · Exits / Crypto / Early ----
+  { id: 'node-13', x: 380, y: 175, r: 13, type: 'exit',        name: '[Exit 1 ★]', sub: '[acquired by X]', cat: 'cat-3' },
+  { id: 'node-14', x: 580, y: 175, r: 13, type: 'exit',        name: '[Exit 2 ★]', sub: '[acquired by Y]', cat: 'cat-3' },
+  { id: 'node-15', x: 200, y: 230, r: 11, type: 'crypto',      name: '[早期 1]', sub: '[融资]', cat: 'cat-3' },
+  { id: 'node-16', x: 760, y: 230, r: 11, type: 'crypto',      name: '[早期 2]', sub: '[融资]', cat: 'cat-3' },
+  { id: 'node-17', x: 380, y: 580, r: 11, type: 'crypto',      name: '[早期 3]', sub: '[融资]', cat: 'cat-4' },
+  { id: 'node-18', x: 580, y: 580, r: 11, type: 'crypto',      name: '[早期 4]', sub: '[融资]', cat: 'cat-4' },
+  { id: 'node-19', x: 155, y: 350, r: 10, type: 'local',       name: '[玩家 19]', sub: '[地区]', cat: 'cat-5' },
+  { id: 'node-20', x: 805, y: 350, r: 10, type: 'local',       name: '[玩家 20]', sub: '[地区]', cat: 'cat-5' }
+];
+
+/* ============================================================================
+   ⚙️ DETAIL_DATA — Drawer (右侧抽屉) 详情数据
+   ============================================================================
+   每个 key 对应:
+     A. CN_NODES 中节点的 id (Part 5 点节点开抽屉)
+     B. Part 6 archetype-badge 的 data-id (点姓名标签开抽屉)
+   
+   每个对象 fields:
+     title     — 抽屉顶部标题
+     sub       — 副标(可加创始人/估值)
+     tags      — 标签数组 [[type, label], ...]
+                  type: 'local' (绿) / 'global' (红) / 'crypto' (金) / 'exit' (青)
+     bg        — 关键事实数组 (会渲染成 bullet list,支持 HTML)
+     relevance — "对你的相关性"段落 (HTML)
+     src       — 数据来源 (HTML,会显示在底部 monospace 框内)
+============================================================================ */
+const DETAIL_DATA = {
+  // ============ Part 5 节点详情 (key 对应 CN_NODES 的 id) ============
+  'node-1': {
+    title: "[玩家 1 名称]",
+    sub: "[副标:地区/类型 · 估值或退出]",
+    tags: [["local", "Local Champion · [Tier]"]],
+    bg: [
+      "[关键事实 1 — 创始人/年份]",
+      "[关键事实 2 — 业务规模]",
+      "[关键事实 3 — 关键数字 + 出处]",
+      "[关键事实 4 — 客户/扩张]"
+    ],
+    relevance: "[<strong>这家公司对你的研究有什么含义</strong>。可以是反例、对标、或验证案例。]",
+    src: "[来源 1] · [来源 2]"
+  },
+  'node-2': {
+    title: "[玩家 2 名称]", sub: "[副标]",
+    tags: [["local", "Local Champion"]],
+    bg: ["[事实 1]", "[事实 2]", "[事实 3]"],
+    relevance: "[相关性]",
+    src: "[来源]"
+  },
+  'node-3': { title: "[玩家 3]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-4': { title: "[玩家 4]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-5': { title: "[玩家 5]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-6': { title: "[玩家 6]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-7': { title: "[玩家 7]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-8': { title: "[玩家 8]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-9': { title: "[玩家 9]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-10': { title: "[玩家 10]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-11': { title: "[玩家 11]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-12': { title: "[玩家 12]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-13': {
+    title: "[Exit 案例 1 ★]",
+    sub: "[$XB 收购 by X · 时间]",
+    tags: [["exit", "Confirmed Exit · [日期]"]],
+    bg: [
+      "[创始人背景]",
+      "[业务规模]",
+      "[<strong>退出关键数据</strong>]",
+      "[行业含义]"
+    ],
+    relevance: "[<strong>为什么这个 exit 重要</strong>。它重置了什么估值预期?</em>给后来者什么信号</em>?]",
+    src: "[Bloomberg/CoinDesk/官方 PR · 日期]"
+  },
+  'node-14': {
+    title: "[Exit 案例 2 ★]", sub: "[$XB 收购 by Y · 时间]",
+    tags: [["exit", "Confirmed Exit"]],
+    bg: ["[创始人]", "[规模]", "[退出数据]"],
+    relevance: "[相关性]",
+    src: "[来源]"
+  },
+  'node-15': { title: "[早期玩家 1]", sub: "[副标]", tags: [["crypto", "Crypto / Early"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-16': { title: "[早期玩家 2]", sub: "[副标]", tags: [["crypto", "Crypto"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-17': { title: "[早期玩家 3]", sub: "[副标]", tags: [["crypto", "Crypto"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-18': { title: "[早期玩家 4]", sub: "[副标]", tags: [["crypto", "Crypto"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-19': { title: "[玩家 19]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'node-20': { title: "[玩家 20]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+
+  // ============ Part 6 archetype 详情 (key 对应 archetype-badge 的 data-id) ============
+  'case-a-1': {
+    title: "[Archetype A 案例 1 - 主推 ⭐]",
+    sub: "Archetype A · [简述背景]",
+    tags: [["exit", "Confirmed Exit · 黄金组合"]],
+    bg: [
+      "[<strong>个人背景</strong>:学历 / 公司履历]",
+      "[关键经验 / 大厂职位]",
+      "[创业时间 + 联创]",
+      "[<strong>结果</strong>:估值/退出]"
+    ],
+    relevance: "[<strong>这是 Archetype A 的代表</strong>。<em>规则提取</em>:这一格的成功要素。]",
+    src: "[公开来源]"
+  },
+  'case-a-2': { title: "[案例 A2]", sub: "Archetype A", tags: [["local", "Local Champion"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'case-b-1': {
+    title: "[Archetype B 团队 - ex-大厂]",
+    sub: "Archetype B · [产品/技术背景]",
+    tags: [["global", "Confirmed Port"]],
+    bg: [
+      "<strong>团队背景</strong>:[3 位创始人各自履历]",
+      "[加入年份 / YC 等加持]",
+      "[投资人 / 估值]",
+      "<strong>纯 ex-大厂背景成立</strong>—— 这一格是产品壁垒型"
+    ],
+    relevance: "[Archetype B 成功案例。在 [板块名] 板块,大厂工程师产品的 lift-and-shift 价值最高。]",
+    src: "[来源]"
+  },
+  'case-b-2': { title: "[案例 B2]", sub: "Archetype B", tags: [["exit", "Confirmed Exit"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'case-b-3': { title: "[案例 B3]", sub: "Archetype B", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'case-c-1': {
+    title: "[Archetype C 案例 - 本地金融]",
+    sub: "Archetype C · 本土银行/IB 背景",
+    tags: [["exit", "Confirmed Exit"]],
+    bg: ["[本地金融经验]", "[投行/银行背景]", "[与 Archetype A 的合作]"],
+    relevance: "[<strong>纯 C 跑得太慢</strong>,需要 + A 才能跑出。]",
+    src: "[来源]"
+  },
+  'case-c-2': { title: "[案例 C2]", sub: "Archetype C", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'case-d-1': {
+    title: "[Archetype D 案例 - 本地最强]",
+    sub: "Archetype D · 消费/科技高管转 [行业]",
+    tags: [["local", "Local Champion"]],
+    bg: [
+      "[<strong>电商/消费背景</strong>:CEO 经验 / 退出经验]",
+      "[本地分销网络]",
+      "[与 fintech 经验对比 — 不是 fintech 出身却跑赢]"
+    ],
+    relevance: "[<strong>Archetype D 经典</strong>:在 [板块名] 板块,本地消费 know-how 比 fintech 经验关键。]",
+    src: "[来源]"
+  },
+  'case-d-2': { title: "[案例 D2]", sub: "Archetype D", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
+  'case-d-3': { title: "[案例 D3]", sub: "Archetype D", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" }
+};
+/*JSPART3*/
+/* ==== CASE STUDY RENDER (Part 3) ==== */
+function renderCase(key){
+  const d = CASE_STUDY_DATA[key]; if(!d) return;
+  const html = `
+    <div class="tab-panel-header">
+      <h4 class="tab-panel-title">${d.name}</h4>
+      <span class="tab-panel-meta">${d.meta}</span>
+    </div>
+    <div class="layer-grid">
+      <div class="layer-cell"><span class="layer-status ${d.layerA.status}">${d.layerA.label}</span><div class="layer-name">Layer A · [起家 wedge]</div><p class="layer-desc">${d.layerA.desc}</p></div>
+      <div class="layer-cell"><span class="layer-status ${d.layerB.status}">${d.layerB.label}</span><div class="layer-name">Layer B · [增长引擎]</div><p class="layer-desc">${d.layerB.desc}</p></div>
+      <div class="layer-cell"><span class="layer-status ${d.layerC.status}">${d.layerC.label}</span><div class="layer-name">Layer C · [平台化]</div><p class="layer-desc">${d.layerC.desc}</p></div>
+    </div>
+    <div class="sector-insight"><strong>结论:</strong> ${d.verdict}</div>
+    <div class="sector-players"><strong>该 [对象] 主要玩家:</strong> ${d.players}</div>
+  `;
+  document.getElementById('casePanel').innerHTML = html;
+}
+
+/* ==== SECTOR PAIRED-BAR RENDER ==== */
+const SECTOR_MAX = 65;
+function renderSector(key){
+  const d = SECTOR_DATA[key]; if(!d) return;
+  let rows = `<div class="bar-headers"><div class="h-left">全球收入 %</div><div class="h-mid">地区</div><div class="h-right">全球利润池 %</div></div>`;
+  d.layers.forEach(l => {
+    const revW = (l.rev / SECTOR_MAX) * 100;
+    const profitW = (l.profit / SECTOR_MAX) * 100;
+    const highMargin = l.profit > l.rev * 1.15;
+    const lowMargin = l.profit < l.rev * 0.75 && l.profit > 0;
+    const negMargin = l.profit <= 0;
+    const revColor = lowMargin ? 'var(--accent)' : 'var(--ink-light)';
+    const profitColor = highMargin ? 'var(--accent)' : (negMargin ? '#8B1A1A' : 'var(--ink-light)');
+    rows += `<div class="paired-bar-wrap" title="${l.note}">
+      <div class="bar-left"><span class="bar-fill" style="width:${revW}%;background:${revColor};">${l.rev}%</span></div>
+      <div class="bar-label">${l.name}<span class="bar-sub">${l.note.length>26?l.note.substring(0,24)+'…':l.note}</span></div>
+      <div class="bar-right"><span class="bar-fill" style="width:${profitW}%;background:${profitColor};">${l.profit}%</span></div>
+    </div>`;
+  });
+  document.getElementById('sectorPanel').innerHTML = `
+    <div class="tab-panel-header">
+      <h4 class="tab-panel-title">${d.name}</h4>
+      <span class="tab-panel-meta">${d.meta}</span>
+    </div>
+    ${rows}
+    <div class="sector-insight">${d.insight}</div>
+    <div class="sector-players">${d.players}</div>
+  `;
+}
+
+/* ==== CONSTELLATION MAP RENDER ==== */
+function renderConstellation(filter){
+  const g = document.getElementById('cnNodes');
+  const lg = document.getElementById('cnLines');
+  g.innerHTML = ''; lg.innerHTML = '';
+  CN_NODES.forEach(n => {
+    if(filter !== 'all' && n.cat !== filter) return;
+    // line from center
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',480); line.setAttribute('y1',360);
+    line.setAttribute('x2',n.x); line.setAttribute('y2',n.y);
+    let lc = 'cold'; if(n.type==='exit') lc='warm'; else if(n.type==='local-tier1') lc='warm';
+    line.setAttribute('class','cn-line '+lc);
+    lg.appendChild(line);
+    // node group
+    const node = document.createElementNS('http://www.w3.org/2000/svg','g');
+    node.setAttribute('class','cn-node');
+    node.setAttribute('data-id',n.id);
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',n.x); c.setAttribute('cy',n.y); c.setAttribute('r',n.r);
+    c.setAttribute('class','cn-circle '+n.type);
+    node.appendChild(c);
+    // anchor for text - put left or right based on x position
+    const left = n.x < 480;
+    const tx = left ? n.x - n.r - 4 : n.x + n.r + 4;
+    const anchor = left ? 'end' : 'start';
+    const t1 = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t1.setAttribute('x',tx); t1.setAttribute('y',n.y-2); t1.setAttribute('class','cn-name');
+    t1.setAttribute('text-anchor',anchor); t1.textContent = n.name;
+    node.appendChild(t1);
+    const t2 = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t2.setAttribute('x',tx); t2.setAttribute('y',n.y+10); t2.setAttribute('class','cn-sub');
+    t2.setAttribute('text-anchor',anchor); t2.textContent = n.sub;
+    node.appendChild(t2);
+    node.addEventListener('click',()=> openDrawer(n.id));
+    g.appendChild(node);
+  });
+}
+
+/* ==== DRAWER ==== */
+function openDrawer(id){
+  const d = DETAIL_DATA[id]; if(!d) return;
+  const tagsHtml = (d.tags||[]).map(t=>`<span class="tag ${t[0]}">${t[1]}</span>`).join('');
+  const bgHtml = (d.bg||[]).map(b=>`<li>${b}</li>`).join('');
+  document.getElementById('drawerContent').innerHTML = `
+    <div class="drawer-section">
+      <span class="small-caps">公司 / 创始人详情 · 已核实</span>
+      <h2>${d.title}</h2>
+      <div class="meta-row">${d.sub}</div>
+      <div>${tagsHtml}</div>
+    </div>
+    <div class="drawer-section">
+      <span class="small-caps">关键事实(已核实)</span>
+      <ul>${bgHtml}</ul>
+    </div>
+    <div class="drawer-section">
+      <span class="small-caps">对你的相关性</span>
+      <p>${d.relevance}</p>
+    </div>
+    <div class="drawer-section">
+      <span class="small-caps">数据来源</span>
+      <div class="source-row">${d.src}</div>
+    </div>
+  `;
+  document.getElementById('drawer').classList.add('show');
+  document.getElementById('drawerBackdrop').classList.add('show');
+}
+function closeDrawer(){
+  document.getElementById('drawer').classList.remove('show');
+  document.getElementById('drawerBackdrop').classList.remove('show');
+}
+
+/* ==== EVENT WIRING ==== */
+document.querySelectorAll('#caseTabs .tab-btn').forEach(b=>b.addEventListener('click',e=>{
+  document.querySelectorAll('#caseTabs .tab-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  renderCase(b.dataset.region);
+}));
+document.querySelectorAll('#sectorTabs .tab-btn').forEach(b=>b.addEventListener('click',e=>{
+  document.querySelectorAll('#sectorTabs .tab-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  renderSector(b.dataset.sector);
+}));
+document.querySelectorAll('#cMapRegionTabs .region-tab').forEach(b=>b.addEventListener('click',e=>{
+  document.querySelectorAll('#cMapRegionTabs .region-tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  renderConstellation(b.dataset.cregion);
+}));
+document.querySelectorAll('.archetype-badge').forEach(b=>b.addEventListener('click',()=>openDrawer(b.dataset.id)));
+document.getElementById('drawerClose').addEventListener('click',closeDrawer);
+document.getElementById('drawerBackdrop').addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDrawer();document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open'));}});
+
+/* Initial render — defaults match the active tab IDs in HTML */
+renderCase('region-a');
+renderSector('sector-1');
+renderConstellation('all');
+
+/* ==== Progress bar / dark mode / TOC / Modals ==== */
+function updateProgress(){
+  const t=window.scrollY,h=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progressBar').style.width = Math.min(100,(t/h)*100)+'%';
+}
+window.addEventListener('scroll',updateProgress);
+
+const darkBtn = document.getElementById('darkBtn');
+if(localStorage.getItem('fp-dark')==='1') document.body.classList.add('dark');
+darkBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  localStorage.setItem('fp-dark',document.body.classList.contains('dark')?'1':'0');
+});
+
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  setTimeout(()=>{const i=document.getElementById(id).querySelector('input');if(i)i.focus();},100);
+}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.addEventListener('click',e=>{if(e.target.classList.contains('modal'))e.target.classList.remove('open');});
+
+document.getElementById('searchBtn').addEventListener('click',()=>openModal('searchModal'));
+document.getElementById('glossaryBtn').addEventListener('click',()=>openModal('glossaryModal'));
+
+/* Search index */
+const searchIndex = [];
+document.querySelectorAll('.section').forEach(s=>{
+  const sid = s.id, st = s.querySelector('h2')?.textContent || sid;
+  s.querySelectorAll('h3,h4,p,li,td,.gt-name,.gt-def,.cc-title,.cc-desc').forEach(el=>{
+    const t = el.textContent.trim();
+    if(t.length>8 && t.length<800) searchIndex.push({s:sid,st:st.replace(/[^\u4e00-\u9fa5a-zA-Z0-9 ]/g,''),t});
+  });
+});
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+searchInput?.addEventListener('input',e=>{
+  const q = e.target.value.trim().toLowerCase();
+  if(q.length<1){searchResults.innerHTML='<p style="color:var(--muted);font-size:13px">输入关键词开始搜索...</p>';return;}
+  const results = searchIndex.filter(it=>it.t.toLowerCase().includes(q)).slice(0,30);
+  if(results.length===0){searchResults.innerHTML='<p style="color:var(--muted)">没有匹配结果。</p>';return;}
+  searchResults.innerHTML = results.map(it=>{
+    const idx = it.t.toLowerCase().indexOf(q);
+    const start = Math.max(0,idx-30), end = Math.min(it.t.length,idx+q.length+80);
+    let snip = it.t.substring(start,end);
+    if(start>0) snip='…'+snip;
+    if(end<it.t.length) snip+='…';
+    snip = snip.replace(new RegExp(q,'gi'),m=>'<strong>'+m+'</strong>');
+    return `<div class="search-result" onclick="goToSection('${it.s}')"><div>${snip}</div><div class="sr-context">→ ${it.st}</div></div>`;
+  }).join('');
+});
+function goToSection(id){closeModal('searchModal');setTimeout(()=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'}),200);}
+
+/* Glossary */
+const glossaryList = document.getElementById('glossaryList');
+document.querySelectorAll('#glossaryInline .glossary-term').forEach(t=>glossaryList.appendChild(t.cloneNode(true)));
+document.getElementById('glossarySearch')?.addEventListener('input',e=>{
+  const q = e.target.value.toLowerCase().trim();
+  glossaryList.querySelectorAll('.glossary-term').forEach(t=>{t.style.display=(q===''||t.textContent.toLowerCase().includes(q))?'':'none';});
+});
+
+/* TOC active state */
+const tocLinks = document.querySelectorAll('.toc a');
+const sections = document.querySelectorAll('section[id]');
+function updateToc(){
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120) cur=s.id;});
+  tocLinks.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+cur));
+}
+window.addEventListener('scroll',updateToc);
+const toc = document.getElementById('toc');
+window.addEventListener('scroll',()=>{toc.classList.toggle('show',window.scrollY>200);});
+
+/* Keyboard shortcuts */
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openModal('searchModal');}
+  if((e.metaKey||e.ctrlKey)&&e.key==='g'){e.preventDefault();openModal('glossaryModal');}
+  if((e.metaKey||e.ctrlKey)&&e.key==='/'){e.preventDefault();darkBtn.click();}
+});
+
+</script>
+</body>
+</html>
