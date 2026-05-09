@@ -3,7 +3,11 @@
 > 把任何研究主题，变成一份精致、可交互的 HTML 研究报告——侧栏导航、⌘K 全文搜索、SVG 生态图、2×2 战略矩阵、22-part 编辑结构。**按 VC / CB Insights 深度标准产出。**
 
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-open_standard-blue)](https://agentskills.io)
+[![Release](https://img.shields.io/github/v/release/klaywang24/interactive-field-guide-skill)](https://github.com/klaywang24/interactive-field-guide-skill/releases)
 [![License](https://img.shields.io/badge/license-Apache_2.0-green)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/klaywang24/interactive-field-guide-skill)](https://github.com/klaywang24/interactive-field-guide-skill/stargazers)
+[![Downloads](https://img.shields.io/github/downloads/klaywang24/interactive-field-guide-skill/total)](https://github.com/klaywang24/interactive-field-guide-skill/releases)
+[![Last Commit](https://img.shields.io/github/last-commit/klaywang24/interactive-field-guide-skill)](https://github.com/klaywang24/interactive-field-guide-skill/commits)
 [![English](https://img.shields.io/badge/English-README-blue)](README.md)
 
 ---

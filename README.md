@@ -3,7 +3,11 @@
 > Turn any research topic into a polished, interactive HTML field guide — sidebar nav, ⌘K search, SVG ecosystem map, 2×2 strategic matrix, 22-part editorial structure. **VC / CB Insights depth standard.**
 
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-open_standard-blue)](https://agentskills.io)
+[![Release](https://img.shields.io/github/v/release/klaywang24/interactive-field-guide-skill)](https://github.com/klaywang24/interactive-field-guide-skill/releases)
 [![License](https://img.shields.io/badge/license-Apache_2.0-green)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/klaywang24/interactive-field-guide-skill)](https://github.com/klaywang24/interactive-field-guide-skill/stargazers)
+[![Downloads](https://img.shields.io/github/downloads/klaywang24/interactive-field-guide-skill/total)](https://github.com/klaywang24/interactive-field-guide-skill/releases)
+[![Last Commit](https://img.shields.io/github/last-commit/klaywang24/interactive-field-guide-skill)](https://github.com/klaywang24/interactive-field-guide-skill/commits)
 [![中文](https://img.shields.io/badge/中文-README-red)](README.zh-CN.md)
 
 ---
