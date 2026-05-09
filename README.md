@@ -1,154 +1,231 @@
-# Interactive Field Guide · Claude Skill
+# Interactive Field Guide Skill
 
-> 中文版 · [README.zh-CN.md](README.zh-CN.md)
+> Turn any research topic into a polished, interactive HTML field guide — sidebar nav, ⌘K search, SVG ecosystem map, 2×2 strategic matrix, 22-part editorial structure. **VC / CB Insights depth standard.**
 
-A Claude skill that turns any research topic — a company, an industry, a sector, a strategic question — into a polished, interactive HTML field guide with sidebar navigation, an SVG ecosystem map, click-to-expand drawers, accordions, paired-bar charts, and a **22-part editorial structure**.
-
-Built to the depth standard of VC investment memos, top-tier secondary-fund research, and CB Insights industry reports.
-
----
-
-## What it solves
-
-Long-form research falls into a gap between three formats:
-
-- **Markdown** — flat, no exploration, hard to skim
-- **PPT / Keynote** — visual but sacrifices text density
-- **Ad-hoc HTML** — rebuild the design system every time
-
-This skill ships a 1,500-line warm-cream + brick-red template with all interactive components pre-wired (sidebar nav, ⌘K search, ⌘G glossary, dark mode, click-to-expand drawers, SVG constellation map, 2×2 matrix, accordion, paired-bar charts, tabbed case studies, 8-pillar DD grid). Claude fills the body with substantive content and validates the output against six checks.
+[![Agent Skills](https://img.shields.io/badge/Agent_Skills-open_standard-blue)](https://agentskills.io)
+[![License](https://img.shields.io/badge/license-Apache_2.0-green)](LICENSE)
+[![中文](https://img.shields.io/badge/中文-README-red)](README.zh-CN.md)
 
 ---
 
-## Quality bar
+## What it does
 
-Not "blog post with charts" — a research artifact at investment-memo level:
+You say: **"Analyze NVIDIA fundamentals"** or **"Research the semiconductor industry"** or **"Map Stripe's strategic ecosystem"**
 
-- ✅ **Every fact has a source citation** — `[Source: SEC 10-K Q4 FY2026 / Bloomberg / Company PR]`. No "approximately" / "据估计".
-- ✅ **Every judgment is falsifiable** — not "growing fast" but `YoY +65% to $215.9B`; not "leading" but `31.4% market share, +12pp in 3 years`.
-- ✅ **Every report has 3+ counter-consensus claims** — directly challenge mainstream framing. "NVIDIA's true moat is CUDA + bundled networking, not chip raw FLOPS" beats "NVIDIA leads AI."
-- ✅ **Every judgment section gives falsifiable signals** — `Tier 1 if Q2 FY27 guidance > $50B; downgrade Tier 2 if < $42B`.
+You get: a single self-contained HTML file (~110KB) with sidebar nav, full-text ⌘K search, click-to-expand drawers, a clickable SVG ecosystem map, a 2×2 strategic positioning matrix, and structured analysis across up to 22 parts — every fact sourced, every judgment falsifiable, with **explicit counter-consensus framing** (where the market is wrong and why).
 
----
+**Quality bar:** matches Net Interest, Stratechery, and CB Insights research standards. Built for the kind of analysis a VC partner reads before an investment committee.
 
-## Install
-
-### Option A — Clone & zip
-
-    git clone https://github.com/klaywang24/interactive-field-guide-skill.git
-    cd interactive-field-guide-skill
-    zip -r ../interactive-field-guide.zip . -x ".git/*" -x "README*.md" -x "LICENSE"
-
-### Option B — Releases page
-
-Download the latest zip from the [Releases page](https://github.com/klaywang24/interactive-field-guide-skill/releases) (when published).
-
-### Enable in Claude.ai
-
-1. Settings → Capabilities → enable **Code execution and file creation**
-2. Customize → Skills → **+** → **Create skill** → **Upload a skill**
-3. Select the zip
-4. Toggle the skill on
-
-Detailed official docs: [support.claude.com/en/articles/12512180](https://support.claude.com/en/articles/12512180)
-
----
-
-## How to trigger
-
-Once installed, ask Claude something like:
-
-| If you want | Try saying |
-|---|---|
-| Industry overview | "Build a field guide on [vertical]" |
-| Company deep dive | "Deep dive on [Company] — how do they make money, who are the competitors, what's the recent strategy" |
-| Strategic ecosystem map | "Map [Company]'s strategic ecosystem — every partner, investor, and acquirer in the last 12 months" |
-| Stock analysis | "Is [stock] a good buy?" / "Fundamentals on [Company]" |
-| Sector landscape | "Competitive landscape of [vertical]" |
-| Fund thesis | "Fund thesis on [theme] with company evidence and an actionable judgments table" |
-
-Chinese triggers also work — `分析下英伟达基本面` / `研究一下小红书的商业模式` / `半导体板块龙头都有哪些` / `做一份新能源车的行业报告`.
-
----
-
-## What's inside
-
-| File | Purpose |
-|---|---|
-| `SKILL.md` | Main entry — workflow, anti-patterns, validation scripts |
-| `assets/template.html` | 1,500-line warm-cream + brick-red template, all interactive components pre-wired |
-| `references/structure.md` | 22-part editorial structure: when to use each part, when to skip |
-| `references/data-schemas.md` | Data shapes for the 6 JS data objects + every component's HTML pattern |
-| `references/content-strategy.md` | VC / CB Insights depth standard; 11 source tiers; counter-consensus framework |
-| `references/pitfalls.md` | 10 hard-won gotchas with copy-paste validation scripts |
-
----
-
-## The 22-part structure
-
-Each generated guide picks 10–22 parts based on the topic. **Skip rules are strict** — padding parts is worse than skipping.
-
-| # | Part | Tier | Skip when… |
-|---|---|---|---|
-| 1 | First principles / preface | ✅ Core | Almost never |
-| 2 | Data credibility | 🟡 Optional | Single authoritative source |
-| 3 | Core conditions / framework | ✅ Core | Pure financials |
-| 4 | Anchor case study | 🟡 Optional | No single representative case |
-| 5 | Sector deep-dives | ⭐ Important | Single-company analysis |
-| 6 | Cross-vertical comparison | ✅ Core | Single dimension |
-| 7 | Constellation Map (SVG) | ✅ Core | Almost never |
-| 8 | 2×2 archetype matrix | ✅ Core | Players don't split into 4 |
-| 9 | Death vs. success 2×2 | 🟡 Optional | New / hyper-hyped vertical |
-| 10 | Talent / resource heatmap | 🟡 Optional | Single-company |
-| 11 | Trends timeline | ✅ Core | Pure forecast |
-| 12 | Death-cause donut | ⚠ Rare | Insufficient sample |
-| 13 | Pain-point / principles accordion | ⭐ Important | Pure financials |
-| 14 | 8-pillar evaluation framework | ⭐ Important | Education-toned topic |
-| 15 | Exit / M&A strategy | 🟡 Optional | Public-company fundamentals |
-| 16 | Cold-start paths | ⚠ Rare | Mature company analysis |
-| 17 | Fundamental disagreements | ✅ Core | Strong consensus topic |
-| 18 | GTM strategy library | 🟡 Optional | Pure research/financials |
-| 19 | Validation method grid | 🟡 Optional | Outcome-focused topic |
-| 20 | Frontier topic / key variable | ✅ Core | Static historical only |
-| 21 | Tiered judgment + 90-day actions | ⭐ Important | Almost never |
-| 22 | Glossary + sources | ✅ Core | Never |
-
-Typical part counts:
-
-- **Single-company fundamentals** (NVIDIA-style): ~12 parts
-- **Strategic ecosystem map** (Stripe-style): ~11 parts
-- **Industry / sector**: ~14 parts
-- **Complete industry handbook** (fintech-style): 18–22 parts
-
-See [references/structure.md](references/structure.md) for the full menu and skip rules.
-
----
-
-## Design principles
-
-1. **Independent analysts first** — for any company / industry topic, search Net Interest, Bits about Money, Acquired, Stratechery, Business Breakdowns, The Diff, Not Boring, Money Stuff before resorting to news headlines. One Net Interest piece beats five Reuters headlines.
-2. **Direct sources over aggregators** — SEC 10-K / 8-K direct, original IR pages, monetary-authority filings beat secondhand summaries.
-3. **Falsifiable judgments only** — every conclusion includes "if X happens, my view is wrong".
-4. **Skip don't pad** — 12 tight parts beat 22 padded parts.
-
-See [references/content-strategy.md](references/content-strategy.md) for the full sourcing playbook.
+[See a real example →](https://github.com/klaywang24/interactive-field-guide-skill/releases) (NVIDIA fundamental analysis, 119KB HTML)
 
 ---
 
 ## Compatibility
 
-| Tool | Works? |
-|---|---|
-| claude.ai (web / desktop / mobile) | ✅ |
-| Claude Code (CLI) | ✅ |
-| Claude API (developer) | ✅ |
-| Codex / ChatGPT | ❌ Not Anthropic |
-| Cursor / Copilot / other | ❌ |
+This skill follows the open [Agent Skills standard](https://agentskills.io) (released by Anthropic on December 18, 2025). It works in any compatible agent — but **output quality depends on the underlying model**.
 
-Skills are an Anthropic-specific format. Requires a paid Claude account.
+| Agent | Install path | Status |
+|---|---|---|
+| **Claude.ai** | Settings UI (zip upload) | ✅ Reference implementation |
+| **Claude Code** | `~/.claude/skills/` | ✅ Reference implementation |
+| **Codex CLI** (OpenAI) | `~/.codex/skills/` | 🟡 Format compatible, output untested |
+| **Gemini CLI** (Google) | `~/.gemini/skills/` | 🟡 Format compatible, output untested |
+| **Cursor** | `.cursor/skills/` (project only) | 🟡 Format compatible, output untested |
+
+> **🟡 means**: the SKILL.md format loads correctly, but I have not personally validated the rendered HTML quality on these platforms. The skill's design assumes strong reasoning + long context + web search — so quality is best with Claude Opus / GPT-5 / Gemini 2.5 Pro and may be shallower with smaller models.
+
+---
+
+## Install
+
+### 1. Claude.ai (recommended for non-developers)
+
+1. Download the latest zip: [releases page](https://github.com/klaywang24/interactive-field-guide-skill/releases)
+2. In Claude.ai → **Settings** → **Capabilities** → enable **Code execution and file creation**
+3. **Customize** → **Skills** → **+** → **Upload a skill** → select the zip → toggle on
+4. Try it: *"Run a fundamental analysis on NVIDIA"*
+
+### 2. Claude Code
+
+```bash
+git clone https://github.com/klaywang24/interactive-field-guide-skill.git \
+  ~/.claude/skills/interactive-field-guide
+```
+
+Restart Claude Code. Skill is auto-discovered by description.
+
+### 3. Codex CLI (OpenAI)
+
+```bash
+# Enable skills feature flag (one-time)
+codex --enable skills
+
+# Install the skill
+git clone https://github.com/klaywang24/interactive-field-guide-skill.git \
+  ~/.codex/skills/interactive-field-guide
+```
+
+Restart Codex. Verify with `/skills` inside a session.
+
+**Trigger options:**
+- Implicit: `codex "Analyze NVIDIA fundamentals"`
+- Explicit: `codex "$interactive-field-guide Research Stripe"`
+
+### 4. Gemini CLI (Google) — see [configuration notes ↓](#gemini-cli-configuration)
+
+```bash
+# One command — Gemini CLI handles the clone for you
+gemini skills install https://github.com/klaywang24/interactive-field-guide-skill
+```
+
+Or manually:
+```bash
+git clone https://github.com/klaywang24/interactive-field-guide-skill.git \
+  ~/.gemini/skills/interactive-field-guide
+```
+
+In a session, verify with `/skills list`. Use `/skills reload` if it doesn't appear without a restart.
+
+### 5. Cursor — see [configuration notes ↓](#cursor-configuration)
+
+⚠️ **Cursor only supports project-level skills** — there is no global `~/.cursor/skills/`. You must install it in each project where you want to use it.
+
+```bash
+# Inside your project root
+mkdir -p .cursor/skills
+git clone https://github.com/klaywang24/interactive-field-guide-skill.git \
+  .cursor/skills/interactive-field-guide
+```
+
+Reload window: **Cmd/Ctrl+Shift+P** → **Developer: Reload Window**
+
+Invoke via the slash command menu (`/`) in Cursor agent mode.
+
+---
+
+## Configuration notes
+
+The skill needs four capabilities from the underlying agent: **(1) web search** for current facts, **(2) file write** for the 110KB HTML output, **(3) Python or Node** for the validation script, **(4) long context** (~50K tokens) for the template + references.
+
+Claude.ai / Claude Code have all four enabled by default. Codex / Gemini / Cursor sometimes don't.
+
+### Gemini CLI configuration
+
+Gemini CLI has long context (1M+ tokens) so the template fits easily. The two things to verify:
+
+**A. Web search must be enabled.** Gemini CLI ships with Google Search but it may be off by default in some installs. In a session:
+
+```
+/tools list
+```
+
+Look for `google_search` or similar. If absent, install the search extension or enable it in your `~/.gemini/settings.json` under `tools`.
+
+**B. File write permissions.** When the skill writes the HTML output, Gemini will prompt for permission. Approve once per session. To skip the prompt:
+
+```jsonc
+// ~/.gemini/settings.json
+{
+  "tools": {
+    "auto_approve": ["write_file"]
+  }
+}
+```
+
+**C. Workspace trust** (only if installing as a workspace skill at `.gemini/skills/`). Run `/trust` in your session and restart, or use the user-scope path `~/.gemini/skills/` instead which doesn't require trust.
+
+### Cursor configuration
+
+Cursor's main constraint is **how it surfaces the HTML output**. Cursor is editor-first, not chat-first — generated files appear in the file tree, not as a chat-side artifact.
+
+**A. Use Agent mode, not Ask.** Open the chat panel → top of the panel select **Agent** (not **Ask** or **Edit**). Skills only fire in Agent mode.
+
+**B. Web search must be on.** In Cursor Settings → **Features** → **Agent** → enable **Web search**. Verify in chat by typing `@web` and confirming the option appears.
+
+**C. Allow terminal commands.** The skill's validation script runs Node or Python. In Settings → **Features** → **Agent** → enable **Allow terminal commands** (or set per-command approval).
+
+**D. Pick a strong model.** Settings → **Models** → set the agent model to Claude Sonnet 4.6 / Opus 4.7 / GPT-5 / Gemini 2.5 Pro. Smaller / faster models will produce shallower analysis (the skill's quality bar assumes strong reasoning).
+
+**E. Output location.** The skill writes the HTML to your project root. Open it via Cursor's file tree (right-click → **Reveal in Finder/Explorer**) and double-click to view in your browser.
+
+---
+
+## Output quality by model
+
+Honest expectations, based on the skill's design requirements (sourced facts, falsifiable counter-consensus, multi-source synthesis):
+
+| Model | Expected quality | Notes |
+|---|---|---|
+| Claude Opus 4.7 | ⭐⭐⭐⭐⭐ | Reference implementation; the skill was designed and tested on Opus |
+| GPT-5 / GPT-5-Codex | ⭐⭐⭐⭐ | Strong reasoning, slightly different style; close to reference |
+| Gemini 2.5 Pro | ⭐⭐⭐⭐ | Excellent long context; close to reference |
+| Claude Sonnet 4.6 | ⭐⭐⭐⭐ | Faster + cheaper; counter-consensus depth slightly less than Opus |
+| Gemini 2.5 Flash / GPT-4o-mini | ⭐⭐⭐ | Format works, depth reduced; OK for first drafts |
+
+If the output feels shallow, **switch to a stronger model first** before assuming the skill is the problem.
+
+---
+
+## Try it
+
+After install, try any of these prompts:
+
+- *"Run a fundamental analysis on NVIDIA"*
+- *"Research Stripe's strategic ecosystem"*
+- *"Build a sector deep-dive on the semiconductor industry"*
+- *"Map the AI agent landscape"*
+- *"Industry report on Chinese new energy vehicles"*
+
+The skill auto-detects the topic type (single company / industry / ecosystem) and selects a subset of the 22 parts accordingly — single-company fundamentals use ~12 parts; industry analyses use ~16; comparative ecosystem maps use ~18.
+
+---
+
+## What's inside
+
+```
+interactive-field-guide-skill/
+├── SKILL.md                       # Main instructions, 22-part workflow
+├── assets/
+│   └── template.html              # 1,500-line HTML template (warm cream + brick red)
+└── references/
+    ├── structure.md               # 22-part menu with skip rules
+    ├── data-schemas.md            # 6 JS object schemas + component patterns
+    ├── content-strategy.md        # VC depth standard, source tiers, counter-consensus framework
+    └── pitfalls.md                # 10 known gotchas + 6-check Node validation script
+```
+
+The 22-part editorial structure covers: hero counter-consensus, 4 stat blocks, ecosystem map, 2×2 strategic matrix, business model, unit economics, growth attribution, 8-pillar due diligence (with 1-10 scoring), competitive moat, 5 fundamental disagreements (Bull vs Bear with falsifiable triggers), 90-day action items with numerical thresholds, and more.
+
+See [`references/structure.md`](references/structure.md) for the full part menu and skip logic by topic type.
+
+---
+
+## Troubleshooting
+
+**Skill doesn't trigger.** Check the description in `SKILL.md` matches your prompt. The skill activates when the agent sees keywords like *analyze, research, deep-dive, fundamental, ecosystem, industry report*.
+
+**HTML looks broken / missing sections.** The validation script catches most issues. Re-run with: *"Re-run the field guide and run the 6-check validation."*
+
+**Web search returns nothing on Gemini CLI / Cursor.** See [configuration notes](#configuration-notes) above — search is off by default in some setups.
+
+**Output too shallow.** Likely a model issue, not a skill issue. Switch to Claude Opus 4.7 / GPT-5 / Gemini 2.5 Pro and re-run.
+
+**Cursor doesn't see the skill.** Make sure you used `.cursor/skills/` in your **project root**, not a global path. Reload window after install.
+
+---
+
+## Why "field guide" and not "report"
+
+A report is read once. A field guide is something you keep open, search, click around, return to. The output is designed for the second behavior — you're meant to live in it for 30 minutes, not skim it for 3.
 
 ---
 
 ## License
 
-Apache-2.0 — see [LICENSE](LICENSE).
+Apache 2.0. Use, fork, modify freely. PRs welcome — especially platform-specific compatibility fixes if you find issues.
+
+## Author
+
+Built by [@klaywang24](https://github.com/klaywang24). Founder of [Nexar](https://nexar.io) — creator-payout decision layer for US DTC brands.
+
+If this skill is useful, a ⭐ on the repo helps others find it.

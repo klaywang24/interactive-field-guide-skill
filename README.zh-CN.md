@@ -1,154 +1,231 @@
-# Interactive Field Guide · Claude Skill
+# Interactive Field Guide Skill
 
-> English · [README.md](README.md)
+> 把任何研究主题，变成一份精致、可交互的 HTML 研究报告——侧栏导航、⌘K 全文搜索、SVG 生态图、2×2 战略矩阵、22-part 编辑结构。**按 VC / CB Insights 深度标准产出。**
 
-一个 Claude skill，把任何研究主题——公司、行业、赛道、战略问题——打成一份带侧栏导航、SVG 生态图、可点击 drawer、accordion、paired-bar 图表的精致 HTML field guide。**22 个 part 的编辑结构**。
-
-按 VC 投决会 / 顶级二级 fund / CB Insights 行研报告的深度标准来。
-
----
-
-## 它解决什么问题
-
-写深度研究的时候，三种格式都不够用：
-
-- **Markdown 文档** — 扁平，没法 explore，难快速 skim
-- **PPT / Keynote** — 视觉好但牺牲文字密度
-- **临时拼的 HTML** — 每次都要重新设计 CSS / 交互
-
-这个 skill 用一个 1500 行的暖米色 + 砖红编辑风模板（已经把 sidebar 导航、⌘K 全文搜索、⌘G 术语表、深色模式、可点击 drawer、SVG 星座图、2×2 矩阵、accordion、paired-bar 图、tab 案例切换、8 大评估维度 grid 全部 wire up 好了），让 Claude 把任何研究主题做成一份比 markdown 更有信息密度、比临时 HTML 更视觉统一的可探索文档，并跑 6 项验证脚本确保产物质量。
+[![Agent Skills](https://img.shields.io/badge/Agent_Skills-open_standard-blue)](https://agentskills.io)
+[![License](https://img.shields.io/badge/license-Apache_2.0-green)](LICENSE)
+[![English](https://img.shields.io/badge/English-README-blue)](README.md)
 
 ---
 
-## 质量标准
+## 这是什么
 
-不是"博客 + 图表"——是**投决会级别的研究产物**：
+你说一句：**"分析下英伟达基本面"** 或 **"研究下半导体行业"** 或 **"Map 出 Stripe 的战略生态"**
 
-- ✅ **每条事实带来源** — `[Source: SEC 10-K Q4 FY2026 / Bloomberg / 公司 PR]`。不允许"据估计" / "约"。
-- ✅ **每个判断可证伪** — 不写"增长强劲"，写 `YoY +65% 至 $215.9B`；不写"领先"，写 `市占率 31.4%, 3 年 +12pp`。
-- ✅ **每篇 3+ 反共识判断** — 直接挑战常识。"NVIDIA 真正的护城河是 CUDA + 网络栈，不是芯片 raw FLOPS" 比"NVIDIA 是 AI 龙头"好。
-- ✅ **判断章节必有可证伪信号** — `Tier 1 如果 Q2 FY27 guidance > $50B; 下调 Tier 2 如果 < $42B`。
+它给你的：一个独立 HTML 文件（约 110KB），带侧栏导航、⌘K 全文搜索、可点击展开的 drawer、可点的 SVG 生态节点图、2×2 战略定位矩阵，以及最多 22 个 part 的结构化分析——**每条事实带来源，每个判断可证伪**，并且**显式提出反共识观点**（市场错在哪里、为什么）。
 
----
+**质量标准**：对标 Net Interest、Stratechery、CB Insights 研究报告的水准。是 VC 合伙人开投决会前会读的那种深度。
 
-## 安装
-
-### 方式 A：clone 然后打包
-
-    git clone https://github.com/klaywang24/interactive-field-guide-skill.git
-    cd interactive-field-guide-skill
-    zip -r ../interactive-field-guide.zip . -x ".git/*" -x "README*.md" -x "LICENSE"
-
-### 方式 B：从 Releases 下载
-
-直接到 [Releases 页面](https://github.com/klaywang24/interactive-field-guide-skill/releases) 下载现成的 zip（如有发布）。
-
-### 在 Claude.ai 里启用
-
-1. Settings → Capabilities → 打开 **Code execution and file creation**
-2. Customize → Skills → **+** → **Create skill** → **Upload a skill**
-3. 选刚才的 zip
-4. 在 skill 列表里把 toggle 打开
-
-详细官方文档：[support.claude.com/en/articles/12512180](https://support.claude.com/en/articles/12512180)
-
----
-
-## 怎么触发这个 skill
-
-装好之后，跟 Claude 说类似下面的话，skill 会自动 trigger：
-
-| 想要 | 可以这样说 |
-|---|---|
-| 行业全景 | "做一份 [赛道] 的 field guide" |
-| 公司深度分析 | "分析下英伟达基本面" / "研究一下小红书的商业模式" |
-| 战略生态地图 | "Map 出 [公司] 过去 12 个月的战略生态——所有合作方、投资、收购" |
-| 个股研究 | "[股票] 值不值得买" / "[公司] 怎么样" |
-| 板块格局 | "[赛道] 的竞争格局分析" / "半导体板块龙头都有哪些" |
-| 创业 / 投资 thesis | "AI Agent 创业指南" / "做一份新能源车的投资 thesis" |
-
-英文 trigger 也行——`Deep dive on [Company]` / `How does [Company] make money?` / `Competitive landscape of [vertical]`.
-
----
-
-## 内部结构
-
-| 文件 | 作用 |
-|---|---|
-| `SKILL.md` | 主入口——完整工作流 + 反模式清单 + 验证脚本 |
-| `assets/template.html` | 1500 行暖米色 + 砖红编辑风模板，所有交互组件已 wire up |
-| `references/structure.md` | 22-part 编辑结构详解：每个 part 何时用、何时跳 |
-| `references/data-schemas.md` | 6 个 JS 数据对象的字段说明 + 所有组件的 HTML 模板 |
-| `references/content-strategy.md` | VC / CB Insights 深度标准；11 类来源；反共识框架 |
-| `references/pitfalls.md` | 10 个最容易踩的坑 + 一键验证脚本 |
-
----
-
-## 22-Part 编辑结构
-
-每份 field guide 从 22 个 part 里挑 10–22 个用。**Skip 规则严格**——填稀释 part 比跳过 part 更糟。
-
-| # | Part | 等级 | 何时跳过 |
-|---|---|---|---|
-| 1 | 第一性原理 / 序言 | ✅ 核心 | 极少跳 |
-| 2 | 数据可信度 | 🟡 可选 | 单一权威源时 |
-| 3 | 核心条件 / 框架 | ✅ 核心 | 纯财务分析 |
-| 4 | 锚点案例 | 🟡 可选 | 没有强代表性单一案例 |
-| 5 | 板块深度（Tab）| ⭐ 重要 | 单公司分析 |
-| 6 | 横向对比表 | ✅ 核心 | 单维度题 |
-| 7 | Constellation Map（SVG）| ✅ 核心 | 极少跳 |
-| 8 | 玩家原型 2×2 战略象限 | ✅ 核心 | 玩家不足以分 4 类 |
-| 9 | 死亡 vs 成功 2×2 | 🟡 可选 | 新兴 / hyper-hyped 题 |
-| 10 | 人才 / 资源热力图 | 🟡 可选 | 单公司题 |
-| 11 | 趋势时间线 | ✅ 核心 | 纯未来预测题 |
-| 12 | 死因 donut 分布 | ⚠ 少用 | 样本不足 |
-| 13 | 痛点矩阵 / N 大原则（accordion）| ⭐ 重要 | 纯财务题 |
-| 14 | N 大评估维度 / DD 支柱 | ⭐ 重要 | 调性偏教育 / 科普 |
-| 15 | 退出 / 并购策略 | 🟡 可选 | 公开市场公司基本面 |
-| 16 | 冷启动 3 路径 | ⚠ 少用 | 成熟公司分析 |
-| 17 | N 大根本分歧 | ✅ 核心 | 共识强题 |
-| 18 | GTM 策略库 | 🟡 可选 | 纯研究 / 财务题 |
-| 19 | 验证方法 grid | 🟡 可选 | 结果题 / 财务题 |
-| 20 | 前沿话题 / 重大变量 | ✅ 核心 | 完全静态历史题 |
-| 21 | 综合判断 + 90 天行动 | ⭐ 重要 | 极少跳 |
-| 22 | 术语 + 数据来源 | ✅ 核心 | 永不跳 |
-
-不同主题 typical 用几个 part：
-
-- **公司基本面**（NVIDIA 这种）：~12 个 part
-- **战略生态地图**（Stripe 这种）：~11 个 part
-- **行业 / 板块**：~14 个 part
-- **完整行业学习手册**（Fintech 这种）：18–22 个 part
-
-完整规则见 [references/structure.md](references/structure.md)。
-
----
-
-## 设计原则
-
-1. **优先独立分析师** — 公司 / 行业题先搜 Net Interest（Marc Rubinstein）/ Bits about Money（patio11）/ Acquired / Stratechery（Ben Thompson）/ Business Breakdowns / The Diff（Byrne Hobart）/ Not Boring（Packy McCormick）/ Money Stuff（Matt Levine），再考虑新闻聚合站。一篇 Net Interest 的深度分析顶五条 Reuters 头条。
-2. **直接源胜过聚合源** — SEC 10-K / 8-K 直读、官方 IR、监管申报文件，胜过二手摘要。
-3. **判断必须可证伪** — 每条结论附"如果 X 发生，我的判断错"。
-4. **宁缺毋滥** — 12 个高密度 part > 22 个稀释 part。
-
-完整 sourcing playbook 见 [references/content-strategy.md](references/content-strategy.md)。
+[看一份真实样例 →](https://github.com/klaywang24/interactive-field-guide-skill/releases) （NVIDIA 基本面分析，119KB HTML）
 
 ---
 
 ## 兼容性
 
-| 工具 | 能用？ |
-|---|---|
-| claude.ai（网页 / 桌面 / 手机）| ✅ |
-| Claude Code（CLI）| ✅ |
-| Claude API（开发者）| ✅ |
-| Codex / ChatGPT | ❌ 非 Anthropic 生态 |
-| Cursor / Copilot / 其他 | ❌ |
+本 skill 遵循开放 [Agent Skills 标准](https://agentskills.io)（Anthropic 于 2025 年 12 月 18 日发布）。**任何兼容 agent 都能加载它**——但**输出质量取决于底层模型**。
 
-Skills 是 Anthropic 专属格式。需要 Claude 付费账号。
+| Agent | 安装路径 | 状态 |
+|---|---|---|
+| **Claude.ai** | Settings 上传 zip | ✅ 参考实现 |
+| **Claude Code** | `~/.claude/skills/` | ✅ 参考实现 |
+| **Codex CLI**（OpenAI）| `~/.codex/skills/` | 🟡 格式兼容，输出未验证 |
+| **Gemini CLI**（Google）| `~/.gemini/skills/` | 🟡 格式兼容，输出未验证 |
+| **Cursor** | `.cursor/skills/`（仅项目级）| 🟡 格式兼容，输出未验证 |
+
+> **🟡 的含义**：SKILL.md 格式能被加载，但我没有亲自验证过这些平台跑出来的 HTML 质量。本 skill 的设计前提是：**强推理 + 长 context + 联网搜索**——所以质量在 Claude Opus / GPT-5 / Gemini 2.5 Pro 上最好，小模型上可能偏浅。
 
 ---
 
-## License
+## 安装
 
-Apache-2.0 — 见 [LICENSE](LICENSE)。
+### 1. Claude.ai（推荐非开发者用）
+
+1. 下载最新 zip：[releases 页面](https://github.com/klaywang24/interactive-field-guide-skill/releases)
+2. Claude.ai → **Settings** → **Capabilities** → 打开 **Code execution and file creation**
+3. **Customize** → **Skills** → **+** → **Upload a skill** → 选 zip → 打开开关
+4. 试一句：*"分析下英伟达基本面"*
+
+### 2. Claude Code
+
+```bash
+git clone https://github.com/klaywang24/interactive-field-guide-skill.git \
+  ~/.claude/skills/interactive-field-guide
+```
+
+重启 Claude Code，skill 会被自动识别。
+
+### 3. Codex CLI（OpenAI）
+
+```bash
+# 启用 skills 特性开关（一次性）
+codex --enable skills
+
+# 安装 skill
+git clone https://github.com/klaywang24/interactive-field-guide-skill.git \
+  ~/.codex/skills/interactive-field-guide
+```
+
+重启 Codex，会话内输入 `/skills` 验证。
+
+**触发方式：**
+- 隐式：`codex "分析下英伟达基本面"`
+- 显式：`codex "$interactive-field-guide 研究 Stripe"`
+
+### 4. Gemini CLI（Google）— 见下方[配置说明 ↓](#gemini-cli-配置)
+
+```bash
+# 一行命令，Gemini CLI 帮你 clone
+gemini skills install https://github.com/klaywang24/interactive-field-guide-skill
+```
+
+或者手动：
+```bash
+git clone https://github.com/klaywang24/interactive-field-guide-skill.git \
+  ~/.gemini/skills/interactive-field-guide
+```
+
+会话内 `/skills list` 验证；如果不重启就想看到，用 `/skills reload`。
+
+### 5. Cursor — 见下方[配置说明 ↓](#cursor-配置)
+
+⚠️ **Cursor 只支持项目级 skill**——没有全局 `~/.cursor/skills/` 目录。每个想用它的项目都要装一遍。
+
+```bash
+# 在你的项目根目录下
+mkdir -p .cursor/skills
+git clone https://github.com/klaywang24/interactive-field-guide-skill.git \
+  .cursor/skills/interactive-field-guide
+```
+
+重新加载窗口：**Cmd/Ctrl+Shift+P** → **Developer: Reload Window**
+
+在 Cursor agent 模式下用斜杠菜单（`/`）调用。
+
+---
+
+## 配置说明
+
+本 skill 需要 agent 提供四种能力：**(1) 联网搜索**取最新事实，**(2) 文件写入**输出 110KB HTML，**(3) Python 或 Node** 跑校验脚本，**(4) 长 context**（约 50K token）容纳模板和 reference 文件。
+
+Claude.ai / Claude Code 默认四项都有。Codex / Gemini / Cursor 有时候没全开。
+
+### Gemini CLI 配置
+
+Gemini CLI 自带超长 context（1M+ token），模板装得下没问题。要确认两件事：
+
+**A. 联网搜索必须开。** Gemini CLI 自带 Google Search，但有些安装默认关闭。会话内：
+
+```
+/tools list
+```
+
+找 `google_search` 之类的工具。如果没有，装搜索扩展，或在 `~/.gemini/settings.json` 的 `tools` 里启用。
+
+**B. 文件写入权限。** 写 HTML 时 Gemini 会弹窗问你授权。每个会话授权一次。想跳过：
+
+```jsonc
+// ~/.gemini/settings.json
+{
+  "tools": {
+    "auto_approve": ["write_file"]
+  }
+}
+```
+
+**C. 工作区信任**（仅当装在 `.gemini/skills/` 工作区路径时需要）。会话内运行 `/trust` 然后重启，或者直接装在 `~/.gemini/skills/` 用户路径下，那个不需要 trust。
+
+### Cursor 配置
+
+Cursor 的主要差异是**HTML 输出的呈现方式**。Cursor 是编辑器优先，不是聊天优先——生成的文件出现在文件树里，不是聊天侧的 artifact。
+
+**A. 用 Agent 模式，不要用 Ask。** 打开 chat 面板 → 顶部切换到 **Agent**（不是 **Ask** 或 **Edit**）。Skill 只在 Agent 模式下触发。
+
+**B. 联网搜索必须开。** Cursor Settings → **Features** → **Agent** → 打开 **Web search**。在 chat 里输入 `@web` 验证选项有没有出现。
+
+**C. 允许终端命令。** Skill 的校验脚本要跑 Node 或 Python。Settings → **Features** → **Agent** → 开 **Allow terminal commands**（或者按命令逐个授权）。
+
+**D. 选强模型。** Settings → **Models** → 把 agent 模型设成 Claude Sonnet 4.6 / Opus 4.7 / GPT-5 / Gemini 2.5 Pro。**小模型 / 快模型会输出明显更浅的分析**——本 skill 的质量门槛假设有强推理能力。
+
+**E. 输出位置。** Skill 把 HTML 写到你项目根目录。在 Cursor 文件树里找到它，右键 **Reveal in Finder/Explorer**，双击在浏览器打开。
+
+---
+
+## 不同模型的输出质量
+
+诚实预期，基于本 skill 的设计要求（带来源 + 可证伪反共识 + 多源综合）：
+
+| 模型 | 预期质量 | 备注 |
+|---|---|---|
+| Claude Opus 4.7 | ⭐⭐⭐⭐⭐ | 参考实现，skill 在 Opus 上设计和测试 |
+| GPT-5 / GPT-5-Codex | ⭐⭐⭐⭐ | 推理强，风格略不同，接近参考水准 |
+| Gemini 2.5 Pro | ⭐⭐⭐⭐ | 长 context 优秀，接近参考水准 |
+| Claude Sonnet 4.6 | ⭐⭐⭐⭐ | 更快更便宜，反共识深度比 Opus 略弱 |
+| Gemini 2.5 Flash / GPT-4o-mini | ⭐⭐⭐ | 格式能跑通，深度打折，适合做初稿 |
+
+如果输出感觉浅，**先换更强的模型再说**，别先怪 skill。
+
+---
+
+## 试试看
+
+装好后，试试这些 prompt：
+
+- *"分析下英伟达基本面"*
+- *"研究下 Stripe 的战略生态"*
+- *"做一份半导体行业深度报告"*
+- *"Map 出 AI agent 赛道格局"*
+- *"中国新能源车行业报告"*
+
+Skill 会自动判断主题类型（单公司 / 行业 / 生态），从 22 part 里挑合适的子集——单公司基本面用约 12 part，行业分析用约 16，生态对比用约 18。
+
+---
+
+## 文件结构
+
+```
+interactive-field-guide-skill/
+├── SKILL.md                       # 主指令，22-part 工作流
+├── assets/
+│   └── template.html              # 1500 行 HTML 模板（暖米色 + 砖红色）
+└── references/
+    ├── structure.md               # 22-part 菜单 + skip 规则
+    ├── data-schemas.md            # 6 个 JS 对象 schema + 组件模式
+    ├── content-strategy.md        # VC 深度标准、来源分级、反共识框架
+    └── pitfalls.md                # 10 个已知坑 + 6 项 Node 校验脚本
+```
+
+22 part 编辑结构涵盖：hero 反共识、4 个核心 stat block、生态图、2×2 战略矩阵、商业模式、单位经济、增长归因、8 维度尽调（带 1-10 评分）、护城河、5 大基本面分歧（Bull vs Bear，带可证伪触发条件）、90 天行动清单（带数值阈值），等等。
+
+完整 part 菜单和按主题类型的 skip 逻辑，见 [`references/structure.md`](references/structure.md)。
+
+---
+
+## 故障排除
+
+**Skill 没触发。** 检查 `SKILL.md` 里 description 和你的 prompt 匹不匹配。Skill 看到 *分析 / 研究 / 深度 / 基本面 / 生态 / 行业报告* 这类关键词会激活。
+
+**HTML 看起来坏了 / 缺章节。** 校验脚本会抓出大部分问题。重跑：*"重新跑一遍 field guide，跑完做 6 项校验"*。
+
+**Gemini CLI / Cursor 上联网搜索没结果。** 见上面的[配置说明](#配置说明)——这俩平台默认可能没开搜索。
+
+**输出太浅。** 大概率是模型问题不是 skill 问题。换 Claude Opus 4.7 / GPT-5 / Gemini 2.5 Pro 重跑。
+
+**Cursor 看不到 skill。** 确认你装在了**项目根目录**的 `.cursor/skills/`，不是某个全局路径。装完重新加载窗口。
+
+---
+
+## 为什么叫 "field guide" 不叫 "report"
+
+Report 是看一遍就放下的。Field guide 是你会一直开着、搜索、点来点去、反复回去看的。这个输出的设计是为后一种行为——**让你在里面待 30 分钟**，不是 3 分钟扫一眼。
+
+---
+
+## 协议
+
+Apache 2.0。随便用、fork、改。欢迎 PR——特别是各个平台兼容性问题的修复。
+
+## 作者
+
+[@klaywang24](https://github.com/klaywang24) 制作。[Nexar](https://nexar.io) 创始人——为美国 DTC 品牌做创作者支付决策层。
+
+如果这个 skill 对你有用，repo 给个 ⭐ 让更多人看到。
