@@ -1,194 +1,374 @@
-# JS Data Schemas
+# Component Data Schemas · 数据形状速查
 
-Four JS objects in the bundled template's `<script>` tag drive the interactive sections. This file is the schema reference. Read it in full before filling any of these objects.
+**核心原则**：JS 数据对象的 key **必须**和 HTML 里 `id` / `data-id` 一一对应。任何 key 错配都会让 drawer 弹空白。
 
-## Where they live
+---
 
-All four objects are defined inside the single `<script>` tag at the bottom of `assets/template.html`. After packaging, they look like:
+## Hero Stats
 
-```javascript
-const CASE_STUDY_DATA = { ... };  // Part 3 tabs
-const SECTOR_DATA     = { ... };  // Part 4 paired-bar
-const CN_NODES        = [ ... ];  // Part 5 constellation node positions
-const DETAIL_DATA     = { ... };  // Drawer content for both Part 5 nodes AND Part 6 badges
+```html
+<div class="hero-stats">
+  <div class="stat-block">
+    <span class="num">[NUMBER]</span>
+    <span class="label">[LABEL]</span>
+    <span class="detail">[CONTEXT + Source]</span>
+  </div>
+  <!-- × 4 个 -->
+</div>
 ```
 
-Plus the renderer functions (`renderCase`, `renderSector`, `renderConstellation`, `openDrawer`) — don't modify these unless you understand them.
+**深度要求**：4 个数字必须在不同维度（不能 4 个都是估值）。每个 detail 必须有时间 + 来源。
 
-## Object 1: `CASE_STUDY_DATA`
+---
 
-Drives Part 3's tab-switched case panels. Five entries keyed by tab id (`region-a` through `region-e`, matching the HTML `data-region` on each `<button class="tab-btn">`).
+## Callout 强调框
+
+```html
+<div class="callout fact">  <!-- 或 lesson | investor | data -->
+  <span class="callout-label">数据可信度承诺</span>
+  <p>[内容]</p>
+</div>
+```
+
+**4 种 type**：
+- `fact` (砖红)：核心事实声明
+- `lesson` (sky 蓝)：经验教训
+- `investor` (teal)：投资人视角
+- `data` (gold)：数据 caveats
+
+---
+
+## Condition Strip (5 张并排卡片) — Part 3
+
+```html
+<div class="condition-strip">
+  <div class="cc-card">
+    <div class="cc-num">①</div>
+    <p class="cc-title">[条件标题]</p>
+    <p class="cc-desc">[一句解释 + 满足/不满足判断标准]</p>
+  </div>
+  <!-- × 5 张 -->
+</div>
+```
+
+**深度要求**：5 张内容不能重叠。每张要有判断标准。
+
+---
+
+## Tab + Panel (4-8 个切换标签) — Part 4 / 5 / 15 / 18
+
+```html
+<div class="tab-row">  <!-- 或 sector-grid 给 8 个 -->
+  <button class="tab-btn active" data-region="key1">
+    <span class="tab-num">①</span>[标签名]
+  </button>
+  <!-- × N -->
+</div>
+<div class="tab-panel" id="panel-key1">
+  <div class="tab-panel-header">
+    <h3 class="tab-panel-title">[标题]</h3>
+    <span class="tab-panel-meta">[meta 信息]</span>
+  </div>
+  <!-- panel 内容 -->
+</div>
+```
+
+**对应 JS**：`renderReap(key)` / `renderSector(key)` / `renderExit(key)` / `renderGtm(key)` 根据 `data-region` 切换 panel。
+
+---
+
+## REAP_DATA · 锚点案例 (Part 4)
 
 ```javascript
-const CASE_STUDY_DATA = {
-  'region-a': {
-    name: "Tab title shown at top of panel",
-    meta: "Right-aligned subtitle (date / status / count)",
-    layerA: {
-      status: "go" | "warn" | "no",   // controls icon color
-      label: "Short status text shown above layer name",
-      desc:  "Body prose for this layer. Supports <strong>, <em>, <span class=\"verify-tag\">已核实</span>"
-    },
-    layerB: { ... },
-    layerC: { ... },
-    verdict: "One-sentence summary at panel bottom",
-    players: "Comma-separated list of entities, with parenthetical metadata"
+const REAP_DATA = {
+  region1: {
+    name: "[案例名]",
+    meta: "[meta 描述]",
+    layerA: { status: "go|warn|no", label: "✅ 跑通 | 🟡 部分 | ❌ 锁住", desc: "[详细解释]" },
+    layerB: { status: "...", label: "...", desc: "..." },
+    layerC: { status: "...", label: "...", desc: "..." },
+    verdict: "[综合 verdict — 必须是非平庸结论]",
+    players: "[关键玩家列表，含估值]"
   },
-  'region-b': { ... },
-  // ... up to region-e
+  // × 4-5 个 region
 };
 ```
 
-**Layer naming**: The renderer hardcodes the labels "Layer A · 入口层", "Layer B · 引擎层", "Layer C · 应用层" by default. To use different labels, modify the `renderCase` function (lines around `${d.layerA.label}` / `<div class="layer-name">`).
+**status 规则**：3 选 1，对应 layer-status CSS class。
 
-**Status mapping**:
-- `go` → green text (success / open opportunity)
-- `warn` → yellow/gold text (cautionary / partial)
-- `no` → red text (closed / blocked)
+---
 
-The `label` is free text; conventions:
-- `"✅ 跑通"` / `"✅ Working"`
-- `"🟡 拥挤"` / `"🟡 Crowded"`
-- `"❌ 已锁住"` / `"❌ Locked up"`
-
-## Object 2: `SECTOR_DATA`
-
-Drives Part 4's eight-tab paired-bar charts. Eight entries keyed by tab id (`sector-1` through `sector-8`).
+## SECTOR_DATA · 板块深度 (Part 5)
 
 ```javascript
 const SECTOR_DATA = {
-  'sector-1': {
-    name: "① Sector name shown at panel top",
-    meta: "Subtitle: total scale info",
-    layers: [
-      { name: "USA",    rev: 35, profit: 38, note: "Player names for this region" },
-      { name: "Europe", rev: 18, profit: 22, note: "..." },
-      // 8 region rows total
+  payments: {
+    name: "① Payments · 支付与结算",
+    meta: "[全球收入 + 利润池估算]",
+    stats: [
+      { num: "$1.9T", label: "Stripe TPV (2025)" },
+      { num: "~17%", label: "Stripe 全球份额" },
+      { num: "0.4%", label: "典型 net take-rate" }
+    ],  // 3 个 stat-block
+    painpoint: "<strong>核心痛点</strong> · [一句话痛点描述]",
+    subdomains: [
+      { tag: "P2P", name: "C 端支付", cos: "Venmo · Cash App · Zelle" },
+      // × 5-8 个
     ],
-    insight: "Insight paragraph below bars (supports HTML)",
-    players: "Representative players list"
+    living: [
+      { name: "Stripe", type: ["B2B"], desc: "[一句差异化]", stat: "$159B 🟢" },
+      // × 10 个活公司
+    ],
+    dead: [
+      { name: "FTX", type: ["B2C"], desc: "[死因 + 启示]", yr: "2022", cause: "fraud", causeLabel: "欺诈" },
+      // × 5 个死公司
+    ],
+    // 可选: smile (微笑曲线), regions (国家分布)
   },
-  // sector-2 through sector-8
+  // × 8 个 sector
 };
 ```
 
-**The two metrics (`rev` and `profit`)** can be repurposed. The renderer just plots two bars per row and applies a "high/low" color when one bar is significantly larger than the other. So you can rename them mentally:
+**type 可选**：`B2B` | `B2C`
+**cause 可选**：`fraud` | `macro` | `model` | `ops`（对应 cause-tag CSS class）
 
-| Original use | Alternative repurposings |
-|---|---|
-| Global revenue % vs Profit pool % | Industry analysis — original |
-| | Company count % vs Public/unicorn share % — ecosystem mapping |
-| | User base % vs Revenue share % — two-sided platform |
-| | Adoption % vs Satisfaction score — product comparison |
+---
 
-To rename the bar headers visible in the UI, edit the `renderSector` function (line with `<div class="bar-headers">`) — change `公司数量 %` / `上市/独角兽 %` to whatever pairing you're using.
-
-**SECTOR_MAX**: A constant near `renderSector` defaulting to 65. The renderer normalizes bar widths to `(value / SECTOR_MAX) * 100`. Adjust SECTOR_MAX if your data is on a different scale (e.g., set to 100 if your data is already 0–100 percentages).
-
-**Color logic**:
-- `profit > rev × 1.15` → profit bar turns red (high-margin)
-- `profit < rev × 0.75 && profit > 0` → rev bar turns red (low-margin)
-- `profit ≤ 0` → profit bar turns dark red (loss-making)
-
-## Object 3: `CN_NODES`
-
-Drives Part 5's Constellation Map node positions and types. Array of node objects.
+## CN_NODES · Constellation Map 节点 (Part 7)
 
 ```javascript
 const CN_NODES = [
-  // Ring 1 — innermost (radius ~125 from center 480,360)
-  { id: 'node-stripe',   x: 380, y: 305, r: 13, type: 'local-tier1', name: 'Stripe',   sub: '~$70-90B', cat: 'cat-1' },
-  // Ring 2 — middle (radius ~230)
-  { id: 'node-gr4vy',    x: 290, y: 245, r: 11, type: 'local',       name: 'Gr4vy',    sub: '$27M · USA', cat: 'cat-1' },
-  // Ring 3 — outermost (radius ~320)
-  { id: 'node-tempo',    x: 200, y: 230, r: 13, type: 'crypto',      name: 'Tempo ★',  sub: '$5B · Stripe', cat: 'cat-2' },
-  // ... etc, target 18-28 nodes total
+  {
+    id: "stripe",            // ← 必须和 DETAIL_DATA key + drawer data-id 一致
+    name: "Stripe",          // 节点显示名
+    sub: "$159B · 支付",      // 节点下方小字
+    type: "global",          // 决定颜色 — 见下
+    ring: 1,                 // 1=最内圈, 3=最外圈
+    angle: 30                // 0-360 度，决定节点位置
+  },
+  // 18-28 个节点（sweet spot）
 ];
 ```
 
-**Field semantics**:
-- `id` — unique key. Must have a matching key in `DETAIL_DATA`.
-- `x`, `y` — SVG coordinates. ViewBox is `0 0 960 720`, center is `480, 360`. Place nodes on rings using polar coordinates: `x = 480 + r·cos(θ)`, `y = 360 + r·sin(θ)`.
-- `r` — circle radius. 10–11 for normal nodes, 13 for emphasized (Tier-1, Exits).
-- `type` — controls fill/stroke color:
-  - `local` — pale blue fill, navy stroke (default)
-  - `local-tier1` — deep navy fill, darker stroke (Tier-1 emphasis)
-  - `crypto` — gold-tinted fill (experimental / web3 / new)
-  - `exit` — mid-blue fill with thick stroke (confirmed acquisitions; pair with `★` in name)
-- `name` — label rendered next to the node. Append `★` for exits/emphasized.
-- `sub` — small subtitle below name (one line; valuation, status, country).
-- `cat` — filter category. The Part 5 region tabs have `data-cregion` values (`cat-1`, `cat-2`, etc.) that filter nodes by `cat`. Tab `all` shows everything.
+**type 可选**：
+- `local` 浅蓝（小本土玩家）
+- `global` 深蓝（全球玩家）
+- `crypto` 灰蓝（加密原生）
+- `local-tier1` 深蓝粗边（本地龙头）
+- `exit` 退出案例
+- `center` 中心节点（用 gradient）
 
-**Layout tips**:
-- Place 6 evenly-spaced nodes in Ring 1 at angles 30° / 90° / 150° / 210° / 270° / 330° relative to center. The two horizontal positions (3 o'clock and 9 o'clock) work best for the most important Tier-1 entities.
-- Avoid placing nodes too close to ring labels (text at y=220, 115, 25). Nodes inside Ring 1 should not be at y < 240.
-- Labels render side-aligned (left-side nodes get right-anchored labels, vice versa). For dense clusters, manually shift `x`/`y` by 5–10px to avoid label overlap.
+**ring 分布建议**：
+- ring 1（内圈）：3-5 个最核心
+- ring 2（中圈）：8-12 个二级
+- ring 3（外圈）：5-10 个边缘
 
-**Common gotcha**: The center node is hardcoded in the SVG `<g class="cn-node">` block, NOT in `CN_NODES`. To change the center label/subtitle, edit the `<text>` elements inside that block directly.
+**angle 分布**：均匀分布同圈节点，避开重叠。
 
-## Object 4: `DETAIL_DATA`
+---
 
-Drives all drawer content. Keyed by either:
-- A `node-*` id from `CN_NODES` (Part 5 click-throughs)
-- A `case-*` id from a Part 6 archetype-badge `data-id` attribute
+## DETAIL_DATA · Drawer 详情 (Part 7 / 8 / 14 共用)
 
 ```javascript
 const DETAIL_DATA = {
-  'node-stripe': {
-    title: "Stripe",
-    sub:   "全球最大私营支付基础设施 · ~$70-90B 估值",
-    tags:  [["global", "Tier 1 · 战略核心"]],   // [type, label] pairs
-    bg: [
-      "<strong>创始人</strong>: ...",
-      "<strong>体量</strong>: ...",
-      "<strong>近期动作</strong>: ...",
-      "<strong>客户</strong>: ..."
+  stripe: {              // ← 和 CN_NODES.id / archetype-badge.data-id / dd-pill.data-id 对应
+    tag: "GLOBAL · #1",
+    name: "Stripe",
+    meta: "$159B · 2026/02 tender",
+    tags: [
+      { label: "全球", type: "global" },  // type: local|global|crypto|exit
+      { label: "支付", type: "" }
     ],
-    relevance: "<strong>对你的研究的含义</strong>。可以引用 <em>independent analyst quotes</em>。",
-    src: "Source 1 · Source 2 · 来源备注"
+    summary: "[1 段总结 — 这家公司的核心 thesis]",
+    bullets: [
+      "[关键事实 1，带数字 + 来源]",
+      "[关键事实 2]",
+      // × 3-6 条
+    ],
+    source: "CNBC / Stripe PR / 2025 年报"
   },
-  // ... one entry per node-* id and per case-* id
+  // 一个 entry 对应一个 id
 };
 ```
 
-**Field semantics**:
-- `title` — drawer top heading (large)
-- `sub` — subtitle below title (small caps style metadata)
-- `tags` — array of `[type, label]` tuples. Each tag renders as a colored pill. Types and their colors:
-  - `local` (green) — local champion / regional player
-  - `global` (red) — Tier-1 / global player / direct competitor
-  - `crypto` (gold) — crypto / web3 / experimental
-  - `exit` (teal) — confirmed acquisition / exit case
-- `bg` — array of "key facts" bullet points (renders as `<ul>` in drawer). Supports HTML. Aim for 3–5 bullets, each 1 sentence with **bold key**: detail format.
-- `relevance` — single paragraph (supports HTML) explaining "what this entity means for your research / business / decision". This is the highest-value field — invest more text here than in any other.
-- `src` — comma- or `·`-separated list of sources. Renders in monospace footer of drawer.
+**关键：完整性验证脚本（pitfalls.md 里的）会扫所有 `id` / `data-id` 是不是都在 DETAIL_DATA 里。漏一个 = drawer 弹空白。**
 
-**Validation requirement**: Every `id` in `CN_NODES` AND every `data-id` on a Part 6 `archetype-badge` element MUST have a matching key in `DETAIL_DATA`. After filling, run:
+---
 
-```bash
-node -e '
-const fs = require("fs");
-const html = fs.readFileSync("file.html","utf8");
-const ids = [...new Set([...html.matchAll(/{ id: "([^"]+)"/g)].map(m=>m[1]))];
-const badges = [...new Set([...html.matchAll(/data-id="([^"]+)"/g)].map(m=>m[1]))];
-const keys = [...new Set([...html.matchAll(/^\s*"([^"]+)":\s*\{/gm)].map(m=>m[1]))];
-console.log("nodes missing detail:", ids.filter(x=>!keys.includes(x)));
-console.log("badges missing detail:", badges.filter(x=>!keys.includes(x)));
-'
+## 2×2 Matrix (Part 8 / 9)
+
+```html
+<div class="matrix-2x2">
+  <div class="matrix-axis-y">[Y 轴标签]</div>
+  <div class="matrix-axis-x">[X 轴标签]</div>
+  <div class="matrix-axis-top">[右上 +Y +X 标签]</div>
+  
+  <div class="matrix-quad q1">  <!-- q1 右上 / q2 左上 / q3 左下 / q4 右下 -->
+    <div class="matrix-quad-label">[象限名]</div>
+    <h4 class="matrix-quad-title">[一句象限主张]</h4>
+    <p>[1-2 句解释]</p>
+    <span class="archetype-badge" data-id="key1">[公司/原型 1]</span>
+    <span class="archetype-badge" data-id="key2">[公司/原型 2]</span>
+    <!-- × 3-5 个 badge -->
+  </div>
+  <!-- × 4 quadrant -->
+</div>
 ```
 
-Both arrays should be empty.
+**badge.data-id 必须在 DETAIL_DATA 里有对应 entry。**
 
-## Tab id naming convention
+---
 
-The HTML tab buttons use `data-region`, `data-sector`, `data-cregion` attributes. These must match keys in the JS data exactly:
+## Accordion (Part 13 / 16)
 
-| HTML attribute | JS object key | Example |
+```html
+<div class="accordion-list">
+  <div class="accordion-item">  <!-- Part 16 用 path-item 多一个 class -->
+    <div class="accordion-header">
+      <div class="accordion-num">①</div>
+      <div class="accordion-title-block">
+        <h4 class="accordion-title">[原则 / 路径标题]</h4>
+        <span class="accordion-meta">[一句副标题]</span>
+      </div>
+      <button class="accordion-toggle">+</button>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <p class="accordion-summary">[展开内容 — 强调用 <strong> 和 <em>]</em></p>
+      </div>
+    </div>
+  </div>
+  <!-- × 5-10 项 -->
+</div>
+```
+
+**JS 行为**：点击 header 切换 `.open` class，body 展开。
+
+---
+
+## DD Grid (Part 14)
+
+```html
+<div class="dd-grid">
+  <div class="dd-pill" data-id="dd-revenue">  <!-- ← 必须在 DETAIL_DATA 里 -->
+    <span class="dd-num">①</span>
+    <p class="dd-name">[维度名 — e.g. 收入质量]</p>
+    <span class="dd-hint">[评分 hint — e.g. 1-10 RUBRIC]</span>
+    <span class="dd-arrow">→</span>
+  </div>
+  <!-- × 8 个 -->
+</div>
+```
+
+**点击 dd-pill 弹 drawer，drawer 内容来自 DETAIL_DATA[id]。**
+
+---
+
+## Timeline Cards (Part 11)
+
+```html
+<div class="tl-grid">
+  <div class="tl-card">
+    <div class="tl-marker">
+      <span class="tl-yr">2025</span>
+      <span class="tl-q">Q3</span>
+      <span class="tl-num">事件 #5</span>
+    </div>
+    <div class="tl-body">
+      <h3>[事件标题]</h3>
+      <p>[1-2 句解读 — 这件事的含义，不是描述]</p>
+      <p style="font-size:11px;color:var(--muted);">[Source: ...]</p>
+    </div>
+  </div>
+  <!-- × 5-10 张 -->
+</div>
+```
+
+---
+
+## Heat Pill (Part 10)
+
+```html
+<span class="heat-pill heat-high">高</span>
+<span class="heat-pill heat-mid">中</span>
+<span class="heat-pill heat-low">低</span>
+```
+
+通常嵌在 `<table>` 的 `<td>` 里。
+
+---
+
+## Tier Block (Part 17 / 21)
+
+```html
+<div class="tier-block tier1">  <!-- tier1 砖红 / tier2 金 / tier3 灰 -->
+  <span class="tier-label">[档位标签 — e.g. 强买入]</span>
+  <h4 class="tier-title">[档位主张]</h4>
+  <ol>
+    <li>[条件 1]</li>
+    <li>[条件 2]</li>
+  </ol>
+</div>
+<!-- × 3 (Part 21) 或 × 5 (Part 17) -->
+```
+
+---
+
+## Company Table
+
+```html
+<table class="company-table">
+  <thead>
+    <tr>
+      <th class="col-name">公司</th>
+      <th class="col-stat">估值</th>
+      <th class="col-yr">年份</th>
+      <th>差异化</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="col-name">Stripe</td>
+      <td class="col-stat">$159B</td>
+      <td class="col-yr">2026/02</td>
+      <td>商家支付 API · 7 行代码接入</td>
+    </tr>
+    <tr class="dead-row">  <!-- 死亡公司加这个 class 自动变红 -->
+      <td class="col-name">FTX</td>
+      <td class="col-stat">$32B → $0</td>
+      <td class="col-yr">2022</td>
+      <td>欺诈 · SBF 挪用客户资金</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+---
+
+## 命名约定
+
+| 元素 | 命名规则 | 例子 |
 |---|---|---|
-| `data-region="region-a"` | `CASE_STUDY_DATA['region-a']` | Part 3 |
-| `data-sector="sector-1"` | `SECTOR_DATA['sector-1']` | Part 4 |
-| `data-cregion="cat-1"` | `CN_NODES[i].cat === 'cat-1'` | Part 5 filter |
-| `data-id="case-juspay"` | `DETAIL_DATA['case-juspay']` | Part 6 |
-| (constellation node click) | `DETAIL_DATA[<node id>]` | Part 5 |
+| CN_NODES.id | 小写 + `-` 分隔 | `stripe`, `bridge`, `aspire-sg` |
+| Sector key | 单词或缩写 | `payments`, `lending`, `wealth` |
+| DETAIL_DATA key | 和 id / data-id 严格一致 | `stripe`, `arch-vertical` |
+| dd-pill data-id | `dd-` 前缀 | `dd-revenue`, `dd-moat` |
+| archetype-badge data-id | `arch-` 前缀 | `arch-vertical`, `arch-platform` |
 
-Stick with the kebab-case convention. Use descriptive ids (`node-stripe`, `case-juspay`) instead of generic ones (`node-1`, `case-a-1`) — descriptive ids make the data easier to maintain and the bug surface smaller.
+混用前缀容易撞 key，最好按上面统一。
+
+---
+
+## 数据完整性自查（写完每个 part 跑一遍）
+
+```javascript
+// 验证脚本（写在 console 里跑）
+const cnIds = CN_NODES.map(n => n.id);
+const badgeIds = [...document.querySelectorAll('[data-id]')].map(el => el.dataset.id);
+const detailKeys = Object.keys(DETAIL_DATA);
+const allRefs = [...new Set([...cnIds, ...badgeIds])];
+const missing = allRefs.filter(id => !detailKeys.includes(id));
+console.log('Missing in DETAIL_DATA:', missing);  // 必须是空数组
+```
+
+漏一个 → 视觉上 drawer 弹空白 → 用户立刻发现是 bug。

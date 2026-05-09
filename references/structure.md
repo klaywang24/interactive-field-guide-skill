@@ -1,138 +1,204 @@
-# Field Guide Structure: The 12 Parts
+# 22-Part Field Guide · 结构与编辑规则
 
-This template encodes a 12-part editorial structure. Read this before you start filling — the structure is opinionated, and several parts only earn their place when the source material has a specific shape.
+这份文档教你如何给一篇研究报告挑章节、组装内容、保证内容深度对得起 VC / 顶级二级 / CB Insights 的水准。
 
-## Quick reference table
+---
 
-| Part | Name | Visual form | Skip if… |
-|---|---|---|---|
-| Hero | Title + 4 stats | 4-block stat grid | (never skip) |
-| 1 | Preface · First Principles | Prose + callout | (never skip) |
-| 2 | 5-card framework | 5 colored top-stripe cards | You don't have 5 distinct ideas |
-| 3 | Tab case studies | Tab switcher + 3-layer panel | You don't have ≥3 comparable cases |
-| 4 | Sector paired-bar | 8 tabs × 8-region paired bars | Geographic distribution isn't the story |
-| 5 | Constellation Map | Center + 3-ring SVG with click drawers | Ecosystem has fewer than 15 entities |
-| 6 | 2×2 strategic matrix | Quadrant grid with click badges | No two-dimensional positioning is core |
-| 6.5 | Outside Voices | 4 analyst callouts | Fewer than 3 credible analyst sources cited |
-| 7 | Heat-map matrix | Table with high/mid/low pills | No multi-dimensional scoring needed |
-| 8 | Topic deep dive | Detailed table + supplementary lists | No single sub-topic deserves long-form |
-| 9 | Inflection point | Recent-event narrative + role table | No clear time-bound recent event |
-| 10 | Timeline | 5 marker+body cards | Fewer than 4 datable events |
-| 11 | Tiered judgments | Three colored tier blocks (do / consider / avoid) | Report isn't decision-oriented |
-| 12 | Glossary + sources | Term definitions + categorized URL list | (never skip) |
-| Footer | Tagline | Centered prose + ornament | (never skip) |
+## 核心心法：研究报告 vs 学习手册
 
-## Detailed part-by-part guidance
+22 个 part 是**菜单**，不是**清单**。每篇报告**只用其中相关的子集**。
 
-### Hero
-4 stat blocks + headline + sub. The 4 stats should mix the **scale of the subject** (revenue, market cap, user count) with the **insight of the report** (e.g., "0 acquisitions in 12 months" if the report's thesis is about partnership-led strategy). If all 4 stats are pure scale numbers, the hero feels like a Wikipedia infobox; if all 4 are insight-y, the reader doesn't know how big the subject is. Mix.
+- 一篇 NVIDIA 基本面分析 → 用 11-13 个 part
+- 一篇 Stripe 战略生态地图 → 用 10-12 个 part
+- 一篇 半导体板块研究 → 用 13-16 个 part
+- 一篇 美国 fintech 完整学习指南 → 用 18-22 个 part（这才是 22 全用的场景）
 
-The headline uses `<em>` for italicized accent words (in the brick-red color). One or two `<em>`s land; three+ feels noisy. The headline should make a specific claim, not describe the report.
+**死规则**：宁可少用 8 个高密度 part，也不要凑 22 个稀释 part。读者看到稀释 part 会立刻识破。
 
-Bad: "An overview of Mastercard's strategy"
-Good: "Mastercard 已经不是 *卡组织* 了 — 它是一台靠 *合作* 而非 *收购* 运转的全球结算操作系统"
+---
 
-### Part 1 — Preface
-The lede (italicized prose) sets up the question. The body paragraphs lay out the thesis. The mandatory `callout fact` at the bottom is the data-credibility commitment — list real sources, not "various sources".
+## 22 个 Part 完整目录
 
-Add a `callout investor` between the body and the credibility callout when there's a single high-signal external observation that frames the whole report. Example: an Acquired podcast quote that captures the central tension. Don't force this if the material doesn't suggest it.
+每个 part 有 4 个标签：
 
-### Part 2 — 5-card framework
-Each of the 5 cards has a top stripe in a different theme color (sky / gold / accent / teal / moss). The cards should articulate **5 distinct strategic intents** behind the report's subject — not 5 product categories, not 5 business segments. Compress the entity-level detail into the description; let the card title carry the *intent*.
+- ✅ **核心**：几乎每篇都用（10 个）
+- ⭐ **重要**：很多场景用，强烈推荐（5 个）
+- 🟡 **可选**：特定场景用（5 个）
+- ⚠️ **少用**：只在特定题材用（2 个）
 
-Bad title: "Cybersecurity"
-Good title: "非支付边界 / Beyond Payments"
+### Part 1：第一性原理 / 序言 ✅
+**用**：每篇都用。Hero 论点的展开。
+**跳**：极少跳。
+**写什么**：1 段把 hero 主标题展开成可验证陈述；1 段反共识（"为什么大多数人这里想错了"）；1 个 callout 写"数据可信度承诺"。
+**深度要求**：必须有具体反共识判断，不能写"这个赛道很重要"。
 
-The mandatory `callout fact` at the bottom should crystallize the meta-pattern that ties the 5 cards together. Optionally add a second `callout data` for a key supporting statistic.
+### Part 2：数据可信度 🟡
+**用**：严肃投资 / 行研题、数据来源混杂时。
+**跳**：调性轻松、来源单一权威时。
+**写什么**：三色标注规则（已核实 / 直接公开 / 估算）+ 来源等级 + verify-tag 用法说明。
+**深度要求**：必须给读者一个"如何判断这篇报告里哪些数字可信"的工具。
 
-### Part 3 — Tab case studies
-Five tabs across the top, each clicking to a 3-column "layer" panel + verdict + players list. The 5 tabs should be **mutually exclusive case groups** — geographies, customer segments, strategic theme groups, etc. The 3-layer schema (`layerA / layerB / layerC` with `status`, `label`, `desc`) is opinionated: it forces the analysis into "input layer / engine layer / application layer" or "wedge / engine / platform" thinking. Reuse the schema; rename Layer A/B/C labels in the JS.
+### Part 3：核心条件 / 框架（5 项）✅
+**用**：任何"什么决定 X 能否 work"的题。框架先行 = 后面所有判断都有锚点。
+**跳**：纯财务分析（公司基本面）。
+**写什么**：5 张 cc-card，每张一个核心条件 / 维度。每条要有判断标准（不是描述）。
+**深度要求**：每张卡片要明确写"满足看起来像这样 / 不满足看起来像那样"。
 
-Status colors: `go` (green ✅), `warn` (yellow 🟡), `no` (red ❌). The verdict line should be 1 sentence; the players line should be a comma-separated string with brief metadata in parens.
+### Part 4：锚点案例 · 4 维度逐一拆 🟡
+**用**：有强代表性单一案例（一家公司、一个市场、一个产品）。
+**跳**：广义行业题。
+**写什么**：4-5 个 tab（4 个维度），每 tab 含 layerA/B/C 三层评分（go/warn/no）+ 综合 verdict + 关键玩家清单。
+**深度要求**：每层要有具体证据（数字 / 时间 / 来源）。verdict 必须是非平庸结论。
 
-### Part 4 — Sector paired-bar
-Eight tabs, each clicking to a paired-bar comparison across 8 regions. The two bars compare **two metrics** — typical pairings:
+### Part 5：板块深度（Tab 切换）⭐
+**用**：行业 / 赛道研究的核心组件。
+**跳**：单公司题（用 Part 4 代替）。
+**写什么**：8 个板块 tab，每板块含：3 个 sector-stat + painpoint + subdomain-grid + 微笑曲线（活公司 vs 死公司） + 国家分布。
+**深度要求**：CB Insights 级别——每个板块 10 家活公司 + 5 家死公司，每家带估值 / 状态 / 一句话差异化。
 
-- "Global revenue %" vs "Profit pool %" (the original use, for industry analysis)
-- "Company count" vs "Public/unicorn share" (for ecosystem mapping)
-- "User count" vs "Revenue share" (for two-sided platforms)
+### Part 6：横向对比表 ✅
+**用**：多维比较时通用。
+**跳**：单维度题或单公司题。
+**写什么**：`<table>` 多列对比（毛利率 / 估值 / 天花板 / 防御性 / 成长性）。
+**深度要求**：每行要有具体数字 + 来源年份。
 
-The renderer auto-colors disproportionate bars red. So the visual delivers an immediate "this region is over/under-indexed" message — pick metric pairings that exploit this.
+### Part 7：Constellation Map ✅
+**用**：每篇都用。
+**跳**：极少跳。
+**写什么**：SVG 节点图，3 圈布局，18-28 个节点。中心节点 = 核心主题，外围按类型分色。
+**深度要求**：每个节点必须有 ARR / 估值 / 关系强度三个量化字段，drawer 里有完整 thesis + 来源。
 
-If geography isn't the right slicing axis, swap "regions" for the actual axis (customer segments, time periods, product categories) and rename the headers in the renderer.
+### Part 8：玩家原型 2×2 战略象限 ✅
+**用**：通用。玩家分类 / 模式分类。
+**跳**：单公司分析，或玩家不足以分 4 类。
+**写什么**：matrix-2x2 + 4 quadrant + 12-20 个 archetype-badge（点击弹 drawer）。
+**深度要求**：4 个象限的轴必须正交（不能两个轴说同一件事）。每个象限要有具体行动建议。
 
-### Part 5 — Constellation Map
-The single most striking section when populated well; the most embarrassing when populated poorly. **Don't include it with fewer than 15 entities.** Sweet spot: 18–28 nodes.
+### Part 9：死亡 vs 成功 2×2 🟡
+**用**：成熟赛道（有死亡案例数据）。
+**跳**：新兴赛道、hyper-hyped 题。
+**写什么**：matrix-2x2，y 轴 = 死/活，x 轴 = 自选维度（如：聚焦 vs 分散 / B2B vs B2C）。
+**深度要求**：每个 cell 至少 3 个具体案例（带年份和死因 / 估值）。
 
-The center node is the report's subject (a company, a thesis, a movement). Three rings radiate outward:
-- Ring 1 (innermost, ~6 nodes) — Tier-1 strategic core
-- Ring 2 (middle, ~8 nodes) — Execution-level partners
-- Ring 3 (outermost, ~10 nodes) — Edge / experimental / recent / acquired
+### Part 10：人才 / 资源热力图 🟡
+**用**：行业 / 创业研究。告诉读者"这个赛道哪个细分缺什么"。
+**跳**：单公司题。
+**写什么**：`<table>` 行 = 板块，列 = 资源类型（人才 / 监管 / 资金 / 技术），格子 = heat-pill (high/mid/low)。
+**深度要求**：每个 high 格子要有"具体缺什么 / 哪里能拿"的脚注。
 
-Node types: `local`, `local-tier1`, `crypto` (gold tint, useful for "experimental"), `exit` (with star icon, for confirmed acquisitions). Each node clicks open a drawer rendering the matching `DETAIL_DATA[id]` — **the drawer content is what makes this section valuable**. Skimping on drawer content breaks the value proposition.
+### Part 11：趋势时间线 ✅
+**用**：每篇都用。最近 1-2 年关键事件按季排列。
+**跳**：纯未来预测题。
+**写什么**：5-10 个 tl-card，每张含季度 + 事件标题 + 1-2 句解读。
+**深度要求**：每个事件必须带具体日期 + 来源 + "这件事的含义"（不是描述事件本身）。
 
-Node text labels render to the side (left if `n.x < 480`, right otherwise). On dense clusters, manually adjust `n.x / n.y` to avoid label overlap.
+### Part 12：死因分布 Donut ⚠️
+**用**：配合 Part 9 用。有 20+ 死亡公司样本时。
+**跳**：样本不足、新兴赛道。
+**写什么**：donut chart 或简化的 cause-tag 列表（fraud / macro / model / ops 四色）。
+**深度要求**：必须有具体百分比 + 每类至少 3 个公司名。
 
-The center radial gradient color (`#centerGradient` in SVG defs) is themable — change the three `stop-color` values to match the report's subject. Default is purple; for finance/payments, switch to brick-red gradient.
+### Part 13：痛点强度矩阵 / N 大原则 ⭐
+**用**：创业 / 战略题强烈推荐。从案例提炼共性原则。
+**跳**：纯财务题。
+**写什么**：accordion-list × 5-10 项，每项点开看具体规则 + 例外 + 反例。
+**深度要求**：每条原则要可证伪——给"如果 X 成立，原则失效"的明确条件。
 
-### Part 6 — 2×2 strategic matrix
-Four quadrants Q1 (top-right, "golden") / Q2 (top-left) / Q3 (bottom-left) / Q4 (bottom-right, "local strongest"). Pick axes that cut the entity space cleanly:
+### Part 14：N 大评估维度 / DD 支柱 ⭐
+**用**：投资 / DD 题强烈推荐。多维评估清单。
+**跳**：调性偏教育 / 科普题。
+**写什么**：dd-grid × 8 个 dd-pill（点开弹 drawer 看深度），每个维度独立可评分。
+**深度要求**：每个维度要有"如何打分"的具体 rubric（1-10 分代表什么）。
 
-- "Maturity" × "Direct relevance to your thesis" (most flexible)
-- "Geographic scope" × "Product depth"
-- "Capital intensity" × "Network effect strength"
+### Part 15：退出 / 并购策略 🟡
+**用**：创业 / VC / M&A 题。
+**跳**：公开市场公司基本面分析。
+**写什么**：tab × 3 路径（被收购 / IPO / 持续独立），每 tab 含历史案例 + 触发条件 + 估值倍数。
+**深度要求**：每条路径要有 3+ 历史案例 + 失败案例（如 Plaid-Visa 黄）。
 
-Each quadrant gets 2–4 archetype-badges; clicking a badge opens a drawer (same `DETAIL_DATA` schema as Constellation). Use `archetype-badge featured` (red bg) to mark the 2–3 most important entities; reserve this for entities the reader must know.
+### Part 16：冷启动 / 切入路径 ⚠️
+**用**：早期创业题。
+**跳**：成熟公司分析。
+**写什么**：accordion-list × 3 条路径（如：top-down 行业大客户 / bottom-up 自服务 / horizontal API 层）。
+**深度要求**：每条路径要有"前 6 个月做什么 / 12 个月做什么 / 失败信号"。
 
-The mandatory `callout investor` at the bottom should give 3 selection rules — one per row of insight ("Rule 1: …", "Rule 2: …", "Rule 3: …"). These rules are usually the most actionable lines in the entire document; write them last, after the rest of the report is settled.
+### Part 17：N 大根本分歧 ✅
+**用**：通用。展示赛道核心争议点（这是高深度的标志）。
+**跳**：早期 / 共识强题。
+**写什么**：tier-block × 5（tier1 / tier2 / tier3 渐变），每条分歧含双方观点 + 证据 + 谁占上风的判断。
+**深度要求**：必须双方都站得住脚——不能写一边倒的"伪分歧"。
 
-### Part 6.5 — Outside Voices (custom add)
-Not in the original template. Add it when the report is research-heavy and you've cited 3+ independent analysts. Format: 4 callouts, each labelled with `VOICE 0X · <Source Name> · <Date>`, each containing:
-- 1–3 sentences paraphrasing the analyst's argument (with a short quote if attribution-worthy)
-- 1 sentence connecting the argument to your report's thesis
-- 1 line `<source>` footnote in muted text
+### Part 18：GTM 策略库 🟡
+**用**：创业 / 战略题。
+**跳**：纯研究 / 财务题。
+**写什么**：tab × 4（PLG / SLG / Hybrid / B2B2B），每 tab 含 thesis + bullets + 例子。
+**深度要求**：每种模式要有"哪种公司适用 / 不适用"的具体特征。
 
-Color rotate the callouts: `investor` (teal) / `lesson` (sky) / `fact` (red) / `data` (gold). End with a meta-callout that synthesizes the cross-source pattern ("4 票一致" / "Consensus across sources").
+### Part 19：验证方法 Grid 🟡
+**用**：研究方法 / 创业方法题。
+**跳**：结果题 / 财务题。
+**写什么**：`<table>` × N 验证方法，每行：方法 + 适用阶段 + 假阳性风险 + 成本 + 例子。
+**深度要求**：每方法要有"什么时候用错"的反例。
 
-This section punches above its visual weight — analyst-named callouts dramatically increase the reader's confidence in the report.
+### Part 20：前沿话题 / 重大变量 ✅
+**用**：每篇都用。"未来 12 月最大变量是什么"。
+**跳**：完全静态历史回顾题。
+**写什么**：h3 一句关键变量 + 论证段 + callout（投资人提醒）。
+**深度要求**：必须给"如何观察 / 何时知道答案"的可证伪指标。
 
-### Part 7 — Heat-map
-A multi-dimensional scoring table (rows × columns) with `heat-pill` spans (`heat-high` / `heat-mid` / `heat-low`). Use when the report wants to **score N entities against M criteria** in a single glance. Common patterns:
+### Part 21：综合判断 + 90 天行动 ⭐
+**用**：每篇都用。
+**跳**：极少跳。
+**写什么**：tier-block × 3（强买入 / 持有观察 / 跳过避雷）+ 90 天 / 180 天行动 ol + 反共识声明。
+**深度要求**：每档判断要给"看到 X 信号时升级 / 降级"的明确条件。
 
-- "10 themes × 3 relevance dimensions" (this is the Mastercard report's use)
-- "5 competitors × 5 capabilities"
-- "8 markets × 4 entry-difficulty factors"
+### Part 22：术语 + 数据来源 ✅
+**用**：永远是最后一项。
+**跳**：永不跳。
+**写什么**：`<table>` 术语表（10-20 条）+ `<table>` 来源分类（Tier 1 公开 / Tier 2 媒体 / Tier 3 估算）。
+**深度要求**：每个术语要有 1 句 + 1 个具体例子。每条来源要可点 / 可查。
 
-Always end with a `callout fact` that names the highest-scoring rows/columns and gives the reader's instruction.
+---
 
-### Part 8 — Topic deep dive
-A detailed table (4+ columns, ≤12 rows) of the most important entities for one specific theme + one or two supplementary list blocks (regulatory points, technical specs, etc.). Use when one of the 10/12 themes deserves long-form treatment beyond what fits in the constellation drawer.
+## 不同主题的推荐组合
 
-### Part 9 — Inflection point
-Used for recent (last 6 months) time-bound events that justify the entire report. Pattern:
-1. Lede: when did it happen + why is it an inflection point
-2. List of 3–5 contemporaneous events (the cluster that defines the inflection)
-3. Optional secondary explainer (TBAC, regulatory committee, etc.)
-4. Forecast/prediction table (current state → projected state)
-5. Role-attribution table (who's doing what)
-6. `callout investor` titled "对 [entity] 的含义" / "Implications for [entity]"
+| 用户提问 | 推荐用的 Part |
+|---|---|
+| "分析下英伟达基本面" | 1, 2, 3, 5（如果拆业务段）, 6, 7, 8, 11, 13, 14, 17, 20, 21, 22（≈12 个）|
+| "Map 出 Stripe 战略生态" | 1, 4（Stripe 自己作锚点）, 7, 8, 11, 13, 14, 17, 20, 21, 22（≈11 个）|
+| "Fintech 完整学习指南" | **全部 22 个**（这是 handbook 模式）|
+| "半导体板块龙头" | 1, 2, 3, 5, 6, 7, 8, 9, 11, 13, 17, 20, 21, 22（≈14 个）|
+| "新能源车赛道入门" | 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 13, 17, 20, 21, 22（≈15 个）|
+| "AI Agent 创业指南" | 1, 3, 4, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22（≈15 个）|
+| "小红书的崛起" | 1, 4, 7, 11, 13, 17, 20, 21, 22（≈9 个，调性轻）|
 
-This section is most powerful when supported by independent-analyst sourcing — the inflection narrative is more credible when framed by Net Interest / Acquired / etc., not just news.
+---
 
-### Part 10 — Timeline
-Five `tl-card`s (year + quarter + body title + body prose + source line). Each card is a discrete event; the prose explains what happened and what it implies. Don't try to fit 8 events; if you have 8, pick the 5 most strategic. If you have 3, skip Part 10 entirely.
+## 内容深度铁律（向 VC / CB Insights 看齐）
 
-### Part 11 — Tiered judgments
-Three colored blocks: tier1 (red, "do this") / tier2 (gold, "consider") / tier3 (gray, "avoid"). 4–5 items per tier. This is the most decision-oriented section — write it as if you're the operator who will use the report tomorrow morning.
+每写一段问自己 4 个问题，**任一不通就重写**：
 
-End with a `callout fact` titled "一句话总结" / "In one sentence" — distill the entire report to one declarative claim. This usually becomes the document's most-quoted line.
+1. **可证伪吗？**不写"很重要 / 领先"，要写"$X / +Y% / 比 [对手] 多 Z 倍"。
+2. **有来源吗？**每条事实必须有 [Source: 公司年报 Q3 / SEC 10-K p.42 / Bloomberg / 官方 PR]。无来源标 *directional estimate*。
+3. **是反共识吗？**第一性原理 / 综合判断 / 分歧章节必须挑战常识。"NVIDIA 是 AI 龙头" = 废话；"NVIDIA 真正的护城河不是芯片是 CUDA" = 反共识。
+4. **可执行吗？**判断章节必须给"看到什么信号时升级 / 降级"的具体动作。
 
-### Part 12 — Glossary + sources
-Glossary terms get inline definitions (auto-mirrored to the ⌘G modal). Sources are categorized with `<h4>` subheaders. **Always include**:
-1. Independent-analyst sources (Net Interest, Acquired, etc.) — by name + date + URL
-2. Primary sources (SEC filings, regulatory reports, earnings calls) — by issuer + date
-3. Aggregators (Crunchbase, CB Insights, Yahoo Finance) — by name only
-4. Data declaration paragraph — what's directly cited, what's directional estimate, what's analytical framework
+不能仅仅"完整"——必须"有判断"。读者看完应该能说出"这篇 vs 那篇，作者的反共识在哪"。
 
-### Footer
-Centered ornament + 1 line of attribution + 1 italicized closing quote. The closing quote should echo (not repeat) the report's Hero claim.
+---
+
+## Skip Rules — 严格执行
+
+如果某个 part 数据空白 / 不适用 / 凑不出 5 个具体案例：**整个跳过**，不要写"暂无数据"或"待补"。
+
+跳过 part 时同步从 sidebar nav 删除该跳转项（保持目录干净）。最终 sidebar 只列**真实存在**的 part。
+
+例：分析 NVIDIA 时跳过 Part 4（无锚点）/ Part 15（公开公司无退出）/ Part 16（不是创业题）/ Part 18（不是 GTM 题）/ Part 19（不是方法题），最终 sidebar 只有 ~12 个跳转项。
+
+---
+
+## 章节顺序
+
+按数字 1-22 顺序写，跳掉的 part 留空（不重新编号）。Sidebar nav 按数字升序列剩下的 part。
+
+这样保留"22 part 完整版"的语义——读者一看就知道"哦这篇用了 12 个，跳了 10 个"。

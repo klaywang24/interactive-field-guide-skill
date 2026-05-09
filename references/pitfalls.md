@@ -1,286 +1,252 @@
-# Pitfalls
+# Pitfalls — 写完之前必跑 5 项检查
 
-Every prior attempt at filling this template has hit at least one of these. Read this whole file before delivering. The fixes are short; the costs of missing them are: a broken document, an embarrassed re-deliver, or a debugging session in front of the user.
+每次产物都会遇到下面之一，**生成完 HTML 后跑这 5 个验证**。任意一项 fail 就回去修。
 
-## #1 — Editing-instructions left in the file
+---
 
-The bundled `assets/template.html` ships with a 47-line HTML comment block right after `<body>` titled:
+## #1 — 模板指令注释残留
 
-```html
-<!--
-============================================================================
-  📘 INTERACTIVE FIELD GUIDE TEMPLATE · 编辑指南
-  ============================================================================
-  ...
-  ▍如何使用本模板
-  1. 整篇文档分两类内容:
-     A. 静态文字 (HTML 内) —— 标记为 <!-- ✏️ EDIT_X -->
-     B. 交互数据 (JS 内) —— 在文件底部 SCRIPT 标签里的 CONFIG 对象里改
-  2. 12 个 Part 的内容类型 + 编辑位置:
-     ✏️ Part 1   序言/第一性原理      → HTML 段落
-     ...
--->
-```
+新模板每个 section 顶部有 `<!-- ⚙️ PART N · 标题 ... -->` 的元注释，里面有 "何时用 / 何时跳 / 内容形状 / 关键组件" 4 行说明。**这些是给写作者看的，必须在最终产物里全部删掉**。
 
-This is instructions for the person filling the template. **It is not content.** It must be removed before delivery.
-
-It also includes:
-- Four large `/* ============= ⚙️ NAME — Part X (...) 数据 ============= */` JS comment blocks above each data object
-- Inline `<!-- ✏️ EDIT_PART_X: ... -->` and `<!-- ⚙️ ... -->` HTML comments scattered through the body
-- `/*JSPART2*/` and `/*JSPART3*/` markers between JS blocks
-
-### How to remove
+### 怎么找
 
 ```bash
-# Remove the big HTML comment block
-python3 -c '
-with open("file.html") as f: c = f.read()
-start = c.find("<!--\n=========")
-end = c.find("-->\n<div class=\"progress-bar\"")
-if start != -1 and end != -1:
-    c = c[:start] + c[end + len("-->\n"):]
-    with open("file.html","w") as f: f.write(c)
-'
+grep -nE "⚙️ PART|何时用|何时跳|内容形状|关键组件|✏️ EDIT" /tmp/output.html
+# 应该返回 0 行
 ```
 
-For the JS comment headers, replace each verbose block with a one-liner:
-
-```javascript
-/* CASE_STUDY_DATA · Part 3 thematic groups, three-layer evaluation */
-const CASE_STUDY_DATA = { ... };
-```
-
-For the inline `<!-- ✏️ EDIT_X: ... -->` comments, just delete them.
-
-### Verification
+如果还有，跑这个清理：
 
 ```bash
-grep -nE "INTERACTIVE FIELD GUIDE TEMPLATE|EDIT_HERO|EDIT_PART|EDIT_FOOTER|✏️|⚙️|CONFIG 对象|HTML 段落|HTML 5 张卡|JSPART" file.html
-```
-
-Should return zero matches.
-
-## #2 — Unescaped double-quotes inside JS string literals
-
-The data objects (`CASE_STUDY_DATA`, `SECTOR_DATA`, `CN_NODES`, `DETAIL_DATA`) are full of long Chinese / English prose strings wrapped in `"..."`. When the prose contains an inner `"emphasis"` it breaks the string literal and the JS fails to parse.
-
-### What this looks like
-
-```javascript
-// BROKEN — unescaped inner quote
-desc: "MetaMask、Solflare 这些钱包已经把"加密资产 ↔ 法币"的入口建好了。"
-//                                       ^^^^^^^^^^^                      
-// JS sees this as: string1 = "MetaMask...已经把"
-//                  identifier = 加密资产 ↔ 法币
-//                  string2 = "的入口建好了。"
-// → SyntaxError: Unexpected identifier '加密资产'
-```
-
-### Three ways to fix
-
-**Option A (preferred for Chinese)**: Replace inner `"..."` with Chinese corner brackets `「...」`:
-
-```javascript
-desc: "MetaMask、Solflare 这些钱包已经把「加密资产 ↔ 法币」的入口建好了。"
-```
-
-**Option B**: Escape with backslashes:
-
-```javascript
-desc: "MetaMask、Solflare 这些钱包已经把\"加密资产 ↔ 法币\"的入口建好了。"
-```
-
-**Option C**: Use single-quotes for the outer string (only works if you don't have inner single-quotes — JavaScript apostrophes in English text break this):
-
-```javascript
-desc: 'MetaMask、Solflare 这些钱包已经把"加密资产 ↔ 法币"的入口建好了。'
-```
-
-For Chinese prose, A is by far the cleanest visually.
-
-### Detection
-
-After filling all four data objects, run:
-
-```bash
-python3 << 'EOF'
+python3 -c "
 import re
-with open('file.html') as f: c = f.read()
-m = re.search(r'<script>([\s\S]*?)</script>', c)
-js = m.group(1)
-script_off = c[:m.start()].count('\n') + 1
+with open('/tmp/output.html') as f: c = f.read()
+c = re.sub(r'<!--\s*⚙️ PART.*?-->\n?', '', c, flags=re.DOTALL)
+c = re.sub(r'<!--\s*✏️.*?-->\n?', '', c, flags=re.DOTALL)
+c = re.sub(r'<!-- 可选 component.*?-->\n?', '', c, flags=re.DOTALL)
+with open('/tmp/output.html','w') as f: f.write(c)
+"
+```
 
-for i, line in enumerate(js.split('\n')):
-    ln = script_off + i
-    # Find positions of unescaped "
-    poss = []
-    for j, ch in enumerate(line):
-        if ch == '"':
-            bs = 0; k = j-1
-            while k >= 0 and line[k] == '\\':
-                bs += 1; k -= 1
-            if bs % 2 == 0: poss.append(j)
-    # If 4+ unescaped " in a single line, check that text between odd-pair gaps starts with valid JS separator
-    if len(poss) >= 4:
-        for p in range(1, len(poss)-1, 2):
-            between = line[poss[p]+1:poss[p+1]].strip()
-            if not between: continue
-            if not (between[0] in ',:}{[]+=' or between.startswith(('//','&&','||','?'))):
-                print(f"L{ln}: broken string -- between quotes: {between[:60]!r}")
-                print(f"  {line[:200]}")
-                break
+---
+
+## #2 — 占位符没替换
+
+模板里有大量 `[YOUR_TOPIC]` / `[NUMBER_1]` / `[STAT_VALUE_1]` / `[N 大原则]` / `[FIRST_PRINCIPLE_HEADLINE]` 这类占位符。**任何一个留下都很尴尬**。
+
+### 怎么找
+
+```bash
+grep -nE '\[(YOUR_|NUMBER_|STAT_|N |[A-Z_]{3,})' /tmp/output.html | grep -v '<!--'
+# 应该返回 0 行（HTML 注释里的占位符不算）
+```
+
+漏一个 placeholder 就回去填，或如果章节不适用就**整个章节跳过**（不要保留半填的章节）。
+
+---
+
+## #3 — JS 数据对象 vs HTML id/data-id 错配
+
+最严重的 bug：drawer 弹出空白 = `data-id` 在 HTML 里有，但 `DETAIL_DATA` 里没对应 key。
+
+### 怎么找
+
+```javascript
+// 在 Node 里跑
+const fs = require('fs');
+const html = fs.readFileSync('/tmp/output.html','utf8');
+
+// 提取所有 CN_NODES.id
+const cnSection = html.match(/CN_NODES\s*=\s*\[([\s\S]*?)\];/);
+const cnIds = cnSection ? [...cnSection[1].matchAll(/id:\s*['"]([^'"]+)['"]/g)].map(m=>m[1]) : [];
+
+// 提取所有 data-id (badge / dd-pill)
+const dataIds = [...new Set([...html.matchAll(/data-id=['"]([^'"]+)['"]/g)].map(m=>m[1]))];
+
+// 提取所有 DETAIL_DATA key
+const detailSection = html.match(/DETAIL_DATA\s*=\s*\{([\s\S]*?)^\};/m);
+const detailKeys = detailSection ? [...detailSection[1].matchAll(/^\s*['"]([^'"]+)['"]\s*:\s*\{/gm)].map(m=>m[1]) : [];
+
+const allReferenced = [...new Set([...cnIds, ...dataIds])];
+const missing = allReferenced.filter(id => !detailKeys.includes(id));
+
+console.log('CN_NODES:', cnIds.length, '| data-id:', dataIds.length, '| DETAIL_DATA keys:', detailKeys.length);
+console.log('Missing in DETAIL_DATA:', missing.length === 0 ? '✓ 无' : missing);
+```
+
+**Missing 必须是空数组**。否则补全 `DETAIL_DATA` 里缺的 key（每个 entry 至少 4 个 bullet + 来源）。
+
+---
+
+## #4 — JS 语法错误（中文引号 / 转义）
+
+中文标点和 HTML 实体在 JS 字符串里很容易踩坑。
+
+### 怎么找
+
+```bash
+node -e "
+const fs = require('fs');
+const html = fs.readFileSync('/tmp/output.html','utf8');
+const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]);
+console.log('Script blocks:', scripts.length);
+scripts.forEach((s, i) => {
+  try { new Function(s); console.log('Block', i+1, '✓ valid'); }
+  catch(e) { console.log('Block', i+1, '✗ ERROR:', e.message); }
+});
+"
+```
+
+常见错误：
+- `desc: "Stripe 收购 Bridge "Q4 announce""` ← 内层双引号没转义 → 改用单引号或反斜杠
+- `desc: "市占率 ~17%"` 后跟 `,` 漏了 → 缺 comma
+- 中文括号 `（）` 在 string 里 OK，但作为 JS 语法 `（` 不行
+
+---
+
+## #5 — Constellation Map 节点数 / 内容深度不达标
+
+**节点数 sweet spot：18-28 个**。少于 18 → 显得空；多于 28 → 拥挤难看。
+
+### 怎么找
+
+```javascript
+// Node 里
+const html = require('fs').readFileSync('/tmp/output.html','utf8');
+const cnSection = html.match(/CN_NODES\s*=\s*\[([\s\S]*?)\];/);
+const ids = [...cnSection[1].matchAll(/id:\s*['"]([^'"]+)['"]/g)].map(m=>m[1]);
+console.log('CN_NODES count:', ids.length, '(target: 18-28)');
+
+// 每个 node 应该有 4 个字段
+const nodes = [...cnSection[1].matchAll(/\{[\s\S]*?\}/g)].map(m=>m[0]);
+const incomplete = nodes.filter(n => 
+  !n.includes('id:') || !n.includes('name:') || !n.includes('type:') || !n.includes('ring:')
+);
+console.log('Incomplete nodes:', incomplete.length, '(target: 0)');
+```
+
+每个 node 必须有 `id` / `name` / `type` / `ring` / `angle` 五项。
+
+---
+
+## #6 — Hero stats 没来源
+
+Hero 的 4 个 `<span class="detail">` 里**必须**有具体来源（年份 + 媒体 / 公司 PR）。
+
+### 怎么找
+
+```bash
+grep -A 1 'class="num"' /tmp/output.html | grep "detail" | head -5
+# 每行应该包含: SEC / 年报 / Bloomberg / CNBC / 官方 / Q1 Q2 Q3 Q4 / 2024-2026
+```
+
+如果某个 detail 写的是"约"、"近"、"行业平均"这种含糊词 → 重写带具体来源。
+
+---
+
+## #7 — 章节顺序错乱 / 跳号没说明
+
+**写完检查 sidebar nav 跟实际 section 顺序对得上**。如果跳过了 Part 7（无锚点），sidebar 也要把 Part 7 删掉。
+
+### 怎么找
+
+```bash
+# 提取 sidebar 里的 part 编号
+grep -oE 'href="#part-(\d+)"' /tmp/output.html | sort -u
+
+# 提取实际 section 的 part 编号
+grep -oE 'id="part-(\d+)"' /tmp/output.html | sort -u
+
+# 两者必须完全一致
+```
+
+---
+
+## #8 — 内容深度不达标（向 VC / CB Insights 看齐）
+
+### 自检清单
+
+每个 section 写完跑一遍：
+
+| 检查项 | 标准 | 怎么算不达标 |
+|---|---|---|
+| 有具体数字吗 | 每段至少 1 个 | "市场领先" / "增长强劲" 一个都没数字 |
+| 有来源吗 | 每个数字标 [Source: X] | "据估计" / "约" 出现 = 没来源 |
+| 有反共识吗 | Hero + Part 1 + Part 17 + Part 21 | 全篇都是常识 |
+| 可证伪吗 | 判断章节 | "未来可期" 这种话 |
+| 有死亡案例吗 | Part 9 / 12 | 只讲赢家 |
+
+---
+
+## #9 — Drawer 内容太薄
+
+drawer 不只是放公司名 + 一句话——是给读者**深挖一个节点**用的。每个 entry 至少：
+
+- `summary`：1 段（30-80 字）
+- `bullets`：3-6 条具体事实（每条带数字或时间）
+- `source`：1-3 个来源
+
+**标准对照**：写完 Stripe 那个 entry 的深度 = drawer 的最低标准。
+
+---
+
+## #10 — 视觉风格被破坏
+
+新模板使用暖米色（#F1ECDF）+ 砖红（#A0392F）+ JetBrains Mono 等宽字体。
+
+不要：
+- 改 CSS 变量颜色
+- 加 emoji 滥用（除了 hero 国旗 / 公司图标）
+- 用粗体黑色当强调（用 `<em>` 让它变砖红色）
+- 加阴影 / gradient 当装饰（破坏 editorial 调性）
+
+如果用户要求"更现代风格"——也不要在这个模板上改 CSS。建议用户用别的工具，本 skill 的视觉风格固定。
+
+---
+
+## 完整一键验证脚本
+
+写完跑这一段：
+
+```bash
+node << 'EOF'
+const fs = require('fs');
+const html = fs.readFileSync('/tmp/output.html','utf8');
+
+// 1. Template instruction strip
+const stripMatches = html.match(/⚙️ PART|何时用|何时跳|✏️ EDIT/g);
+console.log('1. Template strip:', stripMatches ? '✗ ' + stripMatches.length + ' matches' : '✓');
+
+// 2. Placeholder strip
+const placeholders = html.match(/\[(YOUR_|NUMBER_|STAT_|N\s|[A-Z_]{4,})/g);
+console.log('2. Placeholders:', placeholders ? '✗ ' + placeholders.length : '✓');
+
+// 3. JS validity
+const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
+let jsValid = true;
+scripts.forEach((s,i) => { try { new Function(s); } catch(e) { jsValid=false; console.log('JS error block', i, e.message); }});
+console.log('3. JS valid:', jsValid ? '✓' : '✗');
+
+// 4. ID consistency
+const cnSection = html.match(/CN_NODES\s*=\s*\[([\s\S]*?)\];/);
+const cnIds = cnSection ? [...cnSection[1].matchAll(/id:\s*['"]([^'"]+)['"]/g)].map(m=>m[1]) : [];
+const dataIds = [...new Set([...html.matchAll(/data-id=['"]([^'"]+)['"]/g)].map(m=>m[1]))];
+const detailSection = html.match(/DETAIL_DATA\s*=\s*\{([\s\S]*?)^\};/m);
+const detailKeys = detailSection ? [...detailSection[1].matchAll(/^\s*['"]([^'"]+)['"]\s*:\s*\{/gm)].map(m=>m[1]) : [];
+const missing = [...new Set([...cnIds, ...dataIds])].filter(id => !detailKeys.includes(id));
+console.log('4. ID match:', missing.length === 0 ? '✓ (' + cnIds.length + ' nodes + ' + dataIds.length + ' badges → ' + detailKeys.length + ' keys)' : '✗ Missing: ' + missing);
+
+// 5. Constellation count
+console.log('5. CN_NODES count:', cnIds.length >= 18 && cnIds.length <= 28 ? '✓ ' + cnIds.length : '⚠ ' + cnIds.length + ' (target 18-28)');
+
+// 6. Sidebar consistency
+const sidebarParts = [...new Set([...html.matchAll(/href="#part-(\d+)"/g)].map(m=>parseInt(m[1])))];
+const actualParts = [...new Set([...html.matchAll(/id="part-(\d+)"/g)].map(m=>parseInt(m[1])))];
+const sidebarMissing = actualParts.filter(p => !sidebarParts.includes(p));
+const sidebarOrphan = sidebarParts.filter(p => !actualParts.includes(p));
+console.log('6. Sidebar match:', (sidebarMissing.length + sidebarOrphan.length) === 0 ? '✓ (' + actualParts.length + ' parts)' : '✗ missing nav: ' + sidebarMissing + ', orphan nav: ' + sidebarOrphan);
+
 EOF
 ```
 
-This catches the pattern. Lines from template-literal blocks (with backticks) will produce false positives — ignore those (they're the renderer functions, not data).
-
-### Final validation
-
-```bash
-node -e '
-const fs = require("fs");
-const m = fs.readFileSync("file.html","utf8").match(/<script>([\s\S]*?)<\/script>/);
-try { new Function(m[1]); console.log("✓ JS syntax OK"); }
-catch(e) { console.log("✗", e.message); process.exit(1); }
-'
-```
-
-If this fails with `Unexpected identifier '<some text>'`, you have an unescaped inner quote on the line containing that text.
-
-## #3 — DETAIL_DATA / CN_NODES / archetype-badge id mismatch
-
-Drawers open by looking up `DETAIL_DATA[id]`. If a node's `id` in `CN_NODES` or a badge's `data-id` doesn't have a matching key in `DETAIL_DATA`, clicking it does nothing (no error in console either — the renderer silently returns).
-
-### Detection
-
-```bash
-node -e '
-const fs = require("fs");
-const html = fs.readFileSync("file.html","utf8");
-const nodes = [...new Set([...html.matchAll(/{ id: "([^"]+)"/g)].map(m=>m[1]))];
-const badges = [...new Set([...html.matchAll(/data-id="([^"]+)"/g)].map(m=>m[1]))];
-const keys = [...new Set([...html.matchAll(/^\s*"([^"]+)":\s*\{/gm)].map(m=>m[1]))];
-console.log("CN_NODES count:", nodes.length);
-console.log("Badge count:", badges.length);
-console.log("nodes ∉ DETAIL_DATA:", nodes.filter(x => !keys.includes(x)));
-console.log("badges ∉ DETAIL_DATA:", badges.filter(x => !keys.includes(x)));
-'
-```
-
-Both "missing" arrays should be empty.
-
-**Common cause**: Renaming a node id without updating `DETAIL_DATA`, or adding a new badge in HTML and forgetting to add a matching `DETAIL_DATA[case-X]` entry.
-
-## #4 — Placeholder text in `[Chinese full-width brackets]` left behind
-
-The template uses `[bracket placeholders]` in both English and Chinese. English ones (`[YOUR INDUSTRY]`, `[Industry]`, `[关键概念]`) are easy to grep. But the Chinese full-width brackets (`【关键概念】`) and the half-width Chinese-context brackets (`[关键概念]` — same `[` `]` chars but with Chinese inside) are easy to miss.
-
-### Detection
-
-```bash
-grep -nE '\[(YOUR|Industry|highlight|关键概念|玩家|事实|来源|相关性|副标|描述|条件|地区|对象|案例|关键|简短|简介|简短副标|地区/对象|玩家 \d|事实 \d)' file.html
-```
-
-Should return zero matches.
-
-## #5 — Constellation Map with too few nodes looks empty
-
-The constellation SVG is a 960×720 viewBox with 3 large rings. With fewer than ~15 nodes, there's a lot of empty space and the visual feels broken. Three options:
-
-1. **Get more entities** — expand the scope of the report or include adjacent players
-2. **Tighten the rings** — reduce the ring radii in the SVG `<circle>` elements (e.g., 90 / 180 / 260 instead of 125 / 230 / 320) and reduce node coordinates accordingly
-3. **Skip Part 5 entirely** — remove the section from HTML and TOC
-
-If you ship Part 5 with 5–10 nodes, the report looks unfinished. Always pick one of these three.
-
-## #6 — Renderer functions break when data is missing
-
-The renderers (`renderCase`, `renderSector`, `renderConstellation`) return early when called with a nonexistent key:
-
-```javascript
-function renderCase(key){
-  const d = CASE_STUDY_DATA[key]; if(!d) return;
-  // ...
-}
-```
-
-So they don't error. But the initial render call at the bottom of the script:
-
-```javascript
-renderCase('region-a');
-renderSector('sector-1');
-renderConstellation('all');
-```
-
-silently does nothing if `'region-a'` isn't a key. The result: the reader clicks a tab and nothing happens.
-
-If you skip Part 3 or Part 4, also remove the corresponding initial render call. If you keep the parts but rename the first tab id, update the initial render call to match.
-
-## #7 — TOC navigation links pointing to skipped sections
-
-The `<nav class="toc">` block has `<a href="#part-N">` links. If you skip a part (e.g., remove Part 4), also remove its TOC link. Leaving dead links produces "anchor not found" jumps that scroll to nowhere.
-
-If you add a part (e.g., insert Part 6.5), remember to add its TOC link.
-
-## #8 — Mobile responsiveness traps
-
-The template's TOC sidebar uses `@media(max-width:1500px){.toc{display:none!important;}}` — it hides on screens narrower than 1500px to prevent overlap with main content. This is correct behavior (don't change it).
-
-But: the `.matrix-2x2` 2×2 quadrant uses `aspect-ratio: 1.45/1`. On portrait/mobile widths it switches to `aspect-ratio: 1/1.45` and the column structure changes. If you put very long text in a quadrant title, it can overflow. Keep `matrix-quad-title` to ≤6 words.
-
-The `.condition-strip` 5-card row collapses to 2 columns at <900px and 1 column at <600px. Cards in this layout shouldn't have `min-height` overrides that break stacking.
-
-## #9 — Center node SVG hardcoded outside CN_NODES
-
-The Constellation center node (Mastercard / Stripe / whatever the report's subject is) is rendered by a hardcoded `<g class="cn-node">` block in the SVG, NOT by the `CN_NODES` array. To change the center label/subtitle, edit the SVG directly:
-
-```html
-<g class="cn-node">
-  <circle cx="480" cy="360" r="48" class="cn-circle center"/>
-  <text x="480" y="354" ...>Mastercard</text>
-  <text x="480" y="370" ...>NYSE:MA · ~$520B</text>
-</g>
-```
-
-Forgetting this leaves the center showing template placeholder text.
-
-## #10 — Center gradient color stuck at template default
-
-The radial gradient at the center uses three `stop-color` values inside `<defs><radialGradient id="centerGradient">`. The default is purple (`#A57AC0` / `#7B4FA0` / `#4A2D6E`). Most reports look better with a brand-matched gradient:
-
-- For payments / fintech: `#FF7F50` / `#EB001B` / `#A0392F` (Mastercard-ish red)
-- For tech / AI: a deep blue gradient (`#6FA8DC` / `#3D85C6` / `#073763`)
-- For climate / nature: a green gradient (`#93C47D` / `#38761D` / `#274E13`)
-
-Match the gradient to your subject for visual coherence with the rest of the report.
-
-## Final checklist before `present_files`
-
-```bash
-# 1. No template instructions remaining
-grep -nE "INTERACTIVE FIELD GUIDE TEMPLATE|EDIT_HERO|EDIT_PART|EDIT_FOOTER|✏️|⚙️|CONFIG 对象|HTML 段落|HTML 5 张卡|JSPART" file.html
-# Expect: 0 lines
-
-# 2. No unfilled placeholders
-grep -nE '\[(YOUR|Industry|highlight|关键概念|玩家|事实|来源|相关性|副标|描述|条件|地区|对象|案例|关键|简短|简介|简短副标)' file.html
-# Expect: 0 lines
-
-# 3. JS parses
-node -e '
-const m = require("fs").readFileSync("file.html","utf8").match(/<script>([\s\S]*?)<\/script>/);
-try { new Function(m[1]); console.log("✓"); } catch(e) { console.log("✗", e.message); process.exit(1); }
-'
-# Expect: ✓
-
-# 4. All node/badge ids have DETAIL_DATA entries
-node -e '
-const html = require("fs").readFileSync("file.html","utf8");
-const ids = [...new Set([...html.matchAll(/{ id: "([^"]+)"/g)].map(m=>m[1]))];
-const badges = [...new Set([...html.matchAll(/data-id="([^"]+)"/g)].map(m=>m[1]))];
-const keys = [...new Set([...html.matchAll(/^\s*"([^"]+)":\s*\{/gm)].map(m=>m[1]))];
-console.log("missing:", [...ids, ...badges].filter(x => !keys.includes(x)));
-'
-# Expect: missing: []
-```
-
-If all four checks pass, you're ready to deliver.
+6 项全 ✓ 才能交付。

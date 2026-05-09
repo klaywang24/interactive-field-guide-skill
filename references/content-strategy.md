@@ -1,144 +1,159 @@
-# Content Strategy
+# Content Strategy · 写作深度标准
 
-The visual template is only as good as what fills it. This file is about sourcing — where to look, what counts as substantive, and how to integrate external voices.
+这份手册的产物要对得起 **VC 投决会用 / 顶级二级 PM 看 / CB Insights 直接发表**的水准。下面是怎么做到。
 
-## The substance bar
+---
 
-A field guide is the format you reach for when a markdown report would feel flat. That promise is broken if the content is the same prose-density as a markdown report. The aspiration is: every section should make the reader pause, not skim.
+## 数据来源 — 11 类独立可验证源
 
-Quick test for a section that's pulling its weight:
-- The lede makes a specific, defensible claim (not a description of the topic)
-- At least one number, name, or quote in the section is something the reader hadn't already seen elsewhere
-- The reader could quote a sentence from the section in a Slack message and it would land
+每条事实必须出自下列之一。不允许只引用一个商业媒体。
 
-If two of those three fail, the section needs more work or should be cut.
+### Tier 1 · 公开权威 (always cite first)
+1. **公司年报 / 10-K / 8-K**（SEC EDGAR / 港交所披露 / A 股公告）
+2. **官方 PR / 发布会**（公司官网 / IR 页 / 发言稿）
+3. **监管文件**（FTC / SEC / 央行 / OCC / FCA / MAS / VARA）
+4. **学术 / 行业研究**（Berkeley / MIT 论文、Federal Reserve 研报）
 
-## Independent analysts: the shortlist
+### Tier 2 · 媒体与分析师
+5. **Bloomberg / Reuters / FT / WSJ**（事实核查严格）
+6. **TechCrunch / The Information / CNBC / Forbes**（融资 / 收购）
+7. **独立分析师 newsletter**（Stratechery / Net Interest / Acquired / Not Boring）
 
-For any company / industry / strategy topic, search these before falling back to news aggregators. Each has a distinctive analytical voice:
+### Tier 3 · 数据库 / 估算
+8. **Crunchbase / PitchBook / Tracxn**（融资历史）
+9. **CB Insights / Statista / a16z 报告**（行业估算）
+10. **Twitter / Substack 公开发言**（创始人 / 高管声明）
+11. **directional estimate**（自己根据公开数据推算 — 必须标注）
 
-| Source | Author | Niche | URL |
-|---|---|---|---|
-| Net Interest | Marc Rubinstein | fintech, banking, payments, insurance | netinterest.co |
-| Bits about Money | Patrick McKenzie (patio11) | payments infrastructure, banking ops, fraud | bitsaboutmoney.com |
-| Acquired | Gilbert / Rosenthal | multi-hour deep dives on great companies | acquired.fm |
-| Business Breakdowns | Joincolossus | single-company analytical episodes | joincolossus.com |
-| Stratechery | Ben Thompson | tech business strategy / aggregation theory | stratechery.com |
-| The Diff | Byrne Hobart | finance + tech intersection | diff.substack.com |
-| Not Boring | Packy McCormick | narrative-driven company analysis | notboring.co |
-| Money Stuff | Matt Levine (Bloomberg) | finance / markets daily | bloomberg.com/opinion |
-| Doomberg | (anonymous team) | energy, commodities, macro | doomberg.substack.com |
-| Money Inside Out | Lillian Li | China tech, fintech | moneyinsideout.substack.com |
-| Tom Tunguz | Theory Ventures | SaaS metrics, GTM | tomtunguz.com |
+**比例参考**：一篇优质报告里 Tier 1 + Tier 2 占 70%+，Tier 3 + 估算 ≤ 30%。
 
-For original primary research:
-- SEC filings (sec.gov/edgar) — for any US-public company financial data, cite 8-K / 10-K directly, not aggregator summaries
-- Earnings call transcripts (Motley Fool / Seeking Alpha) — CEO-attributed quotes from these are gold
-- Treasury Borrowing Advisory Committee reports (home.treasury.gov) — for stablecoin / Treasury-market topics
-- McKinsey Global Institute, BCG, Bain reports — for market-size figures
-- Federal Reserve research papers (federalreserveboard.gov) — for monetary / payment-system topics
+---
 
-## Search query patterns
+## 写每个数字时的 4 步检查
 
-Effective queries to find substantive analysis (replace `[topic]` with your subject):
+每写一个数字停下来：
 
-- `"Net Interest" [topic]` → finds Marc Rubinstein's coverage
-- `"Bits about Money" [topic]` or `patio11 [topic]` → patio11's coverage
-- `Acquired podcast [topic]` → Gilbert/Rosenthal episode if it exists
-- `Stratechery [topic]` → Ben Thompson if he's covered it
-- `[topic] Substack` → finds the highest-signal Substacks on the topic
-- `[topic] earnings call transcript` → for direct CEO quotes
-- `[topic] 8-K 10-K SEC` → for primary financial filings
+1. **来源标注了吗？** [Source: SEC 10-K Q4 FY2026 p.42] — 不允许"据估计"、"约"、"近"
+2. **时间精确吗？** "2026 Q1" 比 "2026" 好。"2026/02/14 tender" 比 "2026 Q1" 好
+3. **比较对象给了吗？** "$5.23T 市值（全球第一，> 沙特阿美 + 苹果之和）" 比 "$5.23T 市值（巨大）" 好
+4. **可证伪吗？** "毛利率 75.0%" 比 "毛利率高" 好；"YoY +65%" 比 "增长强劲" 好
 
-Always prefer dated, named-author sources over undated SEO content.
+---
 
-## The "Outside Voices" pattern (Part 6.5)
+## Hero 写作 — 最重要的 200 字
 
-This is the highest-leverage section the template can render. When you have 3+ independent-analyst sources, build a Part 6.5 between Part 6 and Part 7 with this structure:
+Hero 决定读者要不要继续往下看。Hero 必须有：
 
-```html
-<section class="section" id="part-6-5">
-  <div class="section-num">PART 6.5 · 外部视角</div>
-  <h2>Four independent analysts read <em>[Subject]</em></h2>
-  <p class="lede">[1-2 sentence framing of why these voices matter]</p>
+- **可被反驳的具体论点**（不是"NVIDIA 是 AI 龙头"这种废话）
+- **3-5 个关键判断**用 `<strong>` 串起来
+- **4 个数字**在不同维度（不能 4 个都是估值）
+- **每个数字带具体来源**（CNBC / 年报 / SEC / 官方）
 
-  <div class="callout investor"><span class="callout-label">VOICE 01 · [Author] · [Source] (date)</span>
-    <p>[1-3 sentences paraphrasing or short-quoting the argument]</p>
-    <p>[1 sentence connecting to your report's thesis]</p>
-    <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>: [Article title], [Source], [date]</p>
-  </div>
+### 好的 Hero 例子
+> "**Stripe 已经不是一个支付处理商**——它是一台为 AI 经济重铸的**三层垂直栈**——商家、轨道、Token。
+> 过去 12 个月 Stripe 同时押下三个垂直整合的 bet：与 OpenAI 联合定义 agentic commerce 协议、收购 Bridge / Privy / Metronome 三块拼图、与 Paradigm 联合孵化 Tempo L1 链。"
 
-  <div class="callout lesson">[Voice 02 - rotate color: lesson]</div>
-  <div class="callout fact">[Voice 03 - rotate: fact]</div>
-  <div class="callout data">[Voice 04 - rotate: data]</div>
+判断：✅ 反共识（"不是支付处理商"）✅ 具体（三层栈）✅ 论据（3 件具体动作）
 
-  <div class="callout fact" style="margin-top:24px;"><span class="callout-label">[Synthesis]</span>
-    <p>[The cross-source meta-pattern: what do these four voices, from different angles, agree on? This is where the section earns its place.]</p>
-  </div>
-</section>
-```
+### 差的 Hero 例子
+> "Stripe 是全球领先的支付公司。它估值 $159B，2025 年 TPV $1.9T。本手册深入分析 Stripe 的战略生态。"
 
-The synthesis callout at the end is critical. Without it, the section is just a quote dump. With it, it becomes the report's analytical climax.
+判断：❌ 共识（人人都知道）❌ 描述（不是判断）❌ 没有"why this matters"
 
-**Color rotation**: `investor` (teal) → `lesson` (sky) → `fact` (red) → `data` (gold). Different left-border colors create rhythm. Don't use the same color for all four.
+---
 
-## Quote integration patterns
+## 反共识章节（Part 1 / 17 / 21）
 
-### Inline quote
-Short attributable quote inside body prose. Use sparingly (1–2 per part).
+每篇报告必须至少有 **3 处反共识判断**：
 
-```html
-<p>Marc Rubinstein on stablecoins: "稳定币的采用正在和加密市场周期脱钩——它已经不是投机工具，而是基础设施。" (<em>Net Interest</em>, 2025-05)</p>
-```
+### 反共识判断的 3 个特征
+1. **直接挑战常识**："NVIDIA 真正的护城河是 CUDA，不是芯片设计"
+2. **可证伪**：给出"如果观察到 X，我的判断错"的明确条件
+3. **有证据链**：不只是反对，还要有数字 / 案例支撑
 
-### Callout quote
-Featured quote as its own callout. Use for the strongest single observation in a section.
+### 怎么找反共识
+- 看大众媒体怎么讲这家公司 / 这个赛道 → 写出他们漏掉 / 错估的部分
+- 看分析师 consensus 估值 → 给出 disagree 的具体原因
+- 看创始人 / CEO 的公开发言 → 哪些是 PR、哪些是真信号
+- 看历史死亡案例 → 这次为什么不一样（或者一样）
 
-```html
-<div class="callout investor"><span class="callout-label">外部观察 · Acquired podcast (Nov 2023)</span>
-  <p>"Visa is a <strong>government-enabled duopoly</strong> with 50%+ net margins on $30B+ revenue."</p>
-  <p>The implication for [your subject]: [tie-back sentence].</p>
-</div>
-```
+---
 
-### Composite paraphrase
-Several short quotes from the same source woven into a narrative paragraph. Use when the full argument matters more than any single line.
+## 综合判断（Part 21）— 最重要的 300 字
 
-```html
-<p>Patrick McKenzie's framing in <em>Bits about Money</em> is that financial infrastructure is heavily path-dependent, that "we're (oft unknowingly) standing atop decades and centuries of work which came before," and that the right way to build new financial products is "in the smart layer above the dumb substrate" rather than trying to replace the substrate itself.</p>
-```
+读者最后会跳到 Part 21 看你的结论。这里不能是温吞水。
 
-## Citation discipline
+### 三档结构
+- **Tier 1 强买入 / 强 thesis**：明确条件下值得 all-in 的判断
+- **Tier 2 持有观察 / 中性**：等待信号的领域
+- **Tier 3 跳过 / 避雷**：明确不该追的方向
 
-Every external source cited in the body should also appear in Part 12's sources block. Conversely, every source in Part 12 should be referenced at least once in the body — uncited sources signal padding.
+### 90/180 天行动清单
+读者看完应该能立刻执行。例子：
 
-For Part 12, organize sources into named categories with `<h4>` subheaders:
-1. Independent analysts (Newsletter / Podcast)
-2. Primary sources (SEC, regulatory bodies, earnings calls)
-3. Aggregators (Crunchbase, CB Insights, Yahoo Finance)
-4. Topic-specific sources (e.g., "Stablecoin / blockchain events" if relevant)
+✅ "未来 30 天观察 NVIDIA Q2 FY27 营收 guidance：超 $50B → 强买入信号；低于 $42B → 调降至 Tier 2"
+❌ "保持关注 NVIDIA 的财报"
 
-For each independent analyst, include: author + outlet + 1–3 specific article titles + date + URL. Aggregators can be listed by name only.
+### 反共识声明（必有）
+"本手册的 [X 项判断] 与市场 consensus 相反。如观察到 [Y 信号]，我会修正。"
 
-## Avoiding shallow patterns
+---
 
-These are common shallow patterns to watch for and reject:
+## 给不同主题的写作 hook
 
-- **Citing 5 news headlines from the past month** instead of 1 deep-dive article from any time. Depth > recency on any topic that isn't actively breaking.
-- **Quoting CEO talking points** without context. CEOs say what investors want to hear; the analytical value is in what an outside observer notices that the CEO won't say.
-- **"According to recent reports..."** — name the report.
-- **"Industry experts believe..."** — name the experts.
-- **Numerical claims without an SEC filing or primary-source URL** — for any company financial figure, the source must be the company's own filing, not a third-party article that paraphrases the filing.
+### 公司基本面分析（NVIDIA / Stripe 那种）
+- Hero 论点：这家公司"真正"是什么（往往不是表面身份）
+- 重点：护城河四件事拆解 + 三种估值场景 + 具体观察指标
+- 必有 part：1, 7, 8, 11, 14, 21
 
-## Sourcing for the Part 5 Constellation Map drawer content
+### 行业 / 板块研究（半导体 / 新能源车那种）
+- Hero 论点：这个赛道的"权力转移"或"格局重构"在发生什么
+- 重点：8 板块拆解 + 死活规律 + 5 大根本分歧
+- 必有 part：3, 5, 6, 7, 8, 9, 11, 13, 17, 21
 
-Each `DETAIL_DATA[node-X]` entry has 3–5 `bg` bullets and a `relevance` paragraph. The minimum bar:
+### 创业 / VC 主题（fintech 创业 / AI Agent 创业）
+- Hero 论点：这个赛道里"被忽视的窗口"是什么
+- 重点：可移植性条件 + 痛点矩阵 + GTM 策略 + 退出路径
+- 必有 part：3, 4, 13, 14, 15, 16, 18, 19, 21
 
-- One bullet on founders / founding (year, who, where they came from)
-- One bullet on size (revenue, valuation, user count, employees — pick the most accurate metric you can verify)
-- One bullet on a recent action (last 12 months: funding round, partnership, product launch)
-- One bullet on the specific connection to the report's subject (why this entity is on this map)
+### 单一事件 / 趋势分析（Stripe Bridge 收购 / OpenAI 100B）
+- Hero 论点：这件事的"二阶含义"是什么
+- 重点：时间线 + 反共识 + 90 天观察清单
+- 必有 part：1, 11, 17, 20, 21
 
-`relevance` paragraph (2–4 sentences): Don't repeat the bullets. Answer "so what does this mean for the report's reader?" — is this entity a competitor, a partner candidate, a comp for valuation, a cautionary tale?
+---
 
-`src`: Always include a concrete source — "Crunchbase · TechCrunch 2025-Q3" beats "various sources".
+## 长度规范
+
+| 主题类型 | 总字数（中文） | Part 数 |
+|---|---|---|
+| 完整学习指南 | 15,000-25,000 | 18-22 |
+| 板块研究 | 8,000-15,000 | 13-16 |
+| 公司基本面 | 6,000-12,000 | 11-13 |
+| 战略生态地图 | 5,000-10,000 | 10-12 |
+| 单一事件分析 | 3,000-6,000 | 7-9 |
+
+**字数密度**：每 1000 字至少 5 个数字 / 5 个公司名 / 3 个来源标注。低于这个密度 = 水。
+
+---
+
+## 不要写的句式
+
+| ❌ 不要 | ✅ 改成 |
+|---|---|
+| "市场领先" | "市占率 31.4%（Bloomberg, 2026 Q1）" |
+| "增长迅速" | "YoY +65% 至 $215.9B（Q4 FY26）" |
+| "竞争激烈" | "前 5 名 CR5 = 67%，3 年降 12pp" |
+| "护城河深" | "switching cost = 6-9 个月、$2-5M（参考 Snowflake → Databricks 迁移案例）" |
+| "未来可期" | "未来 12 月观察 [具体 KPI]，超 [阈值] 触发 [行动]" |
+| "值得关注" | "Tier 2 持有观察 — 等 [信号 X] 出现升级 Tier 1" |
+
+---
+
+## 给读者的承诺（写在 Hero 或 Part 1 末尾）
+
+每篇报告必须有这一段：
+
+> "所有数据可验证、有出处。涉及估算的数据明确标 *directional estimate*。本手册的判断会随新数据更新——观察 [具体指标] 出现 [具体变化] 时，我会修正。"
+
+这是把"研究报告"和"营销内容"区分开的关键标记。

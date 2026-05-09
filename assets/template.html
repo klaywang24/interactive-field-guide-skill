@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[YOUR INDUSTRY] · Interactive Field Guide Template</title>
+<title>[YOUR_TOPIC] · Interactive Field Guide</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 :root{--bg:#F1ECDF;--bg-card:#FAF6E8;--bg-card-hover:#F5EFD9;--bg-deep:#EBE5D6;--ink:#1A1410;--ink-soft:#3D352D;--ink-light:#8A7E6E;--muted:#6B5D4F;--accent:#A0392F;--accent-soft:#C16B5C;--accent-light:#E8C9C2;--gold:#B8893E;--gold-light:#F0E1C2;--teal:#2D4A48;--teal-light:#C8DBD8;--moss:#5A7A4A;--moss-light:#DCE5D2;--sky:#5C7C9A;--sky-light:#D4DEE8;--rule:#C8BFA8;--rule-soft:#D8CFB8;}
@@ -117,6 +117,94 @@ a{color:var(--accent);text-decoration:none;border-bottom:1px dotted;transition:c
 .sector-insight strong{color:var(--ink);font-weight:600;}.sector-insight em{color:var(--accent);font-style:normal;font-weight:600;}
 .sector-players{margin-top:12px;padding-top:12px;border-top:1px dashed var(--rule);font-size:12.5px;line-height:1.65;color:var(--muted);}
 .sector-players strong{color:var(--ink);}
+
+.sector-painpoint{margin:14px 0;padding:14px 18px;background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 4px 4px 0;font-size:13.5px;line-height:1.7;color:var(--ink-soft);}
+.sector-painpoint strong{color:var(--accent);font-weight:600;}
+
+.sector-subhead{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--ink);text-transform:uppercase;font-weight:600;margin:22px 0 10px;border-bottom:1px solid var(--rule);padding-bottom:6px;}
+.sector-subhead.living{color:var(--moss);}
+.sector-subhead.dead{color:var(--accent);}
+.sector-subhead.smile{color:var(--gold);}
+.sector-subhead.regions{color:var(--sky);}
+
+.subdomain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:8px 0 16px;}
+.subdomain-pill{background:var(--bg-card);border:1px solid var(--rule);border-radius:4px;padding:10px 12px;font-size:12px;line-height:1.5;}
+.subdomain-pill strong{color:var(--ink);font-size:12.5px;display:block;margin-bottom:3px;}
+.subdomain-pill .sd-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);background:var(--accent-light);padding:1px 6px;border-radius:2px;margin-right:5px;letter-spacing:.04em;}
+.subdomain-pill .sd-cos{color:var(--muted);font-size:11px;}
+
+.company-table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--bg-card);}
+.company-table th{background:var(--bg-deep);font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600;padding:8px 10px;text-align:left;border-bottom:1px solid var(--rule);}
+.company-table td{padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.5;}
+.company-table tbody tr:hover{background:var(--bg-card-hover);}
+.company-table .col-name{font-weight:600;color:var(--ink);white-space:nowrap;}
+.company-table .col-stat{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);text-align:right;white-space:nowrap;}
+.company-table .col-yr{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+.company-table .dead-row td{background:rgba(160,57,47,.04);}
+.company-table .dead-row .col-name{color:var(--accent);}
+
+.tag-b2b,.tag-b2c{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:8.5px;padding:1px 5px;border-radius:2px;margin-right:3px;letter-spacing:.04em;font-weight:600;}
+.tag-b2b{background:var(--sky-light);color:var(--sky);}
+.tag-b2c{background:var(--moss-light);color:var(--moss);}
+
+.cause-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:2px;font-weight:600;letter-spacing:.04em;}
+.cause-fraud{background:#5a1010;color:white;}
+.cause-macro{background:var(--accent);color:white;}
+.cause-model{background:var(--gold);color:white;}
+.cause-ops{background:var(--sky);color:white;}
+
+.smile-bar-wrap{display:grid;grid-template-columns:1fr 200px 1fr;gap:8px;align-items:center;padding:4px 0;}
+@media(max-width:720px){.smile-bar-wrap{grid-template-columns:1fr 130px 1fr;}}
+.smile-bar-wrap .bar-label-mid{font-family:'Noto Serif SC',serif;font-size:13px;text-align:center;color:var(--ink);font-weight:500;line-height:1.3;padding:0 4px;}
+.smile-bar-wrap .bar-label-mid .bar-sub{display:block;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted);font-weight:400;margin-top:2px;}
+.smile-headers{display:grid;grid-template-columns:1fr 200px 1fr;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px;}
+@media(max-width:720px){.smile-headers{grid-template-columns:1fr 130px 1fr;}}
+.smile-headers .h-left{text-align:right;padding-right:8px;}.smile-headers .h-mid{text-align:center;}.smile-headers .h-right{padding-left:8px;}
+
+.fact-block{display:flex;align-items:flex-start;gap:14px;margin:12px 0;padding:12px 14px;background:var(--bg-deep);border-radius:4px;}
+.fact-block .fact-icon{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:3px;flex-shrink:0;}
+.fact-block .fact-text{font-size:13.5px;line-height:1.65;color:var(--ink-soft);}
+
+/* ==== Accordion (Part 13 principles + Part 16 paths) ==== */
+.accordion-list{margin:18px 0;}
+.accordion-item{background:var(--bg-card);border:1px solid var(--rule);border-radius:6px;margin-bottom:10px;overflow:hidden;transition:border-color .2s, box-shadow .2s;}
+.accordion-item:hover{border-color:var(--accent);}
+.accordion-item.open{border-color:var(--accent);box-shadow:0 4px 14px rgba(160,57,47,.08);}
+.accordion-header{display:grid;grid-template-columns:60px 1fr auto;gap:14px;align-items:center;padding:16px 20px;cursor:pointer;user-select:none;background:transparent;transition:background .2s;}
+.accordion-header:hover{background:var(--bg-deep);}
+.accordion-item.open .accordion-header{background:var(--bg-deep);border-bottom:1px solid var(--rule);}
+.accordion-num{font-family:'Fraunces',serif;font-size:38px;font-weight:500;color:var(--moss);text-align:center;line-height:1;}
+.accordion-item.path-item .accordion-num{color:var(--sky);}
+.accordion-title-block .accordion-title{font-family:'Fraunces',serif;font-size:18px;font-weight:500;color:var(--ink);margin:0;line-height:1.3;}
+.accordion-title-block .accordion-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.06em;margin-top:4px;display:block;text-transform:uppercase;}
+.accordion-toggle{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--accent);transition:transform .35s ease;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid var(--rule);background:white;}
+.accordion-item.open .accordion-toggle{transform:rotate(45deg);background:var(--accent);color:white;border-color:var(--accent);}
+.accordion-body{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.accordion-item.open .accordion-body{max-height:3000px;}
+.accordion-content{padding:20px 24px 22px;}
+.accordion-summary{font-size:13.5px;color:var(--ink-soft);line-height:1.7;margin:0 0 14px;}
+.accordion-summary strong{color:var(--ink);font-weight:600;}
+.accordion-summary em{color:var(--accent);font-style:normal;font-weight:600;}
+
+/* ==== DD pillar grid (Part 14) — clickable to open drawer ==== */
+.dd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px;}
+.dd-pill{background:var(--bg-card);border:1px solid var(--rule);border-radius:6px;padding:16px 18px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;}
+.dd-pill::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent);transform:scaleY(0);transform-origin:bottom;transition:transform .3s;}
+.dd-pill:hover{border-color:var(--accent);box-shadow:0 4px 14px rgba(160,57,47,.1);transform:translateY(-1px);}
+.dd-pill:hover::before{transform:scaleY(1);}
+.dd-pill.gold{border-left:4px solid var(--gold);}
+.dd-pill.accent{border-left:4px solid var(--accent);}
+.dd-num{font-family:'Fraunces',serif;font-size:24px;font-weight:500;color:var(--accent);line-height:1;margin-bottom:4px;display:block;}
+.dd-name{font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.dd-hint{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+.dd-pill .dd-arrow{position:absolute;top:14px;right:14px;color:var(--muted);font-size:14px;transition:transform .3s, color .3s;}
+.dd-pill:hover .dd-arrow{color:var(--accent);transform:translateX(2px);}
+
+.sector-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 18px;}
+@media(max-width:600px){.sector-stat-row{grid-template-columns:1fr;}}
+.sector-stat{background:var(--bg-card);border:1px solid var(--rule);padding:12px 14px;border-radius:4px;}
+.sector-stat .num{font-family:'Fraunces',serif;font-size:24px;font-weight:500;color:var(--ink);display:block;line-height:1.1;}
+.sector-stat .label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-top:4px;display:block;}
 
 .tl-grid{display:grid;gap:14px;margin:32px 0;}
 .tl-card{background:var(--bg-card);border:1px solid var(--rule);border-radius:4px;padding:0;display:grid;grid-template-columns:110px 1fr;overflow:hidden;transition:all .2s;}
@@ -252,52 +340,6 @@ table strong{color:var(--ink);font-weight:600;}
 </style>
 </head>
 <body>
-<!--
-============================================================================
-  📘 INTERACTIVE FIELD GUIDE TEMPLATE · 编辑指南
-  ============================================================================
-  这是一个可重用的行业研究 HTML 模板。所有交互组件已就绪 —— 你只需要填充内容。
-
-  ▍如何使用本模板
-  ────────────────────────────────────────────────
-  1. 整篇文档分两类内容:
-     A. 静态文字 (HTML 内) —— 标记为 <!-- ✏️ EDIT_X -->,直接改文字即可
-     B. 交互数据 (JS 内) —— 在文件底部 SCRIPT 标签里的 CONFIG 对象里改
-  
-  2. 12 个 Part 的内容类型 + 编辑位置:
-     ✏️ Part 1   序言/第一性原理      → HTML 段落
-     ✏️ Part 2   5 项条件 / 关键框架   → HTML 5 张卡
-     ⚙️  Part 3   案例研究 (Tab 切换)   → JS · CASE_STUDY_DATA
-     ⚙️  Part 4   板块分析 (paired bar) → JS · SECTOR_DATA
-     ⚙️  Part 5   Constellation Map    → JS · CN_NODES + DETAIL_DATA
-     ⚙️  Part 6   2×2 战略象限          → HTML 4 个 quadrant + JS DETAIL_DATA
-     ✏️ Part 7   匹配矩阵 (热力表)     → HTML 表格
-     ✏️ Part 8   主题深度研究 (可选)   → HTML
-     ✏️ Part 9   近期重大事件 (可选)   → HTML
-     ⚙️  Part 10  时间线 (5 张卡)       → HTML 直接改
-     ✏️ Part 11  分档结论              → HTML 3 档
-     ✏️ Part 12  术语 + 数据来源       → HTML 列表
-  
-  3. 配色定制 (CSS 顶部 :root 变量):
-     --accent  主色 (当前砖红 #A0392F)
-     --gold    辅色 (当前金色)
-     --teal    辅色 (当前墨青)
-     Constellation 中心紫色渐变在 svg 内的 #centerGradient (可改为任何渐变)
-
-  4. 所有交互组件已经 wired up:
-     · Tab 切换 → 自动渲染对应数据
-     · Paired bar 图 → 根据 SECTOR_DATA 数值自动绘制
-     · Constellation 节点 → 点击触发 drawer
-     · 2×2 矩阵 archetype-badge → 点击触发 drawer
-     · ⌘K 全文搜索 / ⌘G 术语表 / ⌘/ 深色模式
-     · Drawer / Modal / TOC / 进度条 全部就绪
-  
-  5. 不要改的部分:
-     · CSS 中的组件样式 (除了上面的颜色变量)
-     · JS 中的渲染函数 (renderCase / renderSector / renderConstellation 等)
-     · Drawer / Modal 的 HTML 结构
-============================================================================
--->
 <div class="progress-bar" id="progressBar"></div>
 <div class="toolbar">
   <button class="icon-btn" id="searchBtn" title="搜索"><span>🔍</span><span>搜索</span><span class="kbd">⌘K</span></button>
@@ -305,400 +347,619 @@ table strong{color:var(--ink);font-weight:600;}
   <button class="icon-btn" id="darkBtn" title="切换深色"><span>◐</span></button>
 </div>
 <nav class="toc" id="toc">
-  <h4>目录</h4>
+  <h4>目录 · 22 Parts (use as needed)</h4>
   <ul>
-    <li><a href="#part-1">序言 · 第一性原理</a></li>
-    <li><a href="#part-2">[关键框架名称]</a></li>
-    <li><a href="#part-3">[案例研究]</a></li>
-    <li><a href="#part-4">[板块分析]</a></li>
-    <li><a href="#part-5">[Constellation Map]</a></li>
-    <li><a href="#part-6">[2×2 战略象限]</a></li>
-    <li><a href="#part-7">[匹配矩阵]</a></li>
-    <li><a href="#part-8">[主题深度] (可选)</a></li>
-    <li><a href="#part-9">[近期重大事件] (可选)</a></li>
-    <li><a href="#part-10">[时间线]</a></li>
-    <li><a href="#part-11">综合判断</a></li>
-    <li><a href="#part-12">术语 + 来源</a></li>
+    <li><a href="#part-1">1 · 第一性原理 / 序言</a></li>
+    <li><a href="#part-2">2 · 数据可信度承诺</a></li>
+    <li><a href="#part-3">3 · 核心条件 / 框架（5 项）</a></li>
+    <li><a href="#part-4">4 · 锚点案例 · 4 维度拆解</a></li>
+    <li><a href="#part-5">5 · 板块深度 (Tab 切换) ⭐</a></li>
+    <li><a href="#part-6">6 · 横向对比表 (微笑曲线)</a></li>
+    <li><a href="#part-7">7 · Constellation Map</a></li>
+    <li><a href="#part-8">8 · 玩家原型 2×2 战略象限</a></li>
+    <li><a href="#part-9">9 · 死亡 vs 成功 2×2</a></li>
+    <li><a href="#part-10">10 · 人才 / 资源热力图</a></li>
+    <li><a href="#part-11">11 · 趋势时间线</a></li>
+    <li><a href="#part-12">12 · 死因 donut 分布</a></li>
+    <li style="margin-top:6px;border-top:1px dashed var(--rule);padding-top:6px;"><a href="#part-13">13 · 痛点强度矩阵 ⭐</a></li>
+    <li><a href="#part-14">14 · 8 大评估维度 ⭐</a></li>
+    <li><a href="#part-15">15 · 退出 / 并购策略</a></li>
+    <li><a href="#part-16">16 · 冷启动 3 路径</a></li>
+    <li><a href="#part-17">17 · 5 大根本分歧</a></li>
+    <li><a href="#part-18">18 · GTM 策略库</a></li>
+    <li><a href="#part-19">19 · 验证方法 grid</a></li>
+    <li><a href="#part-20">20 · 前沿话题 / 重大变量</a></li>
+    <li><a href="#part-21">21 · 综合判断 + 90 天行动</a></li>
+    <li><a href="#part-22">22 · 术语 + 数据来源</a></li>
   </ul>
 </nav>
-
-<!-- ✏️ EDIT_HERO: hero 区域 标语+主标题+4 个数据 -->
 <section class="hero">
-  <div class="hero-tag">[Industry] · Interactive Field Guide</div>
-  <h1>[主标题第一行]<br>[<em>highlight 词</em> 配合 <em>另一个 highlight</em> 让标题有韵律]</h1>
-  <p class="hero-sub">[副标题段落 — 一两句话说清楚这份手册要回答什么问题。点击 tabs / 节点 / 标签查看细节。所有数据可验证,有出处。]</p>
+  <!-- ✏️ EDIT_HERO: hero — tag (1 行) + h1 主标题 (带 <em> 强调) + sub (论点段) + 4 个数据 (带 source) -->
+  <div class="hero-tag">[YOUR_TOPIC] · Interactive Field Guide</div>
+  <h1>[OPINIONATED H1 — 一句可被反驳的具体论点，带 1-2 处 <em>关键词</em>]</h1>
+  <p class="hero-sub">[1-2 段论点摘要：解释 hero 主标题为什么成立。包含 <strong>3-5 个</strong> 关键判断 / <em>关键词</em>。结尾标 "所有数据可验证，有出处"。]</p>
   <div class="hero-stats">
-    <div class="stat-block"><span class="num">[$X]</span><span class="label">[数据描述 1]</span><span class="detail">[出处]</span></div>
-    <div class="stat-block"><span class="num">[NN%]</span><span class="label">[数据描述 2]</span><span class="detail">[出处]</span></div>
-    <div class="stat-block"><span class="num">[$Y]</span><span class="label">[数据描述 3]</span><span class="detail">[出处]</span></div>
-    <div class="stat-block"><span class="num">[NN]</span><span class="label">[数据描述 4]</span><span class="detail">[出处]</span></div>
+    <div class="stat-block"><span class="num">[NUMBER_1]</span><span class="label">[LABEL_1]</span><span class="detail">[CONTEXT + SOURCE]</span></div>
+    <div class="stat-block"><span class="num">[NUMBER_2]</span><span class="label">[LABEL_2]</span><span class="detail">[CONTEXT + SOURCE]</span></div>
+    <div class="stat-block"><span class="num">[NUMBER_3]</span><span class="label">[LABEL_3]</span><span class="detail">[CONTEXT + SOURCE]</span></div>
+    <div class="stat-block"><span class="num">[NUMBER_4]</span><span class="label">[LABEL_4]</span><span class="detail">[CONTEXT + SOURCE]</span></div>
   </div>
 </section>
 
-<!-- ✏️ EDIT_PART_1: 序言 — 阐述行业第一性原理 + 数据可信度承诺 -->
 <section class="section" id="part-1">
-  <div class="section-num">PART 1 · 序言</div>
-  <h2>[第一性原理标题]:<em>[关键概念 1]</em>vs<em>[关键概念 2]</em></h2>
-  <p class="lede">[导语 — 用一两句话引出本手册要回答的核心问题。点击 tabs / 节点 / 标签查看细节。]</p>
-  <p>[<strong>核心论点段落</strong>。这里展开你想用第一性原理表述的论断。例如:为什么这个行业跨地区复制困难/容易?为什么某种范式有效?给出 2-3 个反例或类比让读者快速理解你的视角。]</p>
-  <p>[过渡段:下一章会把"X 问题"拆成 N 项可分析维度。这 N 项都满足,模型才成立;<strong>任意一项不通,就 port 不过去</strong>。]</p>
-  <div class="callout fact">
-    <span class="callout-label">数据可信度承诺</span>
-    <p>每个具体数字都有出处。涉及"行业估算"的(如各地区收入占比),会明确标 <strong>directional estimate</strong>。事实有出处的标 <span class="verify-tag">已核实</span>。所有创始人背景、融资数据、收购金额均通过 [来源 1] / [来源 2] / [来源 3] 多源核实。</p>
-  </div>
+  <!-- ⚙️ PART 1 · [FIRST_PRINCIPLE_HEADLINE]：<em>[YOUR_TOPIC]</em> 的第一性原理
+       何时用: ✅ 几乎每篇都用。Hero 的论点要在这里展开为可验证陈述。
+       何时跳: 极少跳过——只有题目本身就在 hero 里说清楚了的纯数据题
+       内容形状: 1 段论点展开 + 1 段反共识 + 1 个 callout（数据可信度承诺）
+       关键组件: <callout class='fact'>
+       -->
+  <div class="section-num">PART 1</div>
+  <h2>[FIRST_PRINCIPLE_HEADLINE]：<em>[YOUR_TOPIC]</em> 的第一性原理</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
 
-<!-- ✏️ EDIT_PART_2: 5 项核心条件/框架 (5 张卡片) -->
 <section class="section" id="part-2">
+  <!-- ⚙️ PART 2 · 数据可信度：<em>三色标注</em>原则
+       何时用: 🟡 严肃研究 / 投资题用。普通基本面分析可省。
+       何时跳: 调性轻松的话题（如"小红书的崛起"），或者数据全都来自一两个权威源
+       内容形状: <table> 三色规则 + 来源等级 + verify-tag 用法
+       关键组件: <table>
+       -->
   <div class="section-num">PART 2</div>
-  <h2>[关键框架名]:<em>[简短描述]</em></h2>
-  <p class="lede">[导语 — 简介这 5 张卡的逻辑结构,例如"5 个 AND 而非 OR",或"5 阶段瀑布"。]</p>
-  <div class="condition-strip">
-    <div class="cc-card"><div class="cc-num">01</div><h5 class="cc-title">[条件 1 标题]<br>[简短副标]</h5><p class="cc-desc">[20-40 字描述,什么是这个条件,典型反例是什么。]</p></div>
-    <div class="cc-card"><div class="cc-num">02</div><h5 class="cc-title">[条件 2 标题]<br>[简短副标]</h5><p class="cc-desc">[20-40 字描述。]</p></div>
-    <div class="cc-card"><div class="cc-num">03</div><h5 class="cc-title">[条件 3 标题]<br>[简短副标]</h5><p class="cc-desc">[20-40 字描述。]</p></div>
-    <div class="cc-card"><div class="cc-num">04</div><h5 class="cc-title">[条件 4 标题]<br>[简短副标]</h5><p class="cc-desc">[20-40 字描述。]</p></div>
-    <div class="cc-card"><div class="cc-num">05</div><h5 class="cc-title">[条件 5 标题]<br>[简短副标]</h5><p class="cc-desc">[20-40 字描述。]</p></div>
-  </div>
-  <div class="callout fact"><span class="callout-label">第一性原理</span>
-    <p>[<strong>关键洞察</strong>。把上述 5 项串起来,给读者一个 "啊哈 moment"——为什么这 5 项是 AND 关系,任何一项不通就崩。可以用一个具体例子说明。]</p>
-  </div>
+  <h2>数据可信度：<em>三色标注</em>原则</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
 
-<!-- ⚙️ EDIT_PART_3: Tab 案例研究 (5 个标签切换) — 数据在 JS · CASE_STUDY_DATA -->
 <section class="section" id="part-3">
-  <div class="section-num">PART 3 · 互动</div>
-  <h2>[案例研究标题]:<em>[N 个目标对象]</em>逐一分析</h2>
-  <p class="lede">[导语 — 介绍这个案例为什么值得拆解。点击下方 tab 切换 [对象类型] 看具体分析。]</p>
-  <h3>[案例对象的产品 / 维度结构]</h3>
-  <div class="table-wrap"><table><thead><tr><th>层 / 维度</th><th>名称</th><th>说明</th></tr></thead><tbody>
-    <tr><td><strong>[Layer A · 标签]</strong></td><td>[组件名]</td><td>[价值描述,可加 <span class="verify-tag">已核实</span> 标记]</td></tr>
-    <tr><td><strong>[Layer B · 标签]</strong></td><td>[组件名]</td><td>[价值描述]</td></tr>
-    <tr><td><strong>[Layer C · 标签]</strong></td><td>[组件名]</td><td>[价值描述]</td></tr>
-  </tbody></table></div>
-  <span class="click-hint">👉 点击 tab 切换</span>
-  <!-- ⚙️ tab 按钮的 data-region 必须对应 CASE_STUDY_DATA 的 key -->
-  <div class="tab-row" id="caseTabs" style="margin-top:8px;">
-    <button class="tab-btn active" data-region="region-a"><span class="tab-num">本部</span>[地区/对象 A]<span class="tab-meta">[简短标签]</span></button>
-    <button class="tab-btn" data-region="region-b"><span class="tab-num">02</span>[地区/对象 B]<span class="tab-meta">[简短标签]</span></button>
-    <button class="tab-btn" data-region="region-c"><span class="tab-num">03 ⭐</span>[地区/对象 C]<span class="tab-meta">[最优窗口]</span></button>
-    <button class="tab-btn" data-region="region-d"><span class="tab-num">04</span>[地区/对象 D]<span class="tab-meta">[简短标签]</span></button>
-    <button class="tab-btn" data-region="region-e"><span class="tab-num">05</span>[地区/对象 E]<span class="tab-meta">[简短标签]</span></button>
-  </div>
-  <div class="tab-panel" id="casePanel"></div>
+  <!-- ⚙️ PART 3 · [N] 项核心条件 / 框架
+       何时用: ✅ 通用。任何"什么决定 X 能不能 work"的研究。
+       何时跳: 纯财务分析（公司基本面）
+       内容形状: <div class='condition-strip'> 含 5 张 cc-card
+       关键组件: condition-strip + cc-card × 5
+       -->
+  <div class="section-num">PART 3</div>
+  <h2>[N] 项核心条件 / 框架</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
-<!-- ⚙️ EDIT_PART_4: 板块/维度 paired-bar 图表 — 数据在 JS · SECTOR_DATA -->
+
 <section class="section" id="part-4">
-  <div class="section-num">PART 4 · 互动</div>
-  <h2>[N 大板块/维度]:<em>[左侧指标]</em> vs <em>[右侧指标]</em></h2>
-  <p class="lede">[导语 — 解释为什么这个对比有信息量。点击 tab 切换板块。]</p>
-  <div class="callout data" style="margin-bottom:24px;"><span class="callout-label">数据声明</span>
-    <p>各板块的总量来自<strong>已核实的来源</strong>。<strong>分布的 % 是 directional estimates</strong>(基于公开数据综合估算),用于可视化对比相对量级,而非精确数据。</p>
-  </div>
-  <span class="click-hint">👉 点击板块切换图表</span>
-  <!-- ⚙️ sector-grid 让 8 个 tab 强制一行 + 主题色;按钮的 data-sector 必须对应 SECTOR_DATA 的 key -->
-  <div class="tab-row sector-grid" id="sectorTabs" style="margin-top:8px;">
-    <button class="tab-btn active" data-sector="sector-1"><span class="tab-num">01</span>[板块 1]<span class="tab-meta">[规模]</span></button>
-    <button class="tab-btn" data-sector="sector-2"><span class="tab-num">02</span>[板块 2]<span class="tab-meta">[规模]</span></button>
-    <button class="tab-btn" data-sector="sector-3"><span class="tab-num">03 ⭐</span>[板块 3]<span class="tab-meta">[规模]</span></button>
-    <button class="tab-btn" data-sector="sector-4"><span class="tab-num">04</span>[板块 4]<span class="tab-meta">[规模]</span></button>
-    <button class="tab-btn" data-sector="sector-5"><span class="tab-num">05</span>[板块 5]<span class="tab-meta">[规模]</span></button>
-    <button class="tab-btn" data-sector="sector-6"><span class="tab-num">06 ⭐</span>[板块 6]<span class="tab-meta">[规模]</span></button>
-    <button class="tab-btn" data-sector="sector-7"><span class="tab-num">07</span>[板块 7]<span class="tab-meta">[规模]</span></button>
-    <button class="tab-btn" data-sector="sector-8"><span class="tab-num">08 ⭐</span>[板块 8]<span class="tab-meta">[规模]</span></button>
-  </div>
-  <div class="tab-panel" id="sectorPanel"></div>
-  <div class="callout fact" style="margin-top:24px;"><span class="callout-label">综合判断</span>
-    <p><strong>[最高的 3 板块]</strong>:[名单]——共同特征:<em>[共性洞察]</em></p>
-    <p><strong>[最低的 3 板块]</strong>:[名单]——共同特征:<em>[共性洞察]</em></p>
-  </div>
+  <!-- ⚙️ PART 4 · 锚点案例：<em>[N 个维度]</em> 逐一分析
+       何时用: 🟡 有强代表性单一案例时（一家公司、一个市场、一个产品）。
+       何时跳: 广义行业 / 板块研究，没有明确锚点
+       内容形状: tab-row × N 个维度，tab-panel 内含 layer-grid 三层评分
+       关键组件: tab-row + tab-panel + layer-grid (renderReap 模式)
+       -->
+  <div class="section-num">PART 4</div>
+  <h2>锚点案例：<em>[N 个维度]</em> 逐一分析</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
 
-<!-- ⚙️ EDIT_PART_5: Constellation Map — 节点 + drawer 详情数据在 JS · CN_NODES / DETAIL_DATA -->
 <section class="section" id="part-5">
-  <div class="section-num">PART 5 · 互动</div>
-  <h2>[全景图标题] <em>Constellation Map</em></h2>
-  <p class="lede">[导语 — 解释中心代表什么,外圈代表什么。<strong>点击任一节点看 verified 公司详情</strong>。]</p>
-  <span class="click-hint">👉 点击节点看公司详情</span>
-  <!-- ⚙️ region-tab 的 data-cregion 必须对应 CN_NODES 中节点的 cat 字段 -->
-  <div class="region-tabs" id="cMapRegionTabs" style="margin-top:8px;">
-    <button class="region-tab active" data-cregion="all">全部</button>
-    <button class="region-tab" data-cregion="cat-1">[分类 1]</button>
-    <button class="region-tab" data-cregion="cat-2">[分类 2]</button>
-    <button class="region-tab" data-cregion="cat-3">[分类 3]</button>
-    <button class="region-tab" data-cregion="cat-4">[分类 4]</button>
-    <button class="region-tab" data-cregion="cat-5">[分类 5]</button>
-  </div>
-  <div class="constellation-wrap">
-    <svg viewBox="0 0 960 720" class="constellation-svg" id="constellationSvg" xmlns="http://www.w3.org/2000/svg">
-      <!-- ⚙️ 中心圆渐变色 — 改这 3 个 stop-color 即可换主题色 -->
-      <defs><radialGradient id="centerGradient" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A57AC0"/><stop offset="60%" stop-color="#7B4FA0"/><stop offset="100%" stop-color="#4A2D6E"/></radialGradient></defs>
-      <circle cx="480" cy="360" r="125" class="cn-ring"/>
-      <circle cx="480" cy="360" r="230" class="cn-ring"/>
-      <circle cx="480" cy="360" r="320" class="cn-ring"/>
-      <text x="480" y="220" class="cn-ring-label" text-anchor="middle">RING 1 · [Ring 1 描述]</text>
-      <text x="480" y="115" class="cn-ring-label" text-anchor="middle">RING 2 · [Ring 2 描述]</text>
-      <text x="480" y="25" class="cn-ring-label" text-anchor="middle">RING 3 · [Ring 3 描述]</text>
-      <g id="cnLines"></g>
-      <g class="cn-node">
-        <circle cx="480" cy="360" r="48" class="cn-circle center"/>
-        <text x="480" y="354" text-anchor="middle" style="font-family:'Fraunces',serif;font-size:13px;font-weight:600;fill:white;">[中心标题]</text>
-        <text x="480" y="370" text-anchor="middle" style="font-family:'JetBrains Mono',monospace;font-size:9px;fill:white;opacity:.95;">[中心副标]</text>
-      </g>
-      <g id="cnNodes"></g>
-    </svg>
-    <div class="cn-legend">
-      <div class="cn-legend-item"><span class="cn-legend-dot" style="background:#4A7DA8;border-color:#2C5F8D;"></span>[Tier 1 类型]</div>
-      <div class="cn-legend-item"><span class="cn-legend-dot" style="background:#D8E5EE;border-color:#6B9BBD;"></span>[Tier 2 类型]</div>
-      <div class="cn-legend-item"><span class="cn-legend-dot" style="background:#BBD3DD;border-color:#5C8499;"></span>[特殊类型 1]</div>
-      <div class="cn-legend-item"><span class="cn-legend-dot" style="background:#5C7C9A;border-color:#1F3D5C;border-width:2.5px;"></span>[特殊类型 2 ★]</div>
-      <div class="cn-legend-item"><span class="cn-legend-dot" style="background:linear-gradient(135deg,#A57AC0,#4A2D6E);border-color:#4A2D6E;"></span>[中心节点]</div>
-    </div>
-  </div>
+  <!-- ⚙️ PART 5 · [N] 大板块深度：<em>横切赛道</em>逐一拆
+       何时用: ⭐ 行业 / 赛道研究核心组件。
+       何时跳: 单公司分析（用 Part 4 锚点案例代替）
+       内容形状: sector-grid (8 个 tab) + tab-panel 含 sector-stat + painpoint + subdomain-grid + paired-bar (微笑曲线) + 公司表
+       关键组件: renderSector 全套（最重的组件）
+       -->
+  <div class="section-num">PART 5</div>
+  <h2>[N] 大板块深度：<em>横切赛道</em>逐一拆</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
+
 <section class="section" id="part-6">
-  <div class="section-num">PART 6 · 互动</div>
-  <h2>[象限分析标题]:<em>2×2 战略象限</em></h2>
-  <p class="lede">[导语 — 解释横轴/纵轴含义。<strong>点击姓名标签看 verified 真实案例</strong>。]</p>
-  <span class="click-hint">👉 点击姓名标签看 verified 案例详情</span>
-  <!-- ⚙️ archetype-badge 的 data-id 必须对应 DETAIL_DATA 的 key -->
-  <div class="matrix-2x2">
-    <div class="matrix-axis-top">[图例说明 — 例如:F=金融背景 · ★=ex-大厂 · 点姓名 → drawer]</div>
-    <div class="matrix-axis-y">[纵轴标签] ↑</div>
-    <div class="matrix-quad q2">
-      <div class="matrix-quad-label">Q2 · [Archetype B 名]</div>
-      <div class="matrix-quad-title">[象限 B 的标题]</div>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 8px;">[象限 B 的简短描述,通常 <strong>需要配对什么</strong>。]</p>
-      <span class="archetype-badge" data-id="case-b-1">[案例 B1]</span>
-      <span class="archetype-badge" data-id="case-b-2">[案例 B2]</span>
-      <span class="archetype-badge" data-id="case-b-3">[案例 B3]</span>
-    </div>
-    <div class="matrix-quad q1">
-      <div class="matrix-quad-label">Q1 · [Archetype A 名] · ⭐ 黄金组合</div>
-      <div class="matrix-quad-title">[象限 A 的标题]</div>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 8px;">[象限 A 的简短描述。<strong>+ Archetype C 是黄金组合</strong>。]</p>
-      <span class="archetype-badge featured" data-id="case-a-1">[案例 A1]</span>
-      <span class="archetype-badge" data-id="case-a-2">[案例 A2]</span>
-    </div>
-    <div class="matrix-quad q3">
-      <div class="matrix-quad-label">Q3 · [Archetype C 名]</div>
-      <div class="matrix-quad-title">[象限 C 的标题]</div>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 8px;">[象限 C 的简短描述。]</p>
-      <span class="archetype-badge" data-id="case-c-1">[案例 C1]</span>
-      <span class="archetype-badge" data-id="case-c-2">[案例 C2]</span>
-    </div>
-    <div class="matrix-quad q4">
-      <div class="matrix-quad-label">Q4 · [Archetype D 名] · 本地最强</div>
-      <div class="matrix-quad-title">[象限 D 的标题]</div>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 8px;">[象限 D 的简短描述。]</p>
-      <span class="archetype-badge" data-id="case-d-1">[案例 D1]</span>
-      <span class="archetype-badge" data-id="case-d-2">[案例 D2]</span>
-      <span class="archetype-badge" data-id="case-d-3">[案例 D3]</span>
-    </div>
-    <div class="matrix-axis-x">[横轴标签] →</div>
-  </div>
-  <div class="callout investor"><span class="callout-label">[3 条选择规则标题]</span>
-    <p><strong>规则 1</strong>:[第一条洞察 + 反例]。</p>
-    <p><strong>规则 2</strong>:[第二条洞察,通常涉及"组合"逻辑]。</p>
-    <p><strong>规则 3</strong>:[第三条洞察,可针对读者自身场景]。</p>
-  </div>
+  <!-- ⚙️ PART 6 · [N] 领域<em>横向对比</em>
+       何时用: ✅ 多维比较时通用。利润率 / 估值 / 天花板等。
+       何时跳: 单维度题或单公司题
+       内容形状: <table class='wrap'> 多列对比
+       关键组件: <table>
+       -->
+  <div class="section-num">PART 6</div>
+  <h2>[N] 领域<em>横向对比</em></h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
 
-<!-- ✏️ EDIT_PART_7: 二维匹配矩阵 (热力表) — 直接改 HTML 表格 -->
 <section class="section" id="part-7">
+  <!-- ⚙️ PART 7 · 全球 / 头部玩家 <em>Constellation Map</em>
+       何时用: ✅ 几乎每篇都用。生态拓扑图。
+       何时跳: 极少——只有目标特别狭窄（如单只股票纯财务）
+       内容形状: SVG 节点图，3-4 圈布局，18-28 个节点
+       关键组件: renderConstellation + CN_NODES + DETAIL_DATA
+       -->
   <div class="section-num">PART 7</div>
-  <h2>[维度 A] × [维度 B] <em>匹配矩阵</em></h2>
-  <p class="lede">[导语 — 解释这张表想说明什么。]</p>
-  <div class="table-wrap"><table>
-    <thead><tr><th>[行维度]</th><th>[列 1]</th><th>[列 2]</th><th>[第三列文字]</th></tr></thead>
-    <tbody>
-      <tr><td>① [行 1]</td><td><span class="heat-pill heat-mid">中</span></td><td><span class="heat-pill heat-low">低</span></td><td>[第三列内容]</td></tr>
-      <tr><td>② [行 2]</td><td><span class="heat-pill heat-low">低</span></td><td><span class="heat-pill heat-low">低</span></td><td>[第三列内容]</td></tr>
-      <tr><td>③ [行 3] ⭐</td><td><span class="heat-pill heat-high">高</span></td><td><span class="heat-pill heat-low">低</span></td><td>[第三列内容]</td></tr>
-      <tr><td>④ [行 4]</td><td><span class="heat-pill heat-mid">中</span></td><td><span class="heat-pill heat-mid">中</span></td><td>[第三列内容]</td></tr>
-      <tr><td>⑤ [行 5]</td><td><span class="heat-pill heat-low">低</span></td><td><span class="heat-pill heat-mid">中</span></td><td>[第三列内容]</td></tr>
-      <tr><td>⑥ [行 6] ⭐</td><td><span class="heat-pill heat-low">低</span></td><td><span class="heat-pill heat-low">低</span></td><td>[第三列内容]</td></tr>
-      <tr><td>⑦ [行 7]</td><td><span class="heat-pill heat-low">低</span></td><td><span class="heat-pill heat-low">低</span></td><td>[第三列内容]</td></tr>
-      <tr><td>⑧ [行 8] ⭐</td><td><span class="heat-pill heat-mid">中</span></td><td><span class="heat-pill heat-high">高</span></td><td>[第三列内容]</td></tr>
-    </tbody>
-  </table></div>
+  <h2>全球 / 头部玩家 <em>Constellation Map</em></h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
 
-<!-- ✏️ EDIT_PART_8: (可选) 主题深度研究 — 表格 + 监管/标准列表 -->
 <section class="section" id="part-8">
+  <!-- ⚙️ PART 8 · [N] 大原型：<em>2×2 战略象限</em>
+       何时用: ✅ 通用。玩家分类 / 模式分类。
+       何时跳: 单公司分析，或玩家不足以分 4 类
+       内容形状: matrix-2x2 + 4 个 quadrant + archetype-badge × 12-20
+       关键组件: matrix-2x2 + DETAIL_DATA
+       -->
   <div class="section-num">PART 8</div>
-  <h2>[主题深度研究标题]:<em>[关键词]</em></h2>
-  <p class="lede">[导语 — 解释为什么这个主题值得单独深入。]</p>
-  <h3>关键玩家(202X 状态)</h3>
-  <div class="table-wrap"><table>
-    <thead><tr><th>玩家</th><th>专长</th><th>关键数据</th><th>来源</th></tr></thead>
-    <tbody>
-      <tr><td><strong>[玩家 1]</strong></td><td>[专长]</td><td>[关键数据]</td><td>[来源]</td></tr>
-      <tr><td><strong>[玩家 2 ★]</strong></td><td>[专长]</td><td>[关键数据]</td><td>[来源]</td></tr>
-      <tr><td><strong>[玩家 3]</strong></td><td>[专长]</td><td>[关键数据]</td><td>[来源]</td></tr>
-      <tr><td><strong>[玩家 4]</strong></td><td>[专长]</td><td>[关键数据]</td><td>[来源]</td></tr>
-      <tr><td><strong>[玩家 5]</strong></td><td>[专长]</td><td>[关键数据]</td><td>[来源]</td></tr>
-    </tbody>
-  </table></div>
-  <h3>[次级框架标题:监管 / 标准 / 规则等]</h3>
-  <ul>
-    <li><strong>[市场 1]:[条款]</strong>([年份说明])</li>
-    <li><strong>[市场 2]:[条款]</strong>([年份说明])</li>
-    <li><strong>[市场 3]:[条款]</strong>([年份说明])</li>
-  </ul>
+  <h2>[N] 大原型：<em>2×2 战略象限</em></h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
 
-<!-- ✏️ EDIT_PART_9: (可选) 近期重大事件 / Inflection Point -->
+    <p><strong>规则 3</strong>:对 Klay 的 Nexar 含义——你 IB 出身偏 C-flavor,联创 Keep #28 偏 B-tech,这是 <strong>C+B</strong> 组合。在 Embedded Vertical 板块这个组合是合适的——因为这格不是关系壁垒型,是产品 + domain 壁垒型。</p>
+  </div>
+</section>
+
 <section class="section" id="part-9">
-  <div class="section-num">PART 9 · [日期]最新</div>
-  <h2>[重大事件标题]:<em>[关键玩家]</em></h2>
-  <p class="lede">[导语 — 简介这个事件的发生时间 + 为什么是 inflection point。]</p>
-  <h3>[次级标题:角色分工 / 重要细节]</h3>
-  <div class="table-wrap"><table>
-    <thead><tr><th>角色</th><th>负责</th><th>关键技术 / 细节</th></tr></thead>
-    <tbody>
-      <tr><td><strong>[角色 1]</strong></td><td>[负责的事]</td><td>[关键细节]</td></tr>
-      <tr><td><strong>[角色 2]</strong></td><td>[负责的事]</td><td>[关键细节]</td></tr>
-      <tr><td><strong>[角色 3]</strong></td><td>[负责的事]</td><td>[关键细节]</td></tr>
-    </tbody>
-  </table></div>
-  <h3>关键数字(已核实)</h3>
-  <ul>
-    <li><strong>[指标 1]</strong>:[数值] <span class="verify-tag">[来源]</span></li>
-    <li><strong>[指标 2]</strong>:[数值] <span class="verify-tag">[来源]</span></li>
-    <li><strong>[指标 3]</strong>:[数值] <span class="verify-tag">[来源]</span></li>
-  </ul>
-  <div class="callout investor"><span class="callout-label">对你 / 你的 startup 的含义</span>
-    <p><strong>[核心论点]</strong>——[展开 1]。</p>
-    <p>[展开 2]。</p>
-    <p>[行动建议]。</p>
-  </div>
+  <!-- ⚙️ PART 9 · <em>死亡 vs 成功</em> 2×2
+       何时用: 🟡 有死亡案例数据时用。竞争激烈 / 历史长的赛道。
+       何时跳: 新兴赛道（没死亡案例）或 hyper-hyped 题
+       内容形状: matrix-2x2 + 死亡案例和成功案例对比
+       关键组件: matrix-2x2
+       -->
+  <div class="section-num">PART 9</div>
+  <h2><em>死亡 vs 成功</em> 2×2</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
-<!-- ✏️ EDIT_PART_10: 时间线 (5 张卡片) — 直接改 HTML -->
+
 <section class="section" id="part-10">
-  <div class="section-num">PART 10 · 时间线</div>
-  <h2>[时间段] [行业] <em>N 大趋势</em></h2>
-  <p class="lede">[导语 — N 件事按时间排列,正在重塑 [行业] 的判断。每件都有日期 + 数据 + 出处。]</p>
-  <div class="tl-grid">
-    <div class="tl-card">
-      <div class="tl-marker"><div class="tl-yr">[年]</div><div class="tl-q">[季度/月份]</div><div class="tl-num">趋势 01</div></div>
-      <div class="tl-body">
-        <h3>[趋势 1 标题 — 事件 + 含义]</h3>
-        <p>[事件描述。<strong>关键数据加粗</strong>。可加 1-2 句解释影响。]</p>
-        <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>:[来源 1] · [来源 2]</p>
-      </div>
-    </div>
-    <div class="tl-card">
-      <div class="tl-marker"><div class="tl-yr">[年]</div><div class="tl-q">[期间]</div><div class="tl-num">趋势 02</div></div>
-      <div class="tl-body">
-        <h3>[趋势 2 标题]</h3>
-        <p>[事件描述。<strong>关键数据加粗</strong>。]</p>
-        <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>:[来源]</p>
-      </div>
-    </div>
-    <div class="tl-card">
-      <div class="tl-marker"><div class="tl-yr">[年]</div><div class="tl-q">[期间]</div><div class="tl-num">趋势 03</div></div>
-      <div class="tl-body">
-        <h3>[趋势 3 标题]</h3>
-        <p>[事件描述。<strong>关键数据加粗</strong>。]</p>
-        <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>:[来源]</p>
-      </div>
-    </div>
-    <div class="tl-card">
-      <div class="tl-marker"><div class="tl-yr">[年]</div><div class="tl-q">[期间]</div><div class="tl-num">趋势 04</div></div>
-      <div class="tl-body">
-        <h3>[趋势 4 标题]</h3>
-        <p>[事件描述。<strong>关键数据加粗</strong>。<em>关键洞察用斜体</em>]</p>
-        <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>:[来源]</p>
-      </div>
-    </div>
-    <div class="tl-card">
-      <div class="tl-marker"><div class="tl-yr">[年]</div><div class="tl-q">[期间]</div><div class="tl-num">趋势 05</div></div>
-      <div class="tl-body">
-        <h3>[趋势 5 标题]</h3>
-        <p>[事件描述。<strong>关键数据加粗</strong>。]</p>
-        <p style="color:var(--muted);font-size:12px;"><strong>来源</strong>:[来源]</p>
-      </div>
-    </div>
-  </div>
+  <!-- ⚙️ PART 10 · [N 领域] × [N 角色]：<em>热力图</em>
+       何时用: 🟡 行业 / 创业研究用，告诉读者哪个细分缺什么人 / 资源。
+       何时跳: 单公司题 / 板块本身没有人才矩阵需求
+       内容形状: <table> + heat-pill (high / mid / low)
+       关键组件: <table> + heat-pill
+       -->
+  <div class="section-num">PART 10</div>
+  <h2>[N 领域] × [N 角色]：<em>热力图</em></h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
 
-<!-- ✏️ EDIT_PART_11: 三档结论 (高/中/低优先级) — 直接改 HTML -->
 <section class="section" id="part-11">
+  <!-- ⚙️ PART 11 · [N 年] 趋势时间线
+       何时用: ✅ 几乎每篇都用。最近 1-2 年关键事件按季排列。
+       何时跳: 题目本身是"未来预测"而非"近况整理"
+       内容形状: tl-grid + tl-card × 5-10
+       关键组件: tl-card
+       -->
   <div class="section-num">PART 11</div>
-  <h2>综合判断:<em>[关键问题]</em></h2>
-  <p class="lede">[导语 — 把整份手册压缩成可执行的判断清单。]</p>
-  <div class="tier-block tier1">
-    <span class="tier-label">第一档 · [高档标签 e.g. 高白空间]</span>
-    <h3 class="tier-title">[第一档标题 — 推荐做的]</h3>
-    <ol>
-      <li><strong>[选项 1]</strong>——[简短论据]。</li>
-      <li><strong>[选项 2]</strong>——[简短论据]。</li>
-      <li><strong>[选项 3]</strong>——[简短论据]。</li>
-      <li><strong>[选项 4]</strong>——[简短论据]。</li>
-    </ol>
-  </div>
-  <div class="tier-block tier2">
-    <span class="tier-label">第二档 · [中档标签]</span>
-    <h3 class="tier-title">[第二档标题 — 选择性窗口]</h3>
-    <ol>
-      <li>[选项 1]——[简短论据]</li>
-      <li>[选项 2]——[简短论据]</li>
-      <li>[选项 3]——[简短论据]</li>
-      <li>[选项 4]——[简短论据]</li>
-    </ol>
-  </div>
-  <div class="tier-block tier3">
-    <span class="tier-label">第三档 · [低档标签 e.g. 不要做]</span>
-    <h3 class="tier-title">[第三档标题 — 避免做的]</h3>
-    <ol>
-      <li><strong>[反面选项 1]</strong>——[原因]</li>
-      <li><strong>[反面选项 2]</strong>——[原因]</li>
-      <li><strong>[反面选项 3]</strong>——[原因]</li>
-      <li><strong>[反面选项 4]</strong>——[原因]</li>
-      <li><strong>[反面选项 5]</strong>——[原因]</li>
-    </ol>
-  </div>
-  <div class="callout fact" style="margin-top:24px;"><span class="callout-label">一句话总结</span>
-    <p>[这份手册的核心一句话结论。可用 <em>斜体</em> 强调最关键的方向。]</p>
-  </div>
+  <h2>[N 年] 趋势时间线</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
 
-<!-- ✏️ EDIT_PART_12: 术语表 + 数据来源 — 直接改 HTML -->
 <section class="section" id="part-12">
+  <!-- ⚙️ PART 12 · 死因分布：<em>[N] 大死法</em> 占比
+       何时用: 🟡 配合 Part 9 用。有 20+ 死亡公司样本时。
+       何时跳: 样本不足 / 题目不涉及失败
+       内容形状: donut chart 或简化的 cause-tag 列表
+       关键组件: cause-tag + donut SVG
+       -->
   <div class="section-num">PART 12</div>
-  <h2>术语 + <em>数据来源</em></h2>
-  <p class="lede">本手册涉及的关键术语 + 所有公开来源。</p>
-  <h3>术语表(可用 ⌘G 调出搜索)</h3>
-  <!-- ⚙️ glossaryInline 里的内容会被自动复制到 ⌘G 弹窗 — 添加新条目即可同步 -->
-  <div id="glossaryInline">
-    <div class="glossary-term"><div class="gt-name">[术语 1]</div><div class="gt-def">[定义。可加 <strong>加粗</strong>。]</div></div>
-    <div class="glossary-term"><div class="gt-name">[术语 2]</div><div class="gt-def">[定义。]</div></div>
-    <div class="glossary-term"><div class="gt-name">[术语 3]</div><div class="gt-def">[定义。]</div></div>
-    <div class="glossary-term"><div class="gt-name">[术语 4]</div><div class="gt-def">[定义。]</div></div>
-    <div class="glossary-term"><div class="gt-name">[术语 5]</div><div class="gt-def">[定义。]</div></div>
-    <!-- 添加更多 .glossary-term 即可 -->
-  </div>
+  <h2>死因分布：<em>[N] 大死法</em> 占比</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
+</section>
 
-  <h3 style="margin-top:48px;">完整数据来源</h3>
-  <h4>[来源类别 1 e.g. 重大事件]</h4>
-  <ul>
-    <li>[来源 1]</li>
-    <li>[来源 2]</li>
-  </ul>
-  <h4>[来源类别 2 e.g. 市场数据]</h4>
-  <ul>
-    <li>[来源 1]</li>
-    <li>[来源 2]</li>
-  </ul>
-  <h4>[来源类别 3 e.g. 公司创始人背景]</h4>
-  <ul>
-    <li>[来源 1]</li>
-    <li>[来源 2]</li>
-  </ul>
-  <h4>数据声明</h4>
-  <p style="font-size:13.5px;">所有数字来自公开来源([日期] 截止)。<strong>没有任何数据是模型猜测或推测</strong>。Part 4 中"分布的 %"明确标为 directional estimate。</p>
-  <p style="font-size:13.5px;"><strong>结构化判断声明</strong>:[关键框架名称] 均为本手册的<strong>分析框架</strong>,不是客观事实。应理解为分析工具而非投资建议。</p>
+<section class="section" id="part-13">
+  <!-- ⚙️ PART 13 · <em>[N] 大原则</em> / 痛点强度矩阵
+       何时用: ⭐ 创业 / 战略题强烈推荐。从案例中提炼共性原则。
+       何时跳: 纯财务分析
+       内容形状: accordion-list × 5-10 项
+       关键组件: accordion (可展开)
+       -->
+  <div class="section-num">PART 13</div>
+  <h2><em>[N] 大原则</em> / 痛点强度矩阵</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
+</section>
+
+<section class="section" id="part-14">
+  <!-- ⚙️ PART 14 · <em>[N] 大评估维度</em>
+       何时用: ⭐ 投资 / DD 题强烈推荐。评估这家公司 / 这个机会的多维清单。
+       何时跳: 调性偏教育 / 科普类
+       内容形状: dd-grid × 8 个 dd-pill (clickable to open drawer)
+       关键组件: dd-grid + dd-pill + DETAIL_DATA extension
+       -->
+  <div class="section-num">PART 14</div>
+  <h2><em>[N] 大评估维度</em></h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
+</section>
+
+<section class="section" id="part-15">
+  <!-- ⚙️ PART 15 · 退出 / 并购策略
+       何时用: 🟡 创业 / 投资 / M&A 题用。基本面分析不用。
+       何时跳: 公开市场公司基本面分析
+       内容形状: tab-row × 3 (并购 / IPO / 持续) + tab-panel
+       关键组件: renderExit + EXIT_DATA
+       -->
+  <div class="section-num">PART 15</div>
+  <h2>退出 / 并购策略</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
+</section>
+
+<section class="section" id="part-16">
+  <!-- ⚙️ PART 16 · 冷启动 / 切入路径
+       何时用: 🟡 创业题用。
+       何时跳: 已有成熟公司分析
+       内容形状: accordion-list × 3 路径，每条 path-item
+       关键组件: accordion (path-item)
+       -->
+  <div class="section-num">PART 16</div>
+  <h2>冷启动 / 切入路径</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
+</section>
+
+<section class="section" id="part-17">
+  <!-- ⚙️ PART 17 · <em>[N] 大根本分歧</em>
+       何时用: ✅ 通用。展示赛道 / 题目的核心争议点。
+       何时跳: 无争议的板块 / 早期题
+       内容形状: tier-block × 5 (tier1 / tier2 / tier3 渐变颜色)
+       关键组件: tier-block
+       -->
+  <div class="section-num">PART 17</div>
+  <h2><em>[N] 大根本分歧</em></h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
+</section>
+
+<section class="section" id="part-18">
+  <!-- ⚙️ PART 18 · GTM 策略库：<em>[N] 模式</em>
+       何时用: 🟡 创业 / 战略题用，分析 go-to-market 选项。
+       何时跳: 纯研究题 / 财务题
+       内容形状: tab-row × 4 (PLG / SLG / Hybrid / B2B2B) + tab-panel
+       关键组件: renderGtm + GTM_DATA
+       -->
+  <div class="section-num">PART 18</div>
+  <h2>GTM 策略库：<em>[N] 模式</em></h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
+</section>
+
+<section class="section" id="part-19">
+  <!-- ⚙️ PART 19 · 验证方法 [N] 种
+       何时用: 🟡 创业 / 研究方法题用。
+       何时跳: 结果题 / 财务题
+       内容形状: <table> × N
+       关键组件: <table>
+       -->
+  <div class="section-num">PART 19</div>
+  <h2>验证方法 [N] 种</h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
+</section>
+
+<section class="section" id="part-20">
+  <!-- ⚙️ PART 20 · 前沿话题 / <em>重大变量</em>
+       何时用: ✅ 通用。任何题都可以加一段"未来 12 月最大变量是什么"。
+       何时跳: 完全静态的历史回顾题
+       内容形状: h3 + paragraphs + callout (lesson)
+       关键组件: callout + paragraphs
+       -->
+  <div class="section-num">PART 20</div>
+  <h2>前沿话题 / <em>重大变量</em></h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
+</section>
+
+<section class="section" id="part-21">
+  <!-- ⚙️ PART 21 · 综合判断 + <em>[N] 天行动</em>
+       何时用: ⭐ 几乎每篇都用。三档判断 + 90/180 天行动清单。
+       何时跳: 极少跳
+       内容形状: tier-block × 3 (强买 / 持有 / 跳过) + 90 天清单 + 反共识声明
+       关键组件: tier-block + ol
+       -->
+  <div class="section-num">PART 21</div>
+  <h2>综合判断 + <em>[N] 天行动</em></h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
+</section>
+
+<section class="section" id="part-22">
+  <!-- ⚙️ PART 22 · 术语 + <em>数据来源</em>
+       何时用: ✅ 永远是最后一项。
+       何时跳: 永不
+       内容形状: <table> 术语表 + <table> 来源分类（Tier 1 公开 / Tier 2 媒体 / Tier 3 估算）
+       关键组件: <table> × 2
+       -->
+  <div class="section-num">PART 22</div>
+  <h2>术语 + <em>数据来源</em></h2>
+  <p class="lede">[一句导语：解释这个 Part 在整个手册中的角色和判断价值]</p>
+  <p>[正文内容。每条事实带来源 [Source: XX]。强陈述带 <em>关键判断</em>。如果是数据型，加 <strong>具体数字 + 时间</strong>。]</p>
+  <!-- ⚙️ 根据上面"关键组件"提示，这里插入对应的 component HTML。
+       可选 component CSS class 速查（详见 references/data-schemas.md）：
+       · <div class="callout fact|lesson|investor|data"> ... </div>      ← 强调框
+       · <div class="condition-strip"><div class="cc-card"> ... </div></div>  ← 5 张并排卡
+       · <table class="company-table"> ... </table>                     ← 公司对比表
+       · <div class="constellation-wrap"><svg> ... </svg></div>          ← 节点图
+       · <div class="matrix-2x2"> ... </div>                             ← 2×2 矩阵
+       · <div class="accordion-list"><div class="accordion-item"> ... </div></div>  ← 展开项
+       · <div class="dd-grid"><div class="dd-pill"> ... </div></div>     ← 8 评估维度
+       · <div class="tl-grid"><div class="tl-card"> ... </div></div>     ← 时间线卡
+       · <div class="tier-block tier1|tier2|tier3"> ... </div>           ← 三档判断
+       · <span class="heat-pill heat-high|heat-mid|heat-low">N</span>    ← 热力图标签
+       -->
 </section>
 
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
@@ -710,7 +971,7 @@ table strong{color:var(--ink);font-weight:600;}
 <div class="modal" id="searchModal"><div class="modal-content">
   <button class="modal-close" onclick="closeModal('searchModal')">关闭 ESC</button>
   <h3 style="font-family:'Fraunces',serif;font-size:22px;margin:0 0 16px;color:var(--ink);">全文搜索</h3>
-  <input type="text" id="searchInput" placeholder="输入关键词...">
+  <input type="text" id="searchInput" placeholder="输入关键词... (例如: 稳定币, Reap, AI agent)">
   <div id="searchResults"><p style="color:var(--muted);font-size:13px">输入关键词开始搜索...</p></div>
 </div></div>
 
@@ -721,440 +982,184 @@ table strong{color:var(--ink);font-weight:600;}
   <div id="glossaryList"></div>
 </div></div>
 
-<!-- ✏️ EDIT_FOOTER: 页脚标语 -->
 <footer class="footer">
   <div class="ornament">✦</div>
-  <p>[行业] 手册 · Interactive Field Guide</p>
-  <p style="margin-top:8px;">为 [作者] 编写 · [日期]</p>
-  <p style="margin-top:24px;font-family:'Fraunces',serif;font-style:italic;color:var(--accent);">"[标志性引用 / 一句话总结]"</p>
+  <p>全球 Fintech 可移植性手册 v2 · Interactive Field Guide</p>
+  <p style="margin-top:8px;">为 Klay 编写 · 2026 年 5 月 · 姊妹手册:Stripe Field Guide · 美国 Fintech IC Memo</p>
+  <p style="margin-top:24px;font-family:'Fraunces',serif;font-style:italic;color:var(--accent);">"Fintech is 5 ANDs, not 5 ORs."</p>
 </footer>
 <script>
-/* ============================================================================
-   ⚙️ CASE_STUDY_DATA — Part 3 (Tab 案例研究) 数据
-   ============================================================================
-   每个 key 对应 Part 3 HTML 中 button 的 data-region 值。
-   每个对象有: name (顶部标题) / meta (右上 metadata) /
-              layerA, layerB, layerC (3 层评估,可改名/可少于 3 层) /
-              verdict (核心结论) / players (主要玩家列表)
-   
-   layer.status: 'go'(✅绿) / 'warn'(🟡黄) / 'no'(❌红)
-   layer.label: 状态文字标签
-   layer.desc:  描述,支持 <strong>、<em>、<span class="verify-tag">已核实</span>
-============================================================================ */
-const CASE_STUDY_DATA = {
-  'region-a': {
-    name: "[地区/对象 A · 描述]",
-    meta: "[副标:时间 · 状态]",
-    layerA: { status: "go", label: "✅ 跑通", desc: "[Layer A 在该地区的评估描述。可加 <strong>关键数据</strong> 或 <em>判断</em>。]" },
-    layerB: { status: "go", label: "✅ 跑通", desc: "[Layer B 描述。<span class=\"verify-tag\">已核实</span>]" },
-    layerC: { status: "go", label: "✅ 跑通", desc: "[Layer C 描述。]" },
-    verdict: "[核心结论 — 一句话总结这个对象在该地区的状态。]",
-    players: "[该地区主要玩家列表,逗号分隔]"
-  },
-  'region-b': {
-    name: "[地区/对象 B · 描述]",
-    meta: "[副标]",
-    layerA: { status: "no", label: "❌ 已锁住", desc: "[描述。]" },
-    layerB: { status: "warn", label: "🟡 拥挤", desc: "[描述。]" },
-    layerC: { status: "warn", label: "🟡 部分实现", desc: "[描述。]" },
-    verdict: "[结论。]",
-    players: "[玩家列表]"
-  },
-  'region-c': {
-    name: "[地区/对象 C · 最佳 vacuum ⭐]",
-    meta: "[副标]",
-    layerA: { status: "no", label: "❌ 已锁住", desc: "[描述。]" },
-    layerB: { status: "go", label: "✅ 真正白空间 ⭐", desc: "[描述。]" },
-    layerC: { status: "go", label: "✅ 监管清晰", desc: "[描述。]" },
-    verdict: "[结论 — 这是最佳目标。]",
-    players: "[玩家列表]"
-  },
-  'region-d': {
-    name: "[地区/对象 D]",
-    meta: "[副标]",
-    layerA: { status: "no", label: "❌ 模式不成立", desc: "[描述。]" },
-    layerB: { status: "warn", label: "🟡 窗口在", desc: "[描述。]" },
-    layerC: { status: "warn", label: "🟡 门槛高", desc: "[描述。]" },
-    verdict: "[结论。]",
-    players: "[玩家列表]"
-  },
-  'region-e': {
-    name: "[地区/对象 E]",
-    meta: "[副标]",
-    layerA: { status: "no", label: "❌ 已锁住", desc: "[描述。]" },
-    layerB: { status: "warn", label: "🟡 窗口在", desc: "[描述。]" },
-    layerC: { status: "no", label: "❌ 已锁住", desc: "[描述。]" },
-    verdict: "[结论。]",
-    players: "[玩家列表]"
-  }
+/* ==== REAP 4-region data ==== */
+const REAP_DATA = {
+  // ⚙️ Part 4 锚点案例数据 — 4 维度 × 3 layer 评分
+  // Schema: { tab_key: { name, meta, layerA: {status, label, desc}, layerB: {...}, layerC: {...}, verdict, players } }
+  // status 可选: "go" | "warn" | "no"
+  // 例子: tab1: { name:"🇺🇸 美国 · 起家市场", meta:"founded 2018 ·...", layerA:{status:"go", label:"✅ 跑通", desc:"..."}, ... }
 };
 
-/* ============================================================================
-   ⚙️ SECTOR_DATA — Part 4 (8 大板块 paired-bar 图) 数据
-   ============================================================================
-   每个 key 对应 Part 4 HTML 中 button 的 data-sector 值。
-   每个对象有: name (顶部标题) / meta (右上 metadata) /
-              layers (8 项数据,每项 {name, rev, profit, note}) /
-              insight (洞察段落) / players (代表玩家)
-   
-   rev: 全球收入 % (左侧条形长度,0-100)
-   profit: 全球利润池 % (右侧条形长度,0-100)
-   SECTOR_MAX 默认是 65(在 renderSector 函数里),所以单项 65% 即为满条
-   
-   配色逻辑(自动):
-   · profit > rev × 1.15 → 利润高于收入,profit 条变红 (高利润板块)
-   · profit < rev × 0.75 → 利润远低于收入,rev 条变红 (低利润板块)
-   · profit ≤ 0          → profit 条深红 (亏损板块)
-============================================================================ */
+/* ==== 8 SECTORS data — ENHANCED with full IC memo content ==== */
 const SECTOR_DATA = {
-  'sector-1': {
-    name: "① [板块 1 · 描述]",
-    meta: "全球 ~$XB revenue · profit pool ~$XB",
-    layers: [
-      { name: "USA",    rev: 35, profit: 38, note: "[主要玩家]" },
-      { name: "China",  rev: 22, profit: 18, note: "[主要玩家]" },
-      { name: "Europe", rev: 18, profit: 22, note: "[主要玩家]" },
-      { name: "India",  rev: 8,  profit: 6,  note: "[主要玩家]" },
-      { name: "LatAm",  rev: 6,  profit: 7,  note: "[主要玩家]" },
-      { name: "SEA",    rev: 5,  profit: 4,  note: "[主要玩家]" },
-      { name: "MENA",   rev: 3,  profit: 3,  note: "[主要玩家]" },
-      { name: "Africa", rev: 3,  profit: 2,  note: "[主要玩家]" }
-    ],
-    insight: "[<strong>核心洞察</strong>:解释为什么这个板块的分布意味着什么。可加 <em>反例</em>。]",
-    players: "<strong>代表玩家</strong>:[详细列表,可带创始人背景]"
-  },
-  'sector-2': {
-    name: "② [板块 2]",
-    meta: "全球 ~$XB · profit pool ~$XB (低)",
-    layers: [
-      { name: "USA",    rev: 50, profit: 55, note: "[玩家]" },
-      { name: "China",  rev: 14, profit: 12, note: "[玩家]" },
-      { name: "Europe", rev: 12, profit: 10, note: "[玩家]" },
-      { name: "India",  rev: 8,  profit: 7,  note: "[玩家]" },
-      { name: "LatAm",  rev: 7,  profit: 6,  note: "[玩家]" },
-      { name: "MENA",   rev: 4,  profit: 5,  note: "[玩家]" },
-      { name: "SEA",    rev: 3,  profit: 3,  note: "[玩家]" },
-      { name: "Africa", rev: 2,  profit: 2,  note: "[玩家]" }
-    ],
-    insight: "[洞察]",
-    players: "[代表玩家]"
-  },
-  'sector-3': {
-    name: "③ [板块 3 · ⭐ 最佳 portability]",
-    meta: "全球 ~$XB · profit pool ~$XB (高 NRR)",
-    layers: [
-      { name: "USA",    rev: 55, profit: 58, note: "[玩家]" },
-      { name: "Europe", rev: 18, profit: 17, note: "[玩家]" },
-      { name: "SEA",    rev: 8,  profit: 7,  note: "[玩家]" },
-      { name: "MENA",   rev: 7,  profit: 8,  note: "[玩家]" },
-      { name: "LatAm",  rev: 6,  profit: 5,  note: "[玩家]" },
-      { name: "China",  rev: 3,  profit: 3,  note: "[玩家]" },
-      { name: "India",  rev: 2,  profit: 1,  note: "[玩家]" },
-      { name: "Africa", rev: 1,  profit: 1,  note: "[玩家]" }
-    ],
-    insight: "[洞察 — 这是 ⭐ 最佳 portability 板块的解释]",
-    players: "[代表玩家]"
-  },
-  'sector-4': {
-    name: "④ [板块 4]", meta: "全球 ~$XB",
-    layers: [
-      { name: "USA", rev: 60, profit: 55, note: "[玩家]" },
-      { name: "Europe", rev: 18, profit: 22, note: "[玩家]" },
-      { name: "LatAm", rev: 6, profit: 7, note: "[玩家]" },
-      { name: "MENA", rev: 5, profit: 5, note: "[玩家]" },
-      { name: "India", rev: 4, profit: 4, note: "[玩家]" },
-      { name: "Africa", rev: 3, profit: 3, note: "[玩家]" },
-      { name: "SEA", rev: 3, profit: 3, note: "[玩家]" },
-      { name: "China", rev: 1, profit: 1, note: "[玩家]" }
-    ],
-    insight: "[洞察]", players: "[玩家]"
-  },
-  'sector-5': {
-    name: "⑤ [板块 5]", meta: "全球 ~$XB",
-    layers: [
-      { name: "USA", rev: 65, profit: 70, note: "[玩家]" },
-      { name: "Europe", rev: 12, profit: 10, note: "[玩家]" },
-      { name: "China", rev: 8, profit: 6, note: "[玩家]" },
-      { name: "India", rev: 7, profit: 7, note: "[玩家]" },
-      { name: "SEA", rev: 4, profit: 4, note: "[玩家]" },
-      { name: "LatAm", rev: 2, profit: 2, note: "[玩家]" },
-      { name: "MENA", rev: 1, profit: 1, note: "[玩家]" },
-      { name: "Africa", rev: 1, profit: 0, note: "[玩家]" }
-    ],
-    insight: "[洞察]", players: "[玩家]"
-  },
-  'sector-6': {
-    name: "⑥ [板块 6 · ⭐]", meta: "全球 ~$XB",
-    layers: [
-      { name: "USA", rev: 55, profit: 60, note: "[玩家]" },
-      { name: "Europe", rev: 18, profit: 16, note: "[玩家]" },
-      { name: "China", rev: 10, profit: 8, note: "[玩家]" },
-      { name: "SEA", rev: 6, profit: 5, note: "[玩家]" },
-      { name: "LatAm", rev: 5, profit: 5, note: "[玩家]" },
-      { name: "India", rev: 3, profit: 3, note: "[玩家]" },
-      { name: "MENA", rev: 2, profit: 2, note: "[玩家]" },
-      { name: "Africa", rev: 1, profit: 1, note: "[玩家]" }
-    ],
-    insight: "[洞察]", players: "[玩家]"
-  },
-  'sector-7': {
-    name: "⑦ [板块 7 · 利润为负]", meta: "profit pool 接近 0",
-    layers: [
-      { name: "USA", rev: 55, profit: 35, note: "[玩家]" },
-      { name: "China", rev: 15, profit: 18, note: "[玩家]" },
-      { name: "Europe", rev: 12, profit: 10, note: "[玩家]" },
-      { name: "India", rev: 8, profit: 12, note: "[玩家]" },
-      { name: "SEA", rev: 4, profit: 8, note: "[玩家]" },
-      { name: "LatAm", rev: 3, profit: 8, note: "[玩家]" },
-      { name: "MENA", rev: 2, profit: 5, note: "[玩家]" },
-      { name: "Africa", rev: 1, profit: 4, note: "[玩家]" }
-    ],
-    insight: "[洞察 — 解释为什么这格利润为负]", players: "[玩家]"
-  },
-  'sector-8': {
-    name: "⑧ [板块 8 · ⭐]", meta: "全球 ~$XB",
-    layers: [
-      { name: "USA", rev: 45, profit: 50, note: "[玩家]" },
-      { name: "Europe", rev: 14, profit: 13, note: "[玩家]" },
-      { name: "Asia", rev: 13, profit: 18, note: "[玩家]" },
-      { name: "MENA", rev: 9, profit: 8, note: "[玩家]" },
-      { name: "LatAm", rev: 8, profit: 5, note: "[玩家]" },
-      { name: "JP+KR", rev: 6, profit: 4, note: "[玩家]" },
-      { name: "India", rev: 3, profit: 1, note: "[玩家]" },
-      { name: "Africa", rev: 2, profit: 1, note: "[玩家]" }
-    ],
-    insight: "[洞察]", players: "[玩家]"
-  }
+  // ⚙️ Part 5 板块数据 — 8 个板块的完整 IC memo
+  // Schema: { sector_key: { name, meta, stats: [{num,label}], painpoint, subdomains: [{tag,name,cos}], living: [{name,type[],desc,stat}], dead: [{name,type[],desc,yr,cause,causeLabel}], smile: [{name, left, right, mid}], regions: [{name, ...}] } }
+  // type 可选: "B2B" | "B2C"
+  // cause 可选: "fraud" | "macro" | "model" | "ops"
+  // 例子: payments: { name:"① 支付与结算", meta:"全球 ~$200B 收入...", stats:[{num:"$1.9T",label:"Stripe TPV"}], ... }
 };
+
 /*JSPART2*/
-/* ============================================================================
-   ⚙️ CN_NODES — Part 5 (Constellation Map) 节点数据
-   ============================================================================
-   每个节点对象 fields:
-     id     — 唯一标识,需对应 DETAIL_DATA 中的 key
-     x, y   — SVG 坐标 (viewBox 0 0 960 720, 中心是 480,360)
-     r      — 圆半径 (建议 10-13)
-     type   — 'local' / 'local-tier1' / 'crypto' / 'exit' (决定颜色)
-              · local       浅天蓝填充 + 深天蓝边
-              · local-tier1 实心深天蓝 (Tier 1 重要玩家)
-              · crypto      微青调天蓝 + 深蓝边
-              · exit        中沉天蓝 + 加粗深蓝边 (重大 exit)
-     name   — 显示文字
-     sub    — 副标 (融资/状态等)
-     cat    — 分类,需对应 Part 5 region-tab 的 data-cregion 值
-     
-   定位指南(默认 3 圈布局,中心在 480,360):
-     Ring 1 (核心 Local Champions, 半径 ~125):
-       建议 6-8 个节点,围绕中心,如 (380,305) (580,305) (480,245) (480,475) 等
-     Ring 2 (Confirmed Ports, 半径 ~230):
-       建议 6-8 个节点,如 (290,245) (670,245) (290,450) (670,450)
-     Ring 3 (Exits / Crypto / 早期, 半径 ~320):
-       建议 6-12 个节点,(380,175) (580,175) (200,230) (760,230) 等
-   
-   也可以用极坐标公式: x = 480 + r * cos(angle), y = 360 + r * sin(angle)
-============================================================================ */
+/* ==== Constellation Map nodes ==== */
 const CN_NODES = [
-  // ---- Ring 1 · Tier 1 Local Champions ----
-  { id: 'node-1',  x: 380, y: 305, r: 11, type: 'local-tier1', name: '[玩家 1]', sub: '[融资/状态]', cat: 'cat-1' },
-  { id: 'node-2',  x: 580, y: 305, r: 11, type: 'local-tier1', name: '[玩家 2]', sub: '[融资/状态]', cat: 'cat-1' },
-  { id: 'node-3',  x: 480, y: 245, r: 11, type: 'local-tier1', name: '[玩家 3]', sub: '[融资/状态]', cat: 'cat-2' },
-  { id: 'node-4',  x: 380, y: 415, r: 11, type: 'local-tier1', name: '[玩家 4]', sub: '[融资/状态]', cat: 'cat-2' },
-  { id: 'node-5',  x: 580, y: 415, r: 11, type: 'local-tier1', name: '[玩家 5]', sub: '[融资/状态]', cat: 'cat-3' },
-  { id: 'node-6',  x: 480, y: 475, r: 11, type: 'local-tier1', name: '[玩家 6]', sub: '[融资/状态]', cat: 'cat-3' },
-  // ---- Ring 2 · Confirmed Ports ----
-  { id: 'node-7',  x: 290, y: 245, r: 10, type: 'local',       name: '[玩家 7]', sub: '[融资/地区]', cat: 'cat-1' },
-  { id: 'node-8',  x: 670, y: 245, r: 10, type: 'local',       name: '[玩家 8]', sub: '[融资/地区]', cat: 'cat-2' },
-  { id: 'node-9',  x: 290, y: 450, r: 10, type: 'local',       name: '[玩家 9]', sub: '[融资/地区]', cat: 'cat-3' },
-  { id: 'node-10', x: 670, y: 450, r: 10, type: 'local',       name: '[玩家 10]', sub: '[融资/地区]', cat: 'cat-4' },
-  { id: 'node-11', x: 270, y: 360, r: 10, type: 'local',       name: '[玩家 11]', sub: '[融资/地区]', cat: 'cat-4' },
-  { id: 'node-12', x: 690, y: 360, r: 10, type: 'local',       name: '[玩家 12]', sub: '[融资/地区]', cat: 'cat-5' },
-  // ---- Ring 3 · Exits / Crypto / Early ----
-  { id: 'node-13', x: 380, y: 175, r: 13, type: 'exit',        name: '[Exit 1 ★]', sub: '[acquired by X]', cat: 'cat-3' },
-  { id: 'node-14', x: 580, y: 175, r: 13, type: 'exit',        name: '[Exit 2 ★]', sub: '[acquired by Y]', cat: 'cat-3' },
-  { id: 'node-15', x: 200, y: 230, r: 11, type: 'crypto',      name: '[早期 1]', sub: '[融资]', cat: 'cat-3' },
-  { id: 'node-16', x: 760, y: 230, r: 11, type: 'crypto',      name: '[早期 2]', sub: '[融资]', cat: 'cat-3' },
-  { id: 'node-17', x: 380, y: 580, r: 11, type: 'crypto',      name: '[早期 3]', sub: '[融资]', cat: 'cat-4' },
-  { id: 'node-18', x: 580, y: 580, r: 11, type: 'crypto',      name: '[早期 4]', sub: '[融资]', cat: 'cat-4' },
-  { id: 'node-19', x: 155, y: 350, r: 10, type: 'local',       name: '[玩家 19]', sub: '[地区]', cat: 'cat-5' },
-  { id: 'node-20', x: 805, y: 350, r: 10, type: 'local',       name: '[玩家 20]', sub: '[地区]', cat: 'cat-5' }
+  // ⚙️ Part 7 Constellation Map 节点 — 18-28 个节点（sweet spot）
+  // Schema: { id, name, sub, type, ring, angle }
+  // type 可选: "local" | "global" | "crypto" | "local-tier1" | "exit" | "center"
+  // ring: 1-3 (内层最重要，3 最外层)
+  // angle: 0-360 (节点在圈上的角度位置)
+  // 例子: { id:"stripe", name:"Stripe", sub:"$159B · 支付", type:"global", ring:1, angle:30 }
 ];
 
-/* ============================================================================
-   ⚙️ DETAIL_DATA — Drawer (右侧抽屉) 详情数据
-   ============================================================================
-   每个 key 对应:
-     A. CN_NODES 中节点的 id (Part 5 点节点开抽屉)
-     B. Part 6 archetype-badge 的 data-id (点姓名标签开抽屉)
-   
-   每个对象 fields:
-     title     — 抽屉顶部标题
-     sub       — 副标(可加创始人/估值)
-     tags      — 标签数组 [[type, label], ...]
-                  type: 'local' (绿) / 'global' (红) / 'crypto' (金) / 'exit' (青)
-     bg        — 关键事实数组 (会渲染成 bullet list,支持 HTML)
-     relevance — "对你的相关性"段落 (HTML)
-     src       — 数据来源 (HTML,会显示在底部 monospace 框内)
-============================================================================ */
+/* ==== DETAIL DATA for drawer (verified facts) ==== */
 const DETAIL_DATA = {
-  // ============ Part 5 节点详情 (key 对应 CN_NODES 的 id) ============
-  'node-1': {
-    title: "[玩家 1 名称]",
-    sub: "[副标:地区/类型 · 估值或退出]",
-    tags: [["local", "Local Champion · [Tier]"]],
-    bg: [
-      "[关键事实 1 — 创始人/年份]",
-      "[关键事实 2 — 业务规模]",
-      "[关键事实 3 — 关键数字 + 出处]",
-      "[关键事实 4 — 客户/扩张]"
-    ],
-    relevance: "[<strong>这家公司对你的研究有什么含义</strong>。可以是反例、对标、或验证案例。]",
-    src: "[来源 1] · [来源 2]"
-  },
-  'node-2': {
-    title: "[玩家 2 名称]", sub: "[副标]",
-    tags: [["local", "Local Champion"]],
-    bg: ["[事实 1]", "[事实 2]", "[事实 3]"],
-    relevance: "[相关性]",
-    src: "[来源]"
-  },
-  'node-3': { title: "[玩家 3]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-4': { title: "[玩家 4]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-5': { title: "[玩家 5]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-6': { title: "[玩家 6]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-7': { title: "[玩家 7]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-8': { title: "[玩家 8]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-9': { title: "[玩家 9]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-10': { title: "[玩家 10]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-11': { title: "[玩家 11]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-12': { title: "[玩家 12]", sub: "[副标]", tags: [["global", "Confirmed Port"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-13': {
-    title: "[Exit 案例 1 ★]",
-    sub: "[$XB 收购 by X · 时间]",
-    tags: [["exit", "Confirmed Exit · [日期]"]],
-    bg: [
-      "[创始人背景]",
-      "[业务规模]",
-      "[<strong>退出关键数据</strong>]",
-      "[行业含义]"
-    ],
-    relevance: "[<strong>为什么这个 exit 重要</strong>。它重置了什么估值预期?</em>给后来者什么信号</em>?]",
-    src: "[Bloomberg/CoinDesk/官方 PR · 日期]"
-  },
-  'node-14': {
-    title: "[Exit 案例 2 ★]", sub: "[$XB 收购 by Y · 时间]",
-    tags: [["exit", "Confirmed Exit"]],
-    bg: ["[创始人]", "[规模]", "[退出数据]"],
-    relevance: "[相关性]",
-    src: "[来源]"
-  },
-  'node-15': { title: "[早期玩家 1]", sub: "[副标]", tags: [["crypto", "Crypto / Early"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-16': { title: "[早期玩家 2]", sub: "[副标]", tags: [["crypto", "Crypto"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-17': { title: "[早期玩家 3]", sub: "[副标]", tags: [["crypto", "Crypto"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-18': { title: "[早期玩家 4]", sub: "[副标]", tags: [["crypto", "Crypto"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-19': { title: "[玩家 19]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'node-20': { title: "[玩家 20]", sub: "[副标]", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-
-  // ============ Part 6 archetype 详情 (key 对应 archetype-badge 的 data-id) ============
-  'case-a-1': {
-    title: "[Archetype A 案例 1 - 主推 ⭐]",
-    sub: "Archetype A · [简述背景]",
-    tags: [["exit", "Confirmed Exit · 黄金组合"]],
-    bg: [
-      "[<strong>个人背景</strong>:学历 / 公司履历]",
-      "[关键经验 / 大厂职位]",
-      "[创业时间 + 联创]",
-      "[<strong>结果</strong>:估值/退出]"
-    ],
-    relevance: "[<strong>这是 Archetype A 的代表</strong>。<em>规则提取</em>:这一格的成功要素。]",
-    src: "[公开来源]"
-  },
-  'case-a-2': { title: "[案例 A2]", sub: "Archetype A", tags: [["local", "Local Champion"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'case-b-1': {
-    title: "[Archetype B 团队 - ex-大厂]",
-    sub: "Archetype B · [产品/技术背景]",
-    tags: [["global", "Confirmed Port"]],
-    bg: [
-      "<strong>团队背景</strong>:[3 位创始人各自履历]",
-      "[加入年份 / YC 等加持]",
-      "[投资人 / 估值]",
-      "<strong>纯 ex-大厂背景成立</strong>—— 这一格是产品壁垒型"
-    ],
-    relevance: "[Archetype B 成功案例。在 [板块名] 板块,大厂工程师产品的 lift-and-shift 价值最高。]",
-    src: "[来源]"
-  },
-  'case-b-2': { title: "[案例 B2]", sub: "Archetype B", tags: [["exit", "Confirmed Exit"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'case-b-3': { title: "[案例 B3]", sub: "Archetype B", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'case-c-1': {
-    title: "[Archetype C 案例 - 本地金融]",
-    sub: "Archetype C · 本土银行/IB 背景",
-    tags: [["exit", "Confirmed Exit"]],
-    bg: ["[本地金融经验]", "[投行/银行背景]", "[与 Archetype A 的合作]"],
-    relevance: "[<strong>纯 C 跑得太慢</strong>,需要 + A 才能跑出。]",
-    src: "[来源]"
-  },
-  'case-c-2': { title: "[案例 C2]", sub: "Archetype C", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'case-d-1': {
-    title: "[Archetype D 案例 - 本地最强]",
-    sub: "Archetype D · 消费/科技高管转 [行业]",
-    tags: [["local", "Local Champion"]],
-    bg: [
-      "[<strong>电商/消费背景</strong>:CEO 经验 / 退出经验]",
-      "[本地分销网络]",
-      "[与 fintech 经验对比 — 不是 fintech 出身却跑赢]"
-    ],
-    relevance: "[<strong>Archetype D 经典</strong>:在 [板块名] 板块,本地消费 know-how 比 fintech 经验关键。]",
-    src: "[来源]"
-  },
-  'case-d-2': { title: "[案例 D2]", sub: "Archetype D", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" },
-  'case-d-3': { title: "[案例 D3]", sub: "Archetype D", tags: [["local", "Local"]], bg: ["[事实 1]"], relevance: "[相关性]", src: "[来源]" }
+  // ⚙️ Drawer 详情内容 — 给 Part 7 节点 + Part 8 archetype-badge + Part 14 dd-pill 用
+  // Schema: { id_key: { tag, name, meta, tags: [{label, type}], summary, bullets: [string], source } }
+  // type 可选: "local" | "global" | "crypto" | "exit"
+  // 关键: id_key 必须和 CN_NODES 的 id / archetype-badge data-id / dd-pill data-id 一一对应
+  // 例子: stripe: { tag:"GLOBAL · #1", name:"Stripe", meta:"$159B · 2026/02 tender", tags:[{label:"全球",type:"global"}], summary:"...", bullets:["..."], source:"CNBC / Stripe PR" }
 };
 /*JSPART3*/
-/* ==== CASE STUDY RENDER (Part 3) ==== */
-function renderCase(key){
-  const d = CASE_STUDY_DATA[key]; if(!d) return;
+/* ==== REAP RENDER ==== */
+function renderReap(key){
+  const d = REAP_DATA[key]; if(!d) return;
   const html = `
     <div class="tab-panel-header">
       <h4 class="tab-panel-title">${d.name}</h4>
       <span class="tab-panel-meta">${d.meta}</span>
     </div>
     <div class="layer-grid">
-      <div class="layer-cell"><span class="layer-status ${d.layerA.status}">${d.layerA.label}</span><div class="layer-name">Layer A · [起家 wedge]</div><p class="layer-desc">${d.layerA.desc}</p></div>
-      <div class="layer-cell"><span class="layer-status ${d.layerB.status}">${d.layerB.label}</span><div class="layer-name">Layer B · [增长引擎]</div><p class="layer-desc">${d.layerB.desc}</p></div>
-      <div class="layer-cell"><span class="layer-status ${d.layerC.status}">${d.layerC.label}</span><div class="layer-name">Layer C · [平台化]</div><p class="layer-desc">${d.layerC.desc}</p></div>
+      <div class="layer-cell"><span class="layer-status ${d.layerA.status}">${d.layerA.label}</span><div class="layer-name">Layer A · Plastiq 模式</div><p class="layer-desc">${d.layerA.desc}</p></div>
+      <div class="layer-cell"><span class="layer-status ${d.layerB.status}">${d.layerB.label}</span><div class="layer-name">Layer B · 稳定币跨境</div><p class="layer-desc">${d.layerB.desc}</p></div>
+      <div class="layer-cell"><span class="layer-status ${d.layerC.status}">${d.layerC.label}</span><div class="layer-name">Layer C · Non-bank 发卡</div><p class="layer-desc">${d.layerC.desc}</p></div>
     </div>
     <div class="sector-insight"><strong>结论:</strong> ${d.verdict}</div>
-    <div class="sector-players"><strong>该 [对象] 主要玩家:</strong> ${d.players}</div>
+    <div class="sector-players"><strong>该地区主要玩家:</strong> ${d.players}</div>
   `;
-  document.getElementById('casePanel').innerHTML = html;
+  document.getElementById('reapPanel').innerHTML = html;
 }
 
-/* ==== SECTOR PAIRED-BAR RENDER ==== */
+/* ==== SECTOR PAIRED-BAR RENDER (enhanced) ==== */
 const SECTOR_MAX = 65;
 function renderSector(key){
   const d = SECTOR_DATA[key]; if(!d) return;
-  let rows = `<div class="bar-headers"><div class="h-left">全球收入 %</div><div class="h-mid">地区</div><div class="h-right">全球利润池 %</div></div>`;
-  d.layers.forEach(l => {
-    const revW = (l.rev / SECTOR_MAX) * 100;
-    const profitW = (l.profit / SECTOR_MAX) * 100;
-    const highMargin = l.profit > l.rev * 1.15;
-    const lowMargin = l.profit < l.rev * 0.75 && l.profit > 0;
-    const negMargin = l.profit <= 0;
-    const revColor = lowMargin ? 'var(--accent)' : 'var(--ink-light)';
-    const profitColor = highMargin ? 'var(--accent)' : (negMargin ? '#8B1A1A' : 'var(--ink-light)');
-    rows += `<div class="paired-bar-wrap" title="${l.note}">
-      <div class="bar-left"><span class="bar-fill" style="width:${revW}%;background:${revColor};">${l.rev}%</span></div>
-      <div class="bar-label">${l.name}<span class="bar-sub">${l.note.length>26?l.note.substring(0,24)+'…':l.note}</span></div>
-      <div class="bar-right"><span class="bar-fill" style="width:${profitW}%;background:${profitColor};">${l.profit}%</span></div>
-    </div>`;
-  });
+  
+  // Header stats row
+  let statsHtml = '';
+  if(d.stats){
+    statsHtml = '<div class="sector-stat-row">' + d.stats.map(s =>
+      `<div class="sector-stat"><span class="num">${s.num}</span><span class="label">${s.label}</span></div>`
+    ).join('') + '</div>';
+  }
+  
+  // Painpoint callout
+  let painpointHtml = d.painpoint ? `<div class="sector-painpoint">${d.painpoint}</div>` : '';
+  
+  // Subdomain pills
+  let subdomainHtml = '';
+  if(d.subdomains){
+    subdomainHtml = `<div class="sector-subhead">细分场景</div><div class="subdomain-grid">` +
+      d.subdomains.map(s =>
+        `<div class="subdomain-pill"><strong>${s.name}</strong><span class="sd-tag">${s.tag}</span><span class="sd-cos">${s.cos}</span></div>`
+      ).join('') + '</div>';
+  }
+  
+  // Living companies table
+  let livingHtml = '';
+  if(d.living){
+    let rows = d.living.map(c => {
+      const tags = c.type.map(t => `<span class="tag-${t.toLowerCase()}">${t}</span>`).join('');
+      return `<tr><td class="col-name">${c.name}</td><td>${tags}</td><td>${c.desc}</td><td class="col-stat">${c.stat}</td></tr>`;
+    }).join('');
+    livingHtml = `<div class="sector-subhead living">10 家最大活公司</div>
+      <div style="overflow-x:auto;border:1px solid var(--rule);border-radius:4px;">
+        <table class="company-table">
+          <thead><tr><th>公司</th><th>类型</th><th>解决什么 / 切入场景</th><th style="text-align:right;">市值 / 估值</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  }
+  
+  // Dead companies table
+  let deadHtml = '';
+  if(d.dead){
+    let rows = d.dead.map(c => {
+      const tags = c.type.map(t => `<span class="tag-${t.toLowerCase()}">${t}</span>`).join('');
+      return `<tr class="dead-row"><td class="col-name">${c.name}</td><td>${tags}</td><td>${c.desc}</td><td class="col-yr">${c.yr}</td><td><span class="cause-tag cause-${c.cause}">${c.causeLabel}</span></td></tr>`;
+    }).join('');
+    deadHtml = `<div class="sector-subhead dead">5 家死掉 / 严重缩水的公司</div>
+      <div style="overflow-x:auto;border:1px solid var(--rule);border-radius:4px;">
+        <table class="company-table">
+          <thead><tr><th>公司</th><th>类型</th><th>问题领域 / 死亡详情</th><th>年份</th><th>死因</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  }
+  
+  // Smile curve
+  let smileHtml = '';
+  if(d.smile){
+    const SMILE_MAX = 50;
+    let rows = d.smile.map(s => {
+      const revW = (s.revP / SMILE_MAX) * 100;
+      const profitW = (s.profitP / SMILE_MAX) * 100;
+      const highMargin = s.profitP > s.revP * 1.3;
+      const profitColor = highMargin ? '#7B4FA0' : 'var(--ink-light)';
+      return `<div class="smile-bar-wrap" title="${s.note}">
+        <div class="bar-left"><span class="bar-fill" style="width:${revW}%;background:var(--ink-light);">${s.revP}%</span></div>
+        <div class="bar-label-mid">${s.name}<span class="bar-sub">${s.note.length>30?s.note.substring(0,28)+'…':s.note}</span></div>
+        <div class="bar-right"><span class="bar-fill" style="width:${profitW}%;background:${profitColor};">${s.profitP}%</span></div>
+      </div>`;
+    }).join('');
+    smileHtml = `<div class="sector-subhead smile">上下游利润分布 · 微笑曲线</div>
+      <div style="background:var(--bg-card);padding:14px 18px;border:1px solid var(--rule);border-radius:4px;">
+        <div class="smile-headers"><div class="h-left">营收占比 →</div><div class="h-mid">产业链环节</div><div class="h-right">← 利润占比</div></div>
+        ${rows}
+      </div>
+      ${d.smileInsight ? `<div class="sector-insight">${d.smileInsight}</div>` : ''}`;
+  }
+  
+  // Regional distribution (existing)
+  let regionalHtml = '';
+  if(d.layers){
+    let rows = `<div class="bar-headers"><div class="h-left">全球收入 %</div><div class="h-mid">地区</div><div class="h-right">全球利润池 %</div></div>`;
+    d.layers.forEach(l => {
+      const revW = (l.rev / SECTOR_MAX) * 100;
+      const profitW = (l.profit / SECTOR_MAX) * 100;
+      const highMargin = l.profit > l.rev * 1.15;
+      const lowMargin = l.profit < l.rev * 0.75 && l.profit > 0;
+      const negMargin = l.profit <= 0;
+      const revColor = lowMargin ? 'var(--accent)' : 'var(--ink-light)';
+      const profitColor = highMargin ? 'var(--accent)' : (negMargin ? '#8B1A1A' : 'var(--ink-light)');
+      rows += `<div class="paired-bar-wrap" title="${l.note}">
+        <div class="bar-left"><span class="bar-fill" style="width:${revW}%;background:${revColor};">${l.rev}%</span></div>
+        <div class="bar-label">${l.name}<span class="bar-sub">${l.note.length>26?l.note.substring(0,24)+'…':l.note}</span></div>
+        <div class="bar-right"><span class="bar-fill" style="width:${profitW}%;background:${profitColor};">${l.profit}%</span></div>
+      </div>`;
+    });
+    regionalHtml = `<div class="sector-subhead regions">各国收入 vs 利润池分布</div>${rows}
+      <div class="sector-insight">${d.insight}</div>
+      <div class="sector-players">${d.players}</div>`;
+  }
+  
   document.getElementById('sectorPanel').innerHTML = `
     <div class="tab-panel-header">
       <h4 class="tab-panel-title">${d.name}</h4>
       <span class="tab-panel-meta">${d.meta}</span>
     </div>
-    ${rows}
-    <div class="sector-insight">${d.insight}</div>
-    <div class="sector-players">${d.players}</div>
+    ${statsHtml}
+    ${painpointHtml}
+    ${subdomainHtml}
+    ${livingHtml}
+    ${deadHtml}
+    ${smileHtml}
+    ${regionalHtml}
   `;
 }
 
@@ -1231,10 +1236,10 @@ function closeDrawer(){
 }
 
 /* ==== EVENT WIRING ==== */
-document.querySelectorAll('#caseTabs .tab-btn').forEach(b=>b.addEventListener('click',e=>{
-  document.querySelectorAll('#caseTabs .tab-btn').forEach(x=>x.classList.remove('active'));
+document.querySelectorAll('#reapTabs .tab-btn').forEach(b=>b.addEventListener('click',e=>{
+  document.querySelectorAll('#reapTabs .tab-btn').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
-  renderCase(b.dataset.region);
+  renderReap(b.dataset.region);
 }));
 document.querySelectorAll('#sectorTabs .tab-btn').forEach(b=>b.addEventListener('click',e=>{
   document.querySelectorAll('#sectorTabs .tab-btn').forEach(x=>x.classList.remove('active'));
@@ -1246,15 +1251,199 @@ document.querySelectorAll('#cMapRegionTabs .region-tab').forEach(b=>b.addEventLi
   b.classList.add('active');
   renderConstellation(b.dataset.cregion);
 }));
+document.querySelectorAll('#gtmTabs .tab-btn').forEach(b=>b.addEventListener('click',e=>{
+  document.querySelectorAll('#gtmTabs .tab-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  renderGtm(b.dataset.gtm);
+}));
+document.querySelectorAll('#exitTabs .tab-btn').forEach(b=>b.addEventListener('click',e=>{
+  document.querySelectorAll('#exitTabs .tab-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  renderExit(b.dataset.exit);
+}));
 document.querySelectorAll('.archetype-badge').forEach(b=>b.addEventListener('click',()=>openDrawer(b.dataset.id)));
+document.querySelectorAll('.dd-pill').forEach(b=>b.addEventListener('click',()=>openDrawer(b.dataset.id)));
+
+/* ==== Accordion toggle (Part 13 + Part 16) ==== */
+document.querySelectorAll('.accordion-header').forEach(h => {
+  h.addEventListener('click', () => {
+    const item = h.closest('.accordion-item');
+    const wasOpen = item.classList.contains('open');
+    // Close all siblings in the same accordion-list
+    item.parentElement.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
 document.getElementById('drawerClose').addEventListener('click',closeDrawer);
 document.getElementById('drawerBackdrop').addEventListener('click',closeDrawer);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDrawer();document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open'));}});
 
-/* Initial render — defaults match the active tab IDs in HTML */
-renderCase('region-a');
-renderSector('sector-1');
+/* ==== GTM DATA + RENDER (Part 14) ==== */
+const GTM_DATA = {
+  // ⚙️ Part 18 GTM 策略数据 — 4 种模式
+  // Schema: { mode_key: { name, meta, summary, bullets:[string], examples:[{name, desc}] } }
+  // 例子: plg: { name:"PLG · Product-Led", meta:"用户自服务", summary:"...", bullets:["..."], examples:[{name:"Stripe", desc:"7 行代码接入"}] }
+};
+function renderGtm(key){
+  const d = GTM_DATA[key]; if(!d) return;
+  let casesHtml = d.cases.map(c => `<li><strong>${c.co}</strong>:${c.desc}</li>`).join('');
+  let whenHtml = d.when.map(w => `<li>${w}</li>`).join('');
+  let notForHtml = d.not_for.map(w => `<li>${w}</li>`).join('');
+  let metricsHtml = d.metrics.map(m => `<li>${m}</li>`).join('');
+  document.getElementById('gtmPanel').innerHTML = `
+    <div class="tab-panel-header">
+      <h4 class="tab-panel-title">${d.name}</h4>
+      <span class="tab-panel-meta">${d.meta}</span>
+    </div>
+    <div style="font-size:14px;line-height:1.7;color:var(--ink-soft);margin-bottom:16px;">${d.intro}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+      <div style="background:var(--moss-light);padding:12px 14px;border-radius:4px;border-left:3px solid var(--moss);">
+        <strong style="color:var(--moss);font-size:12px;text-transform:uppercase;letter-spacing:.06em;">何时用</strong>
+        <ul style="font-size:13px;margin:6px 0 0;padding-left:18px;line-height:1.6;">${whenHtml}</ul>
+      </div>
+      <div style="background:var(--accent-light);padding:12px 14px;border-radius:4px;border-left:3px solid var(--accent);">
+        <strong style="color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:.06em;">何时别用</strong>
+        <ul style="font-size:13px;margin:6px 0 0;padding-left:18px;line-height:1.6;">${notForHtml}</ul>
+      </div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin-bottom:14px;">
+      <strong style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink);">经典案例</strong>
+      <ul style="font-size:13px;margin:8px 0 0;padding-left:18px;line-height:1.7;">${casesHtml}</ul>
+    </div>
+    <div style="background:var(--bg-deep);border-left:3px solid var(--gold);padding:12px 14px;margin-bottom:14px;">
+      <strong style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);">核心 metrics</strong>
+      <ul style="font-size:13px;margin:6px 0 0;padding-left:18px;line-height:1.6;">${metricsHtml}</ul>
+    </div>
+    <div style="background:var(--accent-light);border-radius:4px;padding:12px 14px;margin-bottom:14px;font-size:13px;line-height:1.7;">${d.risk}</div>
+    <div class="callout investor"><span class="callout-label">对你的应用</span><p>${d.nexar}</p></div>
+  `;
+}
+
+/* ==== EXIT DATA + RENDER (Part 15 · Tab × 3) ==== */
+const EXIT_DATA = {
+  // ⚙️ Part 15 退出/并购策略数据 — 3 路径 (acquire / ipo / continue)
+  // Schema: { path_key: { name, meta, summary, bullets:[string], cases:[{name, deal, yr}] } }
+  // 例子: acquire: { name:"被巨头收购", meta:"A/B 轮卖", summary:"...", bullets:["..."], cases:[{name:"Plaid", deal:"Visa $5.3B (failed)", yr:"2020"}] }
+};
+function renderExit(key){
+  const d = EXIT_DATA[key]; if(!d) return;
+  document.getElementById('exitPanel').innerHTML = `
+    <div class="tab-panel-header">
+      <h4 class="tab-panel-title">${d.name}</h4>
+      <span class="tab-panel-meta">${d.meta}</span>
+    </div>
+    ${d.body}
+  `;
+}
+
+/* ==== Part 14 · 8 DD Pillar drawer details (extends DETAIL_DATA) ==== */
+Object.assign(DETAIL_DATA, {
+  'dd-1': {
+    title: "01 · 财务健康度",
+    sub: "Pillar 1 · 财务底盘",
+    tags: [["accent","DD 拷问"]],
+    bg: [
+      "<strong>查什么</strong>:损益表 / 资产负债表 / 现金流 · 收入确认准确性 · 应收账款 reconcile 情况 · Unit Economics 拆解",
+      "<strong>看什么</strong>:每笔交易的真实毛利 · CAC vs LTV 比例 · Burn rate 和 runway · 收入预测 vs 实际",
+      "<strong>红旗信号</strong>:GAAP 与 non-GAAP 数字差距大 · 关联方交易 · revenue recognition 激进(预付款算 ARR)· runway &lt; 12 个月却不在融资"
+    ],
+    relevance: "<strong>对 Nexar 含义</strong>:Sequoia YUE 会拆解你的 take-rate × 处理量 × NRR。<em>提前准备好 unit economics 一页纸</em>:每个 governance contract 的 ACV / 处理量 / 取费率 / gross margin / 年化贡献。Q&A 时被问「多久 break-even」要能答出具体季度。",
+    src: "Sequoia DD framework · Bessemer State of Cloud 2026"
+  },
+  'dd-2': {
+    title: "02 · 市场规模与定位",
+    sub: "Pillar 2 · TAM / SAM / SOM",
+    tags: [["accent","DD 拷问"]],
+    bg: [
+      "<strong>TAM/SAM/SOM 验证</strong>:Total Addressable Market(总市场)/ Serviceable Addressable Market(可触达)/ Serviceable Obtainable Market(可获份额)",
+      "<strong>竞争分析</strong>:你的差异化在哪? 产品是否被商品化? 护城河有多深?",
+      "<strong>红旗信号</strong>:bottom-up 算 TAM 算到 $100B(几乎肯定虚高)· 没有清晰的 SOM 数字 · 竞品 list 漏掉关键玩家"
+    ],
+    relevance: "<strong>对 Nexar 含义</strong>:US DTC + Shopify-native + AOV $80-300 + 50-200 创作者 这个画像是窄到漂亮的 ICP。<em>Bottom-up TAM</em>:US 大约有 50,000 个 Shopify-native DTC 品牌符合该 profile × 平均 ACV $X = $XB SOM。这数字比 vague creator economy TAM 更有说服力。",
+    src: "Andreessen 'TAM is a hard number, not a marketing term' framework"
+  },
+  'dd-3': {
+    title: "03 · 团队评估 · Bet on the jockey",
+    sub: "Pillar 3 · 创始人 + 互补",
+    tags: [["accent","DD 拷问"]],
+    bg: [
+      "<strong>核心理念</strong>:Sequoia Don Valentine — \"Bet on the jockey, not just the horse\"",
+      "<strong>看什么</strong>:创始人履历(相关行业经验)· 技能互补性(技术 + 产品 + 销售)· 团队动态(压力下如何互动)· Coachability(接受反馈的能力)",
+      "<strong>背景调查</strong>:前同事访谈 · 以前的投资人 · 甚至前员工",
+      "<strong>红旗信号</strong>:creator 单一型团队 · 缺销售 / 缺合规 · founders 之前没合作过"
+    ],
+    relevance: "<strong>对 Nexar 含义</strong>:你 = IB TMT 出身偏 strategy + capital(Archetype C);联创 = Keep 第 28 号架构师偏 system architecture(Archetype B)。这是 <strong>C+B 组合</strong>。在 embedded vertical 板块这个组合是合适的——因为这格不是关系壁垒型,是<em>产品 + domain 壁垒型</em>。补充一个 ex-Stripe / ex-Brex 的 GTM 顾问可以加分。",
+    src: "Don Valentine memo · Reid Hoffman 'Founder hiring framework'"
+  },
+  'dd-4': {
+    title: "04 · 产品与技术",
+    sub: "Pillar 4 · MVP + IP + 技术债",
+    tags: [["accent","DD 拷问"]],
+    bg: [
+      "<strong>产品成熟度</strong>:MVP 之外的功能完整度 · 可扩展性架构 · 技术债务情况",
+      "<strong>知识产权</strong>:专利 / 技术优势 · 是否可被轻易复制 · IP 所有权清晰度",
+      "<strong>红旗信号</strong>:demo only 没有 production traffic · monorepo 一团乱 · 关键员工跑路风险高 · 外包给外部团队"
+    ],
+    relevance: "<strong>对 Nexar 含义</strong>:Governance rule engine 是 Nexar 的核心 IP——<em>规则的复杂度本身就是护城河</em>。强调 if-then-else 决策树的 verifiability(每条规则有 audit trail),这是传统支付公司没法复制的。Keep 第 28 号架构师的 system 经验是技术 credibility 的硬支撑。",
+    src: "a16z product DD checklist"
+  },
+  'dd-5': {
+    title: "05 · GTM 执行力 ⭐",
+    sub: "Pillar 5 · ICP / CAC / 销售流程",
+    tags: [["gold","Series A 起核心 weight"]],
+    bg: [
+      "<strong>看什么</strong>:ICP 是否清晰 · CAC 是否可预测 · 销售流程是否可复制 · Marketing/Sales alignment",
+      "<strong>具体指标</strong>:CAC payback period · top-of-funnel 来源构成 · win rate by stage · sales cycle length",
+      "<strong>红旗信号</strong>:每个客户的 acquisition story 都不同(说明没找到 repeatable channel)· founder-led sales 之外没有 SDR 体系 · CAC 在涨而 LTV 在跌"
+    ],
+    relevance: "<strong>对 Nexar 含义</strong>:Sequoia 会问 \"how do you find your next 100 customers\"。准备好 6-week ICP Sprint 数据(reply rate / meeting rate / close rate by ICP segment)。<em>Hybrid GTM 路径</em>(Shopify App Store self-serve + 头部品牌销售跟进)是你的 talking point — 见 Part 18。",
+    src: "TOPO Tech sales DD framework · Wing VC 'Predictable revenue'"
+  },
+  'dd-6': {
+    title: "06 · 客户经济学 ⭐",
+    sub: "Pillar 6 · LTV / CAC / Retention",
+    tags: [["gold","Series A 起核心 weight"]],
+    bg: [
+      "<strong>深度分析</strong>:CAC(获客成本)· LTV(客户终身价值)· Contribution Margin(边际贡献)· Payback Period(回本周期)· Retention Curve(留存曲线)",
+      "<strong>2026 标准</strong>:CAC payback &lt; 12 个月 · NRR &gt; 120% · Churn &lt; 5%/年 · LTV/CAC &gt; 3 · gross margin &gt; 40% (fintech)",
+      "<strong>红旗信号</strong>:Logo retention 高但 net dollar retention 低(说明 expansion 不行)· payback period 在拉长 · retention curve 不收敛"
+    ],
+    relevance: "<strong>对 Nexar 含义</strong>:在 seed 阶段就要把 cohort analysis 跑起来(即使只有 5-10 个客户)。<em>day 30 / 60 / 90 retention curve + 净 ARR expansion</em> 是 Series A 时的核心证据。准备好向 Sequoia 展示前 5-10 个客户从签约到现在的 ARR 变化曲线。",
+    src: "Bowtie Model · David Skok 'SaaS Metrics 2.0'"
+  },
+  'dd-7': {
+    title: "07 · 法律与合规 · fintech 一票否决",
+    sub: "Pillar 7 · 牌照 + 银行 + 数据隐私",
+    tags: [["accent","SaaS 不重要,fintech 一票否决"]],
+    bg: [
+      "<strong>Fintech 特别看</strong>:监管牌照状态 · 银行合作协议 · 数据隐私合规 · 潜在诉讼风险",
+      "<strong>具体维度</strong>:money transmitter license(MTL)状态 · sponsor bank 关系 · KYC/AML 流程 · GDPR/CCPA 合规 · OFAC sanction screening",
+      "<strong>红旗信号</strong>:依赖单一 sponsor bank(集中风险)· 没有外部合规顾问 · 主权州监管摇摆 · 历史诉讼"
+    ],
+    relevance: "<strong>对 Nexar 含义</strong>:你的 \"不持币 / 不持牌 / 不背 lending 风险\" 是合规上的<em>设计原则</em>而不是临时方案。这能让 Nexar 跳过 12-18 个月的 MTL 申请周期,直接 partner with Stripe Connect + Circle。<strong>Sequoia 会专门问这个问题</strong>——准备好 60 秒答案:为什么 governance layer 不构成 money transmission?(因为 Nexar 不 hold funds,不 move funds 跨账户,只 verify 是否符合规则)",
+    src: "Wilson Sonsini fintech 合规手册 · Latham fintech regulatory guide"
+  },
+  'dd-8': {
+    title: "08 · Exit 潜力",
+    sub: "Pillar 8 · 退出路径清晰度",
+    tags: [["accent","65-90% 是收购"]],
+    bg: [
+      "<strong>核心数据</strong>:65-90% 的 startup exit 是 acquisition · IPO 需要 $100M+ revenue · 二级市场出售是补充选项",
+      "<strong>看什么</strong>:潜在收购方名单(Tier 1/2/3) · Buy vs Build 分析 · 历史可比交易 · 估值 benchmark",
+      "<strong>红旗信号</strong>:没有清晰收购方 · 行业内最近 3 年没有可比交易 · 创始人坚持要做 \"独立 IPO\"(超过 95% 失败概率)"
+    ],
+    relevance: "<strong>对 Nexar 含义</strong>:<strong>这是 Sequoia YUE 必问的问题</strong>。准备 3 层收购方名单:<em>Tier 1(Stripe / Circle / Deel)</em>· <em>Tier 2(PayPal / Payoneer)</em>· <em>Tier 3(creator platforms)</em>。Buy vs Build 分析:Build 需要 2-3 年理解 governance complexity,Buy Nexar 立即获得规则引擎 + platform relationships + 数据 insights → 愿意付 premium。<strong>Reap → Kraken $600M(2026/05)是直接对标</strong>。",
+    src: "PitchBook M&A 2026 · CB Insights Fintech Exit Analysis"
+  }
+});
+
+/* Initial render */
+renderReap('hk');
+renderSector('payments');
 renderConstellation('all');
+renderGtm('hybrid');
+renderExit('profit-vs-moat');
 
 /* ==== Progress bar / dark mode / TOC / Modals ==== */
 function updateProgress(){
