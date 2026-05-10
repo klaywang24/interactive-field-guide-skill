@@ -1,204 +1,190 @@
 ---
 name: interactive-field-guide
-description: 'Generate a polished interactive HTML research report with sidebar nav, ⌘K search, an SVG ecosystem map, a 2×2 strategic matrix, click-to-expand drawers, and a 22-part structure. USE AGGRESSIVELY for any research about a company, industry, sector, market, ecosystem, competitor, business model, or investment thesis. English triggers — "deep dive on [X]", "research [Company]", "analyze [Company/industry]", "how does [Company] make money", "is [stock] a good buy", "competitive landscape", "[sector] analysis", "[Company] business model", "[Company] strategy", "[Company] vs [Company]". Chinese triggers — 分析/研究/看一下/了解一下 [公司], [公司] 怎么样, [公司] 商业模式/战略/护城河/基本面, [行业/板块/赛道] 分析/格局/龙头/玩家, 做一份 [X] 的研究报告/行业报告/投资分析, [股票] 值不值得买, [赛道] 投资逻辑. Use whenever user wants substantive research — single companies, whole industries, stock picks, sector landscapes, M&A deep dives. Default to this skill for research unless user explicitly wants plain text or markdown.'
+description: Generate a polished interactive HTML field guide or structured research brief for company, industry, market, competitive landscape, strategy, or investment research. Use when the user asks for a field guide, deep research artifact, interactive research report, 投决会级研究, 深度研究报告, or when they analyze a company/industry/sector with intent to produce a structured research artifact. Do NOT use for BI/sales data analysis, spreadsheet analysis, code analysis, casual questions, simple summaries, generic brainstorming, or plain chat answers unless the user explicitly asks for a field guide / research brief / report artifact. Supports 6 operational modes (generate, discovery, critique, refresh, compare, drill-down) and 7 analytical personas (CEO, tier-1 investor, tier-2 investor, engineer, competitor, industry strategist, disruption scout).
 ---
 
-# Interactive Field Guide · 22-Part Edition
+# Interactive Field Guide Skill
 
-This skill produces a one-file, self-contained interactive HTML research report based on `assets/template.html` — a warm cream + brick-red editorial template with all interactive components pre-wired (drawer, modal, search, glossary, dark mode, progress bar, constellation SVG, 2×2 matrix, accordion, 8 paired-bar smile chart, GTM tabs, exit tabs, DD pillar grid).
+## What this skill produces
 
-The skill exists because (a) producing one of these from scratch is hours of CSS + JS scaffolding — using the template saves time and avoids design drift, and (b) early attempts pattern-match shallowly: leaving editing-comments in the file, padding parts that don't fit, using `[placeholder]` text, breaking JS by leaving unescaped inner quotes inside Chinese strings. This skill encodes those lessons into a strict workflow.
+The default output is a self-contained HTML file (~110KB) with sidebar nav, full-text ⌘K search, click-to-expand drawers, a clickable SVG ecosystem map, a 2×2 strategic positioning matrix, and structured analysis across up to 22 parts.
 
-## Quality bar — VC / CB Insights / 顶级二级 fund 水准
+Alternative output: a concise markdown research brief (when the user explicitly requests "brief", "markdown summary", or chooses brief at the end of Discovery mode).
 
-This is not a "blog post with charts." This is a **investment-grade research artifact**. The standard:
+**Quality bar**: Every fact must have a `[Source: X]` citation. Every judgment must be falsifiable. Every report must include explicit counter-consensus framing. Matches Net Interest, Stratechery, and CB Insights research standards.
 
-- **Every fact has a source citation** — [Source: SEC 10-K Q4 FY2026 / Bloomberg / 公司 PR / 年报 p.42]. No "据估计" / "约" / "near".
-- **Every judgment is falsifiable** — not "growing fast" but "YoY +65% to $215.9B"; not "leading" but "31.4% market share, +12pp in 3 years".
-- **Every report has 3+ counter-consensus claims** — directly challenge mainstream framing. "NVIDIA's true moat is CUDA, not chip design" beats "NVIDIA leads AI."
-- **Every judgment section has falsifiable signals** — "Tier 1 if Q2 FY27 guidance > $50B; downgrade Tier 2 if < $42B."
+**Operating principle**: this skill is a *suite*, not a single tool. It supports 6 operational modes and 7 analytical personas. Always resolve mode + persona + output format BEFORE generating.
 
-If a section can't meet this bar, **skip it**. Skipped sections are not failures — padded sections are.
+---
 
-## Workflow
+## Step 0 — Resolve operation parameters
 
-1. **Read references first.** Before touching the template, read `references/structure.md` (22-part menu + skip rules), `references/content-strategy.md` (depth standard + 11 source tiers), `references/pitfalls.md` (validation scripts), `references/data-schemas.md` (component data shapes). These take 90 seconds and prevent 30 minutes of debugging.
+Before doing anything, classify the user's request along three dimensions.
 
-2. **Decide which parts to use** before opening template. The 22-part menu has 10 ✅ core / 5 ⭐ important / 5 🟡 optional / 2 ⚠️ rare-use parts. Most reports use 10-15 parts. Only "complete industry handbook" tasks use 18-22.
+### 0a. Detect mode (what kind of operation)
 
-3. **Source content from independent analysts** before pulling from news headlines. Net Interest, Bits about Money, Acquired, Stratechery, Business Breakdowns, The Diff. Direct SEC filings beat aggregator sites.
+| User intent / trigger phrases | Mode |
+|---|---|
+| "analyze X", "research X", "make a field guide on X", "study X" | **Generate** (default) |
+| "help me think through X first", "do a discovery on X", "research dialogue", "before we generate" | **Discovery** |
+| "review my analysis", "critique this report", "find weaknesses in X" + user provides existing analysis | **Critique** |
+| "update my [old report]", "refresh with latest data", "let's revisit X", "复盘 my X report" + reference to prior guide | **Refresh** |
+| "compare X and Y", "X vs Y", "head-to-head on X / Y" | **Compare** |
+| "expand part [topic]", "deep dive on [specific subsection]", "drill into [topic from prior guide]" | **Drill-down** |
 
-4. **Copy `assets/template.html` to working dir, fill the body + JS data, strip meta-comments, validate.** The strip step and validate step are the most-skipped — don't.
+### 0b. Detect persona (analytical lens)
 
-5. **Run all 6 validation scripts from pitfalls.md.** All must pass before delivery.
+| User signal | Persona |
+|---|---|
+| (default for stocks / public companies) | **Tier 2 Investor** |
+| (default for industry / sector analyses) | **Industry Strategist** |
+| "as CEO", "founder POV", "operator view" | **CEO** |
+| "venture investor", "early-stage VC", "fund-returner perspective" | **Tier 1 Investor** |
+| "technical view", "engineer POV", "architecture analysis" | **Engineer / Builder** |
+| "as competitor", "if I were [rival]", "adversarial view" | **Competitor** |
+| "what could kill this", "disruption risk", "5-year obsolescence scan" | **Disruption Scout** |
 
-6. **Deliver via `present_files`.** Output to `/mnt/user-data/outputs/`. Brief 2-4 sentence summary, no long postamble.
+### 0c. Detect output format
 
-## Step 1 — Decide scope before opening template
+Default: **HTML field guide** (interactive, 110KB).
 
-Resist opening the template immediately. Open it only after you have:
+Override to **markdown research brief** when:
+- User explicitly says "brief", "markdown summary", "just the research foundation", "no HTML"
+- User chose "brief only" at the end of Discovery dialogue
+- Critique mode (always markdown; HTML doesn't apply)
 
-- A working list of entities (companies / events / regions) the report will cover (target: 18-28 for Constellation Map)
-- A central thesis or counter-consensus argument (Hero h1 should be falsifiable)
-- 3-5 candidate quotes/data points from independent analysts
-- A rough mapping of which 10-15 parts apply
+### 0d. Decide: proceed immediately, or ask first?
 
-If user prompt is vague ("分析 Mastercard"), ask 1-2 scoping questions. If specific, go to research.
+**Proceed immediately and announce** when:
+- Mode is clearly stated or strongly implied
+- Persona is the topic-type default (Tier 2 for stocks, Industry Strategist for sectors)
+- Output format is HTML (default)
+- Topic is concrete (specific company, industry, ecosystem)
 
-## Step 2 — Source proactively (don't wait for user push)
+In this case, briefly tell the user: *"Got it — running [mode] on [topic] with [persona] lens, output as [format]. Proceeding."* Then execute. The user can interrupt if you've misread their intent.
 
-For company/industry topics, search these before resorting to news:
+**Ask one concise clarifying question and WAIT for response** when:
+- Mode is ambiguous between Generate and Discovery
+- User said "compare" but only named one entity
+- User said "refresh" but didn't provide the prior report
+- User said "drill into [vague subsection]" with no parent guide referenced
+- Persona is unusual for the topic type (e.g. CEO persona on a public company they don't run)
 
-- **Net Interest** (Marc Rubinstein) — netinterest.co — fintech, banking, payments, insurance
-- **Bits about Money** (patio11) — bitsaboutmoney.com — payments infrastructure, banking
-- **Acquired** (Gilbert / Rosenthal) — acquired.fm — multi-hour deep dives
-- **Business Breakdowns** (Joincolossus) — single-company analytical episodes
-- **Stratechery** (Ben Thompson) — stratechery.com — tech business strategy
-- **The Diff** (Byrne Hobart) — diff.substack.com — finance + tech
-- **Not Boring** (Packy McCormick) — notboring.co
-- **Money Stuff** (Matt Levine) — Bloomberg — finance/markets
+Phrase the question as a single short ask: *"To make sure I read this right — [specific clarifying question]?"* Wait for the user's reply before proceeding.
 
-For company financials: **always go direct to SEC EDGAR (10-K / 8-K) or HKEX disclosures**, not aggregator sites. For market sizing: prefer original-source reports (TBAC, Standard Chartered, Citi GPS, McKinsey Global Institute, BCG) over secondhand summaries.
+Do not invent a function call name (e.g. avoid "AskUserQuestion()"). Just ask in plain text.
 
-When citing sources, in the report show: source name + author + date + URL. Strong reports have visible sources at every paragraph.
+---
 
-## Step 3 — Map content to the 22 parts
+## Step 1 — Load mode workflow
 
-The full menu is in `references/structure.md`. Quick map:
+Read `references/modes.md` and find the section for the resolved mode. Each mode has its own multi-step workflow with specific dialogue patterns, output format, and validation rules.
 
-| Always use (✅ core, 10) | Strongly recommended (⭐, 5) | Use if relevant (🟡, 5) | Rare (⚠️, 2) |
-|---|---|---|---|
-| 1, 3, 6, 7, 8, 11, 17, 20, 21, 22 | 5, 13, 14, 15, 21 | 2, 4, 9, 10, 18, 19 | 12, 16 |
+## Step 2 — Load persona lens
 
-For different topic types:
-- **Single-company basics** (NVIDIA, Stripe): ~12 parts (1, 2, 3, 6, 7, 8, 11, 13, 14, 17, 20, 21, 22)
-- **Sector/industry**: ~14 parts (1, 2, 3, 5, 6, 7, 8, 9, 11, 13, 17, 20, 21, 22)
-- **Startup / VC topic**: ~15 parts (1, 3, 4, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22)
-- **Complete industry handbook**: 18-22 parts (almost all)
+Read `references/personas.md` and find the section for the resolved persona. Each persona defines:
+- Obsessive questions the analysis must answer
+- Prioritized source tiers
+- Topical emphasis (which themes to expand vs compress)
+- Tone and rhetorical framing
 
-Skip without guilt. Don't pad. The reader prefers a tight 12-part report over a 22-part report with 8 thin sections.
+Note: personas describe the LENS, not specific section numbers. Map the persona's emphasis topics onto whatever 22-part structure is current in `references/structure.md`.
 
-## Step 4 — Strip meta-comments
+## Step 3 — Load shared references
 
-The template ships with `<!-- ⚙️ PART N · ... -->` comment blocks at the top of each section explaining "何时用 / 何时跳 / 内容形状 / 关键组件." These are instructions for whoever fills the template — they are NOT content.
+For modes producing HTML output (Generate / Refresh / Compare / Drill-down), load:
+- `references/structure.md` — 22-part menu with skip rules by topic type
+- `references/content-strategy.md` — sourcing standards (Tier 1-3), counter-consensus framework, falsifiability rules
+- `references/data-schemas.md` — JS object schemas + component HTML patterns
+- `references/pitfalls.md` — known pitfalls + validation script
 
-**Always remove before delivery.** Validation:
+For modes producing markdown output (Critique, Discovery brief-only), load only:
+- `references/content-strategy.md`
+- `references/pitfalls.md`
 
-```bash
-grep -nE "⚙️ PART|何时用|何时跳|内容形状|关键组件|✏️ EDIT" output.html
-# Should return 0 matches
-```
+## Step 4 — Execute workflow
 
-If matches found, run:
+Follow the mode's workflow step by step. Apply the persona's lens at each judgment point. Use `assets/template.html` as the rendering target for HTML outputs.
 
-```bash
-python3 -c "
-import re
-with open('output.html') as f: c = f.read()
-c = re.sub(r'<!--\s*⚙️ PART.*?-->\n?', '', c, flags=re.DOTALL)
-c = re.sub(r'<!--\s*✏️.*?-->\n?', '', c, flags=re.DOTALL)
-c = re.sub(r'<!-- 可选 component.*?-->\n?', '', c, flags=re.DOTALL)
-with open('output.html','w') as f: f.write(c)
-"
-```
+## Step 5 — Validate
 
-## Step 5 — Fill the HTML body
+For HTML outputs: run the validation script from `references/pitfalls.md`. Iterate up to 3 times to fix issues. Only deliver after passing validation.
 
-Template has placeholders `[YOUR_TOPIC]`, `[NUMBER_1]`, `[FIRST_PRINCIPLE_HEADLINE]` etc. Replace every one with real content. Then validate:
+For markdown outputs (Critique, brief): self-review against `content-strategy.md` standards — every claim sourced, every judgment falsifiable, counter-consensus angle present.
 
-```bash
-grep -nE '\[(YOUR_|NUMBER_|STAT_|N\s|[A-Z_]{4,})' output.html | grep -v '<!--'
-# Should return 0 (HTML comment placeholders don't count)
-```
+## Step 6 — Deliver (cross-platform)
 
-Any placeholder left = either fill it or remove the entire section (don't leave half-filled).
+Detect the runtime environment and write the output appropriately:
 
-## Step 6 — Fill the JS data objects
+**Filename convention**:
+- Generate / Discovery / Drill-down: `<topic-slug>-field-guide.html` (or `.md` for brief)
+- Refresh: `<topic-slug>-field-guide-refresh-<YYYY-MM-DD>.html`
+- Compare: `<topic-A>-vs-<topic-B>-comparison.html`
+- Critique: `<topic-slug>-critique.md`
 
-The template's JS has 6 data objects (most start empty with schema comments):
+**Output location**:
+- If running in Claude.ai / Claude Desktop (sandboxed environment with `/mnt/user-data/outputs/` available): save there and use the platform's native file presentation.
+- If running in Claude Code / Codex CLI / Gemini CLI / Cursor / other agent CLIs: save to the current working directory.
+- If neither is detectable: ask the user where to save, or default to current directory and tell them the absolute path.
 
-| Object | Drives | Notes |
-|---|---|---|
-| `REAP_DATA` | Part 4 anchor case (4 regions × 3 layers) | Skip Part 4 → leave object empty `{}` |
-| `SECTOR_DATA` | Part 5 sector deep-dives (8 sectors with 10 alive + 5 dead each) | Skip Part 5 → leave empty |
-| `CN_NODES` | Part 7 Constellation Map (18-28 nodes) | Almost always populated |
-| `DETAIL_DATA` | Part 7 / 8 / 14 drawer content | Must have keys for ALL CN_NODES.id + all data-id values |
-| `GTM_DATA` | Part 18 (4 GTM modes) | Skip Part 18 → leave empty |
-| `EXIT_DATA` | Part 15 (3 exit paths) | Skip Part 15 → leave empty |
+**Always tell the user the exact file path** where the output was saved, formatted as plain text (e.g. `Saved to /Users/you/projects/xyz/nvidia-field-guide.html`). The user needs this to open or share the file.
 
-Read `references/data-schemas.md` for exact shapes before filling. Two common errors:
+After delivery, briefly summarize:
+- Mode + persona + output format used
+- 1-2 most material findings
+- For Refresh: top 3 changes since prior version
+- For Compare: strongest divergence between the entities
+- For Critique: highest-priority fix
+- Suggested next step (e.g. after Generate, suggest Critique to find weaknesses, or Drill-down on an interesting disagreement)
 
-1. **Key mismatch** — drawer pops blank if `data-id` has no matching `DETAIL_DATA` key. Validate (script in pitfalls.md #3).
-2. **Unescaped inner quotes** — `desc: "Bridge "Q4" announce"` breaks parser. Use single quotes or backslash-escape.
+---
 
-## Step 7 — Validate before delivery (all 6 must pass)
+## Boundary — what this skill is NOT
 
-From `references/pitfalls.md` — copy-paste this whole block, swap `output.html` to your file path:
+This skill produces **research frameworks** with falsifiable signals, sourced facts, and structured Bull / Bear analyses. It is **not personalized investment advice** and does not replace a licensed financial advisor.
 
-```bash
-node << 'EOF'
-const fs = require('fs');
-const html = fs.readFileSync('output.html','utf8');
+Operational rules:
+- Frame outputs as analytical artifacts, not buy/sell recommendations.
+- For HTML outputs, include a small footer disclaimer: *"This is a research framework, not personalized investment advice. Consult a licensed advisor before acting."*
+- For markdown outputs, include the same disclaimer at the bottom.
+- If a user asks "should I buy X" directly, reframe rather than answer: *"I'll generate a research framework with explicit Bull/Bear scenarios and falsifiability triggers — you can use that to make your own decision."*
 
-// 1. Template instruction strip
-const stripMatches = html.match(/⚙️ PART|何时用|何时跳|✏️ EDIT/g);
-console.log('1. Template strip:', stripMatches ? '✗ ' + stripMatches.length + ' matches' : '✓');
+This boundary applies to all modes and personas, including Tier 2 Investor (which is the most prone to crossing it).
 
-// 2. Placeholder strip
-const placeholders = html.match(/\[(YOUR_|NUMBER_|STAT_|N\s|[A-Z_]{4,})/g);
-console.log('2. Placeholders:', placeholders ? '✗ ' + placeholders.length : '✓');
+---
 
-// 3. JS validity
-const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
-let jsValid = true;
-scripts.forEach((s,i) => { try { new Function(s); } catch(e) { jsValid=false; console.log('JS error block', i, e.message); }});
-console.log('3. JS valid:', jsValid ? '✓' : '✗');
+## Critical execution rules (apply to every mode)
 
-// 4. ID consistency
-const cnSection = html.match(/CN_NODES\s*=\s*\[([\s\S]*?)\];/);
-const cnIds = cnSection ? [...cnSection[1].matchAll(/id:\s*['"]([^'"]+)['"]/g)].map(m=>m[1]) : [];
-const dataIds = [...new Set([...html.matchAll(/data-id=['"]([^'"]+)['"]/g)].map(m=>m[1]))];
-const detailSection = html.match(/DETAIL_DATA\s*=\s*\{([\s\S]*?)^\};/m);
-const detailKeys = detailSection ? [...detailSection[1].matchAll(/^\s*['"]([^'"]+)['"]\s*:\s*\{/gm)].map(m=>m[1]) : [];
-const missing = [...new Set([...cnIds, ...dataIds])].filter(id => !detailKeys.includes(id));
-console.log('4. ID match:', missing.length === 0 ? '✓ (' + cnIds.length + ' nodes + ' + dataIds.length + ' badges → ' + detailKeys.length + ' keys)' : '✗ Missing: ' + missing);
+1. **Never invent attributions.** If you don't have a real source, omit the claim. Don't write "[Source: company filing]" without the actual filing.
+2. **Falsifiability is not optional.** Every judgment section must end with: "If [observable event] happens by [date], this view is wrong."
+3. **Counter-consensus is the spine.** A field guide without a counter-consensus angle is just a Wikipedia summary. Refuse to generate without one — instead, ask the user to identify the angle, or run web search to surface candidate angles.
+4. **State the persona's lens explicitly** in every output, briefly: *"Analyzed through [persona] lens — emphasizing [their topical priorities]."*
+5. **No greenwashing in scoring.** When using 1-10 scoring (e.g. 8-pillar DD), include low scores. A report where everything scores 8+ is a red flag and should be re-scored more honestly.
 
-// 5. Constellation count (18-28 sweet spot)
-console.log('5. CN_NODES count:', cnIds.length >= 18 && cnIds.length <= 28 ? '✓ ' + cnIds.length : '⚠ ' + cnIds.length + ' (target 18-28)');
+---
 
-// 6. Sidebar consistency
-const sidebarParts = [...new Set([...html.matchAll(/href="#part-(\d+)"/g)].map(m=>parseInt(m[1])))];
-const actualParts = [...new Set([...html.matchAll(/id="part-(\d+)"/g)].map(m=>parseInt(m[1])))];
-const sidebarMissing = actualParts.filter(p => !sidebarParts.includes(p));
-const sidebarOrphan = sidebarParts.filter(p => !actualParts.includes(p));
-console.log('6. Sidebar match:', (sidebarMissing.length + sidebarOrphan.length) === 0 ? '✓ (' + actualParts.length + ' parts)' : '✗ missing nav: ' + sidebarMissing + ', orphan nav: ' + sidebarOrphan);
+## Modes available (quick index)
 
-EOF
-```
+- **Generate** — one-shot HTML field guide
+- **Discovery** — 5-question pre-research dialogue, then user picks brief or HTML
+- **Critique** — adversarial review of a provided analysis (markdown output)
+- **Refresh** — update a prior field guide with current data + change-log callout
+- **Compare** — comparative field guide with side-by-side tables for 2+ entities
+- **Drill-down** — expand one subsection of a prior guide into a standalone deep dive
 
-All 6 must show ✓ before `present_files`.
+See `references/modes.md` for full workflows.
 
-## Step 8 — Deliver
+## Personas available (quick index)
 
-Output to `/mnt/user-data/outputs/<descriptive-name>.html`. Call `present_files` with the path.
+**Core lenses (highest-frequency use)**:
+- Tier 2 Investor (default for stocks)
+- Industry Strategist (default for sectors)
+- Engineer / Builder
+- Competitor
 
-Brief summary in chat (2-4 sentences max). Don't recap the report — the document speaks for itself. One follow-up offer is fine ("I can also expand Part X if you want more depth").
+**Advanced lenses (specialist use)**:
+- Tier 1 Investor (early-stage VC)
+- CEO (operator POV)
+- Disruption Scout
 
-## Anti-patterns
-
-- **Padding parts to fill all 22.** If you have content for 12 parts, ship 12. The reader prefers tight reports.
-- **Generic bullet lists where the template wants prose.** Hero, lede, callouts, tier conclusions are prose surfaces. Don't use markdown-bullet reflexes.
-- **Leaving template's `⚙️ PART N` comments in the file.** They survive into HTML if you forget. Strip them. (Step 4.)
-- **Citing only news aggregators.** A Net Interest piece beats five Reuters headlines. (Step 2.)
-- **Using `[placeholder]` text.** Even draft passes use real content. Skip sections you can't fill substantively.
-- **Constellation with 5-6 nodes.** Looks empty. Map is for 18-28 nodes. Below 18, skip Part 7 entirely.
-- **Hero with a non-falsifiable claim.** "NVIDIA leads AI" = bad. "NVIDIA's true moat is CUDA + bundled networking, not chip raw FLOPS" = good.
-- **Skipping the validation step.** All 6 checks in Step 7 must pass. The 30 seconds it takes prevents 10 minutes of bug-hunting after the user opens it.
-
-## Files in this skill
-
-- `assets/template.html` — 1500-line warm-cream + brick-red template with all 22 sections + components wired up. Copy this to start.
-- `references/structure.md` — what each of the 22 parts is for, when to keep/skip, depth standards.
-- `references/data-schemas.md` — exact JS object schemas for REAP_DATA / SECTOR_DATA / CN_NODES / DETAIL_DATA / GTM_DATA / EXIT_DATA.
-- `references/content-strategy.md` — VC / CB Insights depth standard; 11 source tiers; counter-consensus framework; hero writing rules.
-- `references/pitfalls.md` — all 10 known failure modes with copy-paste validation scripts.
+See `references/personas.md` for each persona's full lens definition.
