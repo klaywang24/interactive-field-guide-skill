@@ -1,58 +1,45 @@
-# Pitfalls — 写完之前必跑 5 项检查
+# Known pitfalls + validation checklist
 
-每次产物都会遇到下面之一，**生成完 HTML 后跑这 5 个验证**。任意一项 fail 就回去修。
+写完 HTML 后，按下面顺序自检。每一项都有具体怎么找。
 
 ---
 
-## #1 — 模板指令注释残留
+## #1 — 模板 instruction 注释残留
 
-新模板每个 section 顶部有 `<!-- ⚙️ PART N · 标题 ... -->` 的元注释，里面有 "何时用 / 何时跳 / 内容形状 / 关键组件" 4 行说明。**这些是给写作者看的，必须在最终产物里全部删掉**。
+模板里有 `⚙️ PART X — 何时用 / 何时跳` 和 `✏️ EDIT` 这类编辑提示。**最终交付的 HTML 里必须全部清除**。
 
 ### 怎么找
 
 ```bash
-grep -nE "⚙️ PART|何时用|何时跳|内容形状|关键组件|✏️ EDIT" /tmp/output.html
-# 应该返回 0 行
+grep -E '⚙️ PART|何时用|何时跳|✏️ EDIT' /tmp/output.html
 ```
 
-如果还有，跑这个清理：
-
-```bash
-python3 -c "
-import re
-with open('/tmp/output.html') as f: c = f.read()
-c = re.sub(r'<!--\s*⚙️ PART.*?-->\n?', '', c, flags=re.DOTALL)
-c = re.sub(r'<!--\s*✏️.*?-->\n?', '', c, flags=re.DOTALL)
-c = re.sub(r'<!-- 可选 component.*?-->\n?', '', c, flags=re.DOTALL)
-with open('/tmp/output.html','w') as f: f.write(c)
-"
-```
+无任何匹配 = ✓。
 
 ---
 
-## #2 — 占位符没替换
+## #2 — Placeholder 文字残留
 
-模板里有大量 `[YOUR_TOPIC]` / `[NUMBER_1]` / `[STAT_VALUE_1]` / `[N 大原则]` / `[FIRST_PRINCIPLE_HEADLINE]` 这类占位符。**任何一个留下都很尴尬**。
+模板里 `[YOUR_TOPIC]` / `[NUMBER_HERE]` / `[STAT_BLOCK_N]` 这类大写下划线占位符**必须全部替换成具体内容**。
 
 ### 怎么找
 
 ```bash
-grep -nE '\[(YOUR_|NUMBER_|STAT_|N |[A-Z_]{3,})' /tmp/output.html | grep -v '<!--'
-# 应该返回 0 行（HTML 注释里的占位符不算）
+grep -oE '\[(YOUR_|NUMBER_|STAT_|N\s|[A-Z_]{4,})' /tmp/output.html
 ```
 
-漏一个 placeholder 就回去填，或如果章节不适用就**整个章节跳过**（不要保留半填的章节）。
+无任何匹配 = ✓。
 
 ---
 
-## #3 — JS 数据对象 vs HTML id/data-id 错配
+## #3 — CN_NODES / data-id / DETAIL_DATA 三者 ID 不一致
 
-最严重的 bug：drawer 弹出空白 = `data-id` 在 HTML 里有，但 `DETAIL_DATA` 里没对应 key。
+Constellation Map 节点（`CN_NODES`）、Hero 区/章节里的 badge（`data-id`）、和 drawer 详情字典（`DETAIL_DATA`）三者必须 ID 全部对齐。任何一个 ID 在前两者出现但 DETAIL_DATA 没有 → drawer 点开是空白。
 
 ### 怎么找
 
 ```javascript
-// 在 Node 里跑
+// Node 里跑
 const fs = require('fs');
 const html = fs.readFileSync('/tmp/output.html','utf8');
 
@@ -119,7 +106,7 @@ console.log('CN_NODES count:', ids.length, '(target: 18-28)');
 
 // 每个 node 应该有 4 个字段
 const nodes = [...cnSection[1].matchAll(/\{[\s\S]*?\}/g)].map(m=>m[0]);
-const incomplete = nodes.filter(n => 
+const incomplete = nodes.filter(n =>
   !n.includes('id:') || !n.includes('name:') || !n.includes('type:') || !n.includes('ring:')
 );
 console.log('Incomplete nodes:', incomplete.length, '(target: 0)');
@@ -202,9 +189,91 @@ drawer 不只是放公司名 + 一句话——是给读者**深挖一个节点**
 
 如果用户要求"更现代风格"——也不要在这个模板上改 CSS。建议用户用别的工具，本 skill 的视觉风格固定。
 
+**硬规则**：最终 HTML 必须保留模板骨架——单个 `<style>` block、`.toolbar`、`.toc`、`.hero`、`.section`、`.drawer`、`.modal`、`body` CSS variables。**不要重写成新的黑白文档结构**。骨架损坏的具体检测项见 #11。
+
 ---
 
-## 完整一键验证脚本
+## #11 — Template wiring / 视觉骨架损坏
+
+**最常见也最致命的失败模式**：模型决定"重头写一份新 HTML 复用 template 的 CSS/JS framework"，结果只复用了概念，没真的把所有 CSS 变量、按钮 ID、TOC 结构复制过去——产物变成黑白裸 HTML，没侧栏、按钮失效、配色全无。
+
+这是 v3.0-beta 跑字节跳动报告时实际发生过的 bug。Codex 拆出 7 个具体 wiring 错误：
+
+1. 文件头尾出现 `<style> <style>` 重复 → CSS 解析不稳定
+2. HTML 用 `id="searchBtn"` 但 JS 找 `searchToggle` → 按钮全部失效
+3. HTML 用 `id="glossaryBtn"` 但 JS 找 `glossaryToggle`
+4. HTML 用 `id="darkBtn"` 但 JS 找 `darkToggle` → 暗色模式坏
+5. `.toc` CSS 写 `display:none` + `@media(max-width:1500px){.toc{display:none!important;}}` → 桌面正常屏幕完全看不到目录
+6. `<a href="#part-N">` 缺 `class="toc-link"` → scrollspy 高亮坏
+7. JS 用了 `var(--bad)` / `var(--good)` / `var(--bg-2)` 但 `:root` 没定义 → Constellation Map 节点退回默认色
+
+### 怎么找
+
+下面的检查已并入完整一键验证脚本（Check #7）。单跑：
+
+```javascript
+// Node 里
+const fs = require('fs');
+const html = fs.readFileSync('/tmp/output.html','utf8');
+
+const styleOpen = (html.match(/<style>/g) || []).length;
+const styleClose = (html.match(/<\/style>/g) || []).length;
+const duplicateStyle = styleOpen !== 1 || styleClose !== 1;
+
+const hasToc = /<nav[^>]+class=["'][^"']*\btoc\b/.test(html);
+const tocLinks = [...html.matchAll(/<a[^>]+href=["']#part-\d+["'][^>]*>/g)].map(m => m[0]);
+const tocLinksMissingClass = tocLinks.filter(a => !/class=["'][^"']*\btoc-link\b/.test(a));
+
+const hasToolbar = /class=["'][^"']*\btoolbar\b/.test(html);
+const ids = id => html.includes(`id="${id}"`) || html.includes(`id='${id}'`);
+
+const buttonPairs = [
+  ['searchBtn', 'searchToggle'],
+  ['glossaryBtn', 'glossaryToggle'],
+  ['darkBtn', 'darkToggle'],
+];
+
+const mismatchedButtons = buttonPairs.filter(([btn, toggle]) => {
+  const htmlHasBtn = ids(btn);
+  const htmlHasToggle = ids(toggle);
+  const jsUsesBtn = html.includes(`getElementById('${btn}')`) || html.includes(`getElementById("${btn}")`);
+  const jsUsesToggle = html.includes(`getElementById('${toggle}')`) || html.includes(`getElementById("${toggle}")`);
+  return (htmlHasBtn && jsUsesToggle) || (htmlHasToggle && jsUsesBtn);
+});
+
+const requiredVars = ['--bg', '--bg-card', '--ink', '--accent', '--gold', '--rule'];
+const missingVars = requiredVars.filter(v => !html.includes(v + ':'));
+
+const usedCustomVars = [...new Set([...html.matchAll(/var\((--[^),\s]+)/g)].map(m => m[1]))];
+const definedVars = [...new Set([...html.matchAll(/(--[a-zA-Z0-9-]+)\s*:/g)].map(m => m[1]))];
+const undefinedVars = usedCustomVars.filter(v => !definedVars.includes(v));
+
+const badTocMedia = /@media\s*\(max-width:\s*1500px\)\s*\{[^}]*\.toc\s*\{\s*display\s*:\s*none\s*!important/i.test(html);
+
+const wiringErrors = [];
+if (duplicateStyle) wiringErrors.push(`style tags ${styleOpen}/${styleClose}, expected 1/1`);
+if (!hasToc) wiringErrors.push('missing nav.toc');
+if (tocLinksMissingClass.length > 0) wiringErrors.push(`${tocLinksMissingClass.length} toc links missing class="toc-link"`);
+if (!hasToolbar) wiringErrors.push('missing toolbar');
+if (mismatchedButtons.length > 0) wiringErrors.push('toolbar id mismatch: ' + mismatchedButtons.map(p => p.join(' vs ')).join(', '));
+if (missingVars.length > 0) wiringErrors.push('missing core CSS vars: ' + missingVars.join(', '));
+if (undefinedVars.length > 0) wiringErrors.push('undefined CSS vars used: ' + undefinedVars.join(', '));
+if (badTocMedia) wiringErrors.push('toc hidden at max-width:1500px; use ~1180px or provide working toggle');
+
+console.log('Template wiring:', wiringErrors.length === 0 ? '✓' : '✗ ' + wiringErrors.join(' | '));
+```
+
+### 怎么避免
+
+**根因不在校验脚本，在生成阶段**。SKILL.md Critical Rule 6 已要求：必须基于 `assets/template.html` 做 surgical 替换，不得 rebuild from scratch。
+
+如果发现自己在写"为了适配新 topic，重新组织一下整个 HTML 结构"——**停下，丢掉，重新打开 `assets/template.html` 复制**。模板的 CSS 变量、button ID、TOC `class="toc-link"`、JS bindings 都是 load-bearing，不能重组。
+
+校验脚本是最后一道兜底，不是设计阶段的指导原则。
+
+---
+
+## 完整一键验证脚本（7 项）
 
 写完跑这一段：
 
@@ -246,7 +315,56 @@ const sidebarMissing = actualParts.filter(p => !sidebarParts.includes(p));
 const sidebarOrphan = sidebarParts.filter(p => !actualParts.includes(p));
 console.log('6. Sidebar match:', (sidebarMissing.length + sidebarOrphan.length) === 0 ? '✓ (' + actualParts.length + ' parts)' : '✗ missing nav: ' + sidebarMissing + ', orphan nav: ' + sidebarOrphan);
 
+// 7. Template wiring integrity (新增 — 防止字节跳动那种黑白裸 HTML)
+const styleOpen = (html.match(/<style>/g) || []).length;
+const styleClose = (html.match(/<\/style>/g) || []).length;
+const duplicateStyle = styleOpen !== 1 || styleClose !== 1;
+
+const hasToc = /<nav[^>]+class=["'][^"']*\btoc\b/.test(html);
+const tocLinks = [...html.matchAll(/<a[^>]+href=["']#part-\d+["'][^>]*>/g)].map(m => m[0]);
+const tocLinksMissingClass = tocLinks.filter(a => !/class=["'][^"']*\btoc-link\b/.test(a));
+
+const hasToolbar = /class=["'][^"']*\btoolbar\b/.test(html);
+const ids = id => html.includes(`id="${id}"`) || html.includes(`id='${id}'`);
+
+const buttonPairs = [
+  ['searchBtn', 'searchToggle'],
+  ['glossaryBtn', 'glossaryToggle'],
+  ['darkBtn', 'darkToggle'],
+];
+
+const mismatchedButtons = buttonPairs.filter(([btn, toggle]) => {
+  const htmlHasBtn = ids(btn);
+  const htmlHasToggle = ids(toggle);
+  const jsUsesBtn = html.includes(`getElementById('${btn}')`) || html.includes(`getElementById("${btn}")`);
+  const jsUsesToggle = html.includes(`getElementById('${toggle}')`) || html.includes(`getElementById("${toggle}")`);
+  return (htmlHasBtn && jsUsesToggle) || (htmlHasToggle && jsUsesBtn);
+});
+
+const requiredVars = ['--bg', '--bg-card', '--ink', '--accent', '--gold', '--rule'];
+const missingVars = requiredVars.filter(v => !html.includes(v + ':'));
+
+const usedCustomVars = [...new Set([...html.matchAll(/var\((--[^),\s]+)/g)].map(m => m[1]))];
+const definedVars = [...new Set([...html.matchAll(/(--[a-zA-Z0-9-]+)\s*:/g)].map(m => m[1]))];
+const undefinedVars = usedCustomVars.filter(v => !definedVars.includes(v));
+
+const badTocMedia = /@media\s*\(max-width:\s*1500px\)\s*\{[^}]*\.toc\s*\{\s*display\s*:\s*none\s*!important/i.test(html);
+
+const wiringErrors = [];
+if (duplicateStyle) wiringErrors.push(`style tags ${styleOpen}/${styleClose}, expected 1/1`);
+if (!hasToc) wiringErrors.push('missing nav.toc');
+if (tocLinksMissingClass.length > 0) wiringErrors.push(`${tocLinksMissingClass.length} toc links missing class="toc-link"`);
+if (!hasToolbar) wiringErrors.push('missing toolbar');
+if (mismatchedButtons.length > 0) wiringErrors.push('toolbar id mismatch: ' + mismatchedButtons.map(p => p.join(' vs ')).join(', '));
+if (missingVars.length > 0) wiringErrors.push('missing core CSS vars: ' + missingVars.join(', '));
+if (undefinedVars.length > 0) wiringErrors.push('undefined CSS vars used: ' + undefinedVars.join(', '));
+if (badTocMedia) wiringErrors.push('toc hidden at max-width:1500px; use ~1180px or provide working toggle');
+
+console.log('7. Template wiring:', wiringErrors.length === 0 ? '✓' : '✗ ' + wiringErrors.join(' | '));
+
 EOF
 ```
 
-6 项全 ✓ 才能交付。
+**7 项全 ✓ 才能交付。**
+
+任何一项 ✗ 都要回去改，改完重跑这段脚本。Check #7 (Template wiring) 是 v3.0.1 新增——**这一项失败说明你 rebuild from scratch 了，不是 surgical 替换 `assets/template.html`，必须重新开始**。

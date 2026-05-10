@@ -96,7 +96,7 @@ For modes producing HTML output (Generate / Refresh / Compare / Drill-down), loa
 - `references/structure.md` — 22-part menu with skip rules by topic type
 - `references/content-strategy.md` — sourcing standards (Tier 1-3), counter-consensus framework, falsifiability rules
 - `references/data-schemas.md` — JS object schemas + component HTML patterns
-- `references/pitfalls.md` — known pitfalls + validation script
+- `references/pitfalls.md` — known pitfalls + 7-check validation script (includes Template Wiring Integrity)
 
 For modes producing markdown output (Critique, Discovery brief-only), load only:
 - `references/content-strategy.md`
@@ -104,11 +104,11 @@ For modes producing markdown output (Critique, Discovery brief-only), load only:
 
 ## Step 4 — Execute workflow
 
-Follow the mode's workflow step by step. Apply the persona's lens at each judgment point. Use `assets/template.html` as the rendering target for HTML outputs.
+Follow the mode's workflow step by step. Apply the persona's lens at each judgment point. **Use `assets/template.html` as the rendering base for HTML outputs — surgically replace pre-populated content; do NOT rebuild from scratch (see Critical Rule 6 below).**
 
 ## Step 5 — Validate
 
-For HTML outputs: run the validation script from `references/pitfalls.md`. Iterate up to 3 times to fix issues. Only deliver after passing validation.
+For HTML outputs: run the **7-check validation script** from `references/pitfalls.md`. The 7th check (Template Wiring Integrity) catches duplicate `<style>` tags, button ID mismatches, missing `.toc-link` classes, undefined CSS variables, and other wiring-level breakage. Iterate up to 3 times to fix issues. Only deliver after passing all 7 checks.
 
 For markdown outputs (Critique, brief): self-review against `content-strategy.md` standards — every claim sourced, every judgment falsifiable, counter-consensus angle present.
 
@@ -160,6 +160,12 @@ This boundary applies to all modes and personas, including Tier 2 Investor (whic
 3. **Counter-consensus is the spine.** A field guide without a counter-consensus angle is just a Wikipedia summary. Refuse to generate without one — instead, ask the user to identify the angle, or run web search to surface candidate angles.
 4. **State the persona's lens explicitly** in every output, briefly: *"Analyzed through [persona] lens — emphasizing [their topical priorities]."*
 5. **No greenwashing in scoring.** When using 1-10 scoring (e.g. 8-pillar DD), include low scores. A report where everything scores 8+ is a red flag and should be re-scored more honestly.
+
+6. **Template integrity is non-negotiable.** ALWAYS use `assets/template.html` as the rendering base. NEVER build HTML from scratch, even when the template's pre-populated content is on a topic unrelated to the current task. The template's CSS variables (`--bg`, `--bg-card`, `--ink`, `--accent`, `--gold`, `--rule`, `--good`, `--bad`, `--bg-2`), toolbar button IDs (`searchBtn`, `glossaryBtn`, `darkBtn`), TOC structure (with `class="toc-link"` on every `<a>` inside `<nav class="toc">`), JS button bindings, modal class conventions (`.show`), dark mode target (`body.dark`), and sidebar nav scaffold are all **load-bearing** — removing or rewiring any of them produces a black-and-white skeleton output without the warm-beige + brick-red palette and without working interactivity.
+
+   The correct approach: open `assets/template.html` and surgically replace the pre-populated content (Mastercard / fintech sample data) with your target topic's content. **Preserve every `<style>` block, every `id="..."` attribute on toolbar buttons, every `class="..."` attribute on TOC links, every CSS variable definition, and the entire JS scaffold.** If the surgical edit feels overwhelming because the template has too much unrelated content, you are still required to do it surgically — rebuilding from scratch is forbidden.
+
+   The 7-check validation script in `pitfalls.md` includes a Template Wiring Integrity check (Check #7) that will catch failures of this rule. If Check #7 fails, you have rebuilt instead of edited — go back and start over from a fresh copy of `assets/template.html`.
 
 ---
 
