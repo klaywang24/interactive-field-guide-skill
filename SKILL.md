@@ -15,6 +15,8 @@ Alternative output: a concise markdown research brief (when the user explicitly 
 
 **Operating principle**: this skill is a *suite*, not a single tool. It supports 6 operational modes and 7 analytical personas. Always resolve mode + persona + output format BEFORE generating.
 
+**Outputs are designed for sharing**. Treat every artifact as something the user might forward to a colleague, post publicly, or use in a stakeholder presentation. They must be free of any conversation-participant's personal context (see Critical Rule 7).
+
 ---
 
 ## Step 0 — Resolve operation parameters
@@ -96,7 +98,7 @@ For modes producing HTML output (Generate / Refresh / Compare / Drill-down), loa
 - `references/structure.md` — 22-part menu with skip rules by topic type
 - `references/content-strategy.md` — sourcing standards (Tier 1-3), counter-consensus framework, falsifiability rules
 - `references/data-schemas.md` — JS object schemas + component HTML patterns
-- `references/pitfalls.md` — known pitfalls + 7-check validation script (includes Template Wiring Integrity)
+- `references/pitfalls.md` — known pitfalls + 9-check validation script (includes Template Wiring, Personalization Leakage, Accordion Double-binding)
 
 For modes producing markdown output (Critique, Discovery brief-only), load only:
 - `references/content-strategy.md`
@@ -108,9 +110,20 @@ Follow the mode's workflow step by step. Apply the persona's lens at each judgme
 
 ## Step 5 — Validate
 
-For HTML outputs: run the **7-check validation script** from `references/pitfalls.md`. The 7th check (Template Wiring Integrity) catches duplicate `<style>` tags, button ID mismatches, missing `.toc-link` classes, undefined CSS variables, and other wiring-level breakage. Iterate up to 3 times to fix issues. Only deliver after passing all 7 checks.
+For HTML outputs: run the **9-check validation script** from `references/pitfalls.md`. Iterate up to 3 times to fix issues. Only deliver after passing all 9 checks.
 
-For markdown outputs (Critique, brief): self-review against `content-strategy.md` standards — every claim sourced, every judgment falsifiable, counter-consensus angle present.
+The 9 checks cover:
+1. Template instruction strip
+2. Placeholder strip
+3. JS validity
+4. ID consistency (CN_NODES / data-id / DETAIL_DATA)
+5. Constellation count
+6. Sidebar consistency
+7. Template wiring integrity (added v3.0.1)
+8. **Personalization leakage** (added v3.0.2)
+9. **Accordion event handler integrity** (added v3.0.2)
+
+For markdown outputs (Critique, brief): self-review against `content-strategy.md` standards — every claim sourced, every judgment falsifiable, counter-consensus angle present. Also run the personalization leakage check (#8) on markdown outputs.
 
 ## Step 6 — Deliver (cross-platform)
 
@@ -121,6 +134,8 @@ Detect the runtime environment and write the output appropriately:
 - Refresh: `<topic-slug>-field-guide-refresh-<YYYY-MM-DD>.html`
 - Compare: `<topic-A>-vs-<topic-B>-comparison.html`
 - Critique: `<topic-slug>-critique.md`
+
+**Filename must NOT contain personal names** (no `klay-bytedance.html`, no `for-klay-nvidia.html`). Use the analysis subject only.
 
 **Output location**:
 - If running in Claude.ai / Claude Desktop (sandboxed environment with `/mnt/user-data/outputs/` available): save there and use the platform's native file presentation.
@@ -165,7 +180,36 @@ This boundary applies to all modes and personas, including Tier 2 Investor (whic
 
    The correct approach: open `assets/template.html` and surgically replace the pre-populated content (Mastercard / fintech sample data) with your target topic's content. **Preserve every `<style>` block, every `id="..."` attribute on toolbar buttons, every `class="..."` attribute on TOC links, every CSS variable definition, and the entire JS scaffold.** If the surgical edit feels overwhelming because the template has too much unrelated content, you are still required to do it surgically — rebuilding from scratch is forbidden.
 
-   The 7-check validation script in `pitfalls.md` includes a Template Wiring Integrity check (Check #7) that will catch failures of this rule. If Check #7 fails, you have rebuilt instead of edited — go back and start over from a fresh copy of `assets/template.html`.
+   The 9-check validation script in `pitfalls.md` includes a Template Wiring Integrity check (Check #7) that will catch failures of this rule. If Check #7 fails, you have rebuilt instead of edited — go back and start over from a fresh copy of `assets/template.html`.
+
+7. **Personalization leakage guard.** Outputs are research artifacts intended for sharing across teams, organizations, and the open internet. They must be **free of any conversation-participant's personal context** unless the user explicitly requested otherwise.
+
+   ❌ FORBIDDEN in any HTML or markdown output:
+   - Footer text like *"Generated for [name]"*, *"为 [name] 编写"*, *"Built for [name]"*, *"Created for [name]"*
+   - Body text that volunteers user-side relevance: *"对 [user's company] 含义"*, *"[user's company] parallels"*, *"implications for your [user's startup]"*
+   - Any user-side proper nouns (the user's name, their company, their startup, their employer) in any part of the output
+   - Filename containing personal names (e.g. `for-klay-nvidia.html`)
+
+   ✅ The skill DOES have access to the user's profile (name, company, projects) through Claude.ai memory or similar context — but **must not use it in output**. That information is for shaping the conversation and asking clarifying questions, not for embedding in the artifact.
+
+   ✅ The ONLY exception: when the user explicitly requests user-side framing in the prompt itself. Examples that authorize personal context:
+   - *"How does this relate to my work at [Company X]?"*
+   - *"What are the implications for [my startup]?"*
+   - *"I'm a [role] at [company] — analyze this from that POV"*
+
+   Without explicit user direction, all output should be generic and reusable across users. The skill is open-source; outputs may be downloaded, shared, archived publicly.
+
+   **Footer convention**: use generic format only.
+   - English: `Generated with Interactive Field Guide · [date] · [persona] lens · [N] parts`
+   - 中文: `由 Interactive Field Guide 生成 · [date] · [persona] 视角 · [N] parts`
+
+   Validation: pitfalls.md Check #8 detects common leakage patterns.
+
+8. **Component event handler integrity.** Interactive components (accordion, tabs, modals, drawers) must have **exactly one click handler bound per element**. Double-binding causes click toggle race conditions where the first click opens then immediately closes the component — making it appear non-functional.
+
+   Specifically: `.accordion-header` must have **one** `addEventListener('click', ...)` registration, not two. The same applies to `.tab-button`, `.modal-close`, etc.
+
+   Validation: pitfalls.md Check #9 detects multiple click handlers on the same component class.
 
 ---
 

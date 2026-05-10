@@ -209,59 +209,7 @@ drawer 不只是放公司名 + 一句话——是给读者**深挖一个节点**
 
 ### 怎么找
 
-下面的检查已并入完整一键验证脚本（Check #7）。单跑：
-
-```javascript
-// Node 里
-const fs = require('fs');
-const html = fs.readFileSync('/tmp/output.html','utf8');
-
-const styleOpen = (html.match(/<style>/g) || []).length;
-const styleClose = (html.match(/<\/style>/g) || []).length;
-const duplicateStyle = styleOpen !== 1 || styleClose !== 1;
-
-const hasToc = /<nav[^>]+class=["'][^"']*\btoc\b/.test(html);
-const tocLinks = [...html.matchAll(/<a[^>]+href=["']#part-\d+["'][^>]*>/g)].map(m => m[0]);
-const tocLinksMissingClass = tocLinks.filter(a => !/class=["'][^"']*\btoc-link\b/.test(a));
-
-const hasToolbar = /class=["'][^"']*\btoolbar\b/.test(html);
-const ids = id => html.includes(`id="${id}"`) || html.includes(`id='${id}'`);
-
-const buttonPairs = [
-  ['searchBtn', 'searchToggle'],
-  ['glossaryBtn', 'glossaryToggle'],
-  ['darkBtn', 'darkToggle'],
-];
-
-const mismatchedButtons = buttonPairs.filter(([btn, toggle]) => {
-  const htmlHasBtn = ids(btn);
-  const htmlHasToggle = ids(toggle);
-  const jsUsesBtn = html.includes(`getElementById('${btn}')`) || html.includes(`getElementById("${btn}")`);
-  const jsUsesToggle = html.includes(`getElementById('${toggle}')`) || html.includes(`getElementById("${toggle}")`);
-  return (htmlHasBtn && jsUsesToggle) || (htmlHasToggle && jsUsesBtn);
-});
-
-const requiredVars = ['--bg', '--bg-card', '--ink', '--accent', '--gold', '--rule'];
-const missingVars = requiredVars.filter(v => !html.includes(v + ':'));
-
-const usedCustomVars = [...new Set([...html.matchAll(/var\((--[^),\s]+)/g)].map(m => m[1]))];
-const definedVars = [...new Set([...html.matchAll(/(--[a-zA-Z0-9-]+)\s*:/g)].map(m => m[1]))];
-const undefinedVars = usedCustomVars.filter(v => !definedVars.includes(v));
-
-const badTocMedia = /@media\s*\(max-width:\s*1500px\)\s*\{[^}]*\.toc\s*\{\s*display\s*:\s*none\s*!important/i.test(html);
-
-const wiringErrors = [];
-if (duplicateStyle) wiringErrors.push(`style tags ${styleOpen}/${styleClose}, expected 1/1`);
-if (!hasToc) wiringErrors.push('missing nav.toc');
-if (tocLinksMissingClass.length > 0) wiringErrors.push(`${tocLinksMissingClass.length} toc links missing class="toc-link"`);
-if (!hasToolbar) wiringErrors.push('missing toolbar');
-if (mismatchedButtons.length > 0) wiringErrors.push('toolbar id mismatch: ' + mismatchedButtons.map(p => p.join(' vs ')).join(', '));
-if (missingVars.length > 0) wiringErrors.push('missing core CSS vars: ' + missingVars.join(', '));
-if (undefinedVars.length > 0) wiringErrors.push('undefined CSS vars used: ' + undefinedVars.join(', '));
-if (badTocMedia) wiringErrors.push('toc hidden at max-width:1500px; use ~1180px or provide working toggle');
-
-console.log('Template wiring:', wiringErrors.length === 0 ? '✓' : '✗ ' + wiringErrors.join(' | '));
-```
+下面的检查已并入完整一键验证脚本（Check #7）。
 
 ### 怎么避免
 
@@ -273,7 +221,114 @@ console.log('Template wiring:', wiringErrors.length === 0 ? '✓' : '✗ ' + wir
 
 ---
 
-## 完整一键验证脚本（7 项）
+## #12 — Personalization Leakage（v3.0.2 新增）
+
+**症状**：HTML 输出里出现 skill 用户的个人信息——姓名、公司、startup、项目——污染了本应通用、可分享的研究 artifact。
+
+这是 v3.0.1 跑字节跳动 ByteDance 报告时实际发生的 bug。Codex 在 audit 中发现：
+
+- Footer 写"为 Klay 编写 · 2026 年 5 月..."
+- Drawer detail 里写"对 Klay 的 Nexar 含义..."
+- 多处出现"对 Nexar 含义..."
+- 老版甚至有"Generated for Klay"
+
+**Skill 是开源的**。任何用户下载用同一个 skill 跑出来的 HTML 都会带"为 [skill 作者] 编写"——不可接受。**每个用户的 output 应该是通用的，不带任何对话参与者的个人信息**。
+
+### 怎么找
+
+```bash
+node -e "
+const fs = require('fs');
+const html = fs.readFileSync('/tmp/output.html','utf8');
+
+const patterns = [
+  /Generated for [A-Z][\u4e00-\u9fa5a-zA-Z]{1,20}/g,
+  /Built for [A-Z][\u4e00-\u9fa5a-zA-Z]{1,20}/g,
+  /Created (?:for|by) [A-Z][\u4e00-\u9fa5a-zA-Z]{1,20}/g,
+  /为\s*[\u4e00-\u9fa5a-zA-Z]{1,10}\s*编写/g,
+  /对\s*[\u4e00-\u9fa5a-zA-Z]{1,15}\s*的?\s*[\u4e00-\u9fa5]{2,10}\s*含义/g,
+  /implications? for (?:my|your) [A-Z][a-zA-Z]{1,20}/gi,
+  /[\u4e00-\u9fa5a-zA-Z]{1,15} parallels?\s*(?:for|to)\s*[\u4e00-\u9fa5a-zA-Z]{1,20}/g,
+];
+
+const leaks = patterns.flatMap(p => [...(html.match(p) || [])]);
+console.log('Personalization leakage:', leaks.length === 0 ? '✓' : '✗ found: ' + JSON.stringify(leaks));
+"
+```
+
+### 怎么避免
+
+**SKILL.md Critical Rule 7** 已规定：除非用户**显式要求**user-side framing（"How does this relate to my X"），否则 output 中**不得出现**任何对话参与者的个人信息。
+
+具体规则：
+- ❌ Footer 不能写 "Generated for [name]"、"为 [name] 编写"
+- ❌ Body 不能 volunteer "对 [user's company] 含义"
+- ❌ 文件名不能含人名
+- ❌ 即使 skill 通过 Claude.ai memory 知道用户是谁、做什么——**也不能写进 output**
+
+**通用 Footer 模板**：
+- 英文：`Generated with Interactive Field Guide · [date] · [persona] lens · [N] parts`
+- 中文：`由 Interactive Field Guide 生成 · [date] · [persona] 视角 · [N] parts`
+
+唯一例外：用户在 prompt 里**显式**要求 user-side framing（例 *"How does this relate to my work at Stripe?"*）——这种情况下，user 的 context 才能进入 output。但 footer 仍然用通用文案。
+
+---
+
+## #13 — Component event handler 重复绑定（v3.0.2 新增）
+
+**症状**：交互组件（accordion、tabs、modal）点了"没反应"——其实绑定了两套 click handler，互相 toggle 抵消。
+
+这是 v3.0.1 跑字节跳动报告时实际发生的 bug。Codex 在 audit 中发现：
+
+`.accordion-header` 被绑定了两次 `addEventListener('click', ...)`：
+- 第一次：点击 → 打开当前 accordion
+- 第二次：紧接着 → toggle('open')，把刚打开的又关掉
+
+结果用户体验：点击没反应。
+
+### 怎么找
+
+```bash
+node -e "
+const fs = require('fs');
+const html = fs.readFileSync('/tmp/output.html','utf8');
+
+// 检查 .accordion-header 上的 click handler 数量
+const accordionBindings = [...html.matchAll(/accordion-header[\s\S]{0,200}addEventListener\(\s*['\"]click['\"]?/g)];
+console.log('.accordion-header click bindings:', accordionBindings.length, accordionBindings.length === 1 ? '✓' : '✗ should be exactly 1');
+
+// 检查 .tab-button 同样问题
+const tabBindings = [...html.matchAll(/tab-button[\s\S]{0,200}addEventListener\(\s*['\"]click['\"]?/g)];
+console.log('.tab-button click bindings:', tabBindings.length, tabBindings.length <= 1 ? '✓' : '✗ should be 0 or 1');
+
+// 检查 modal close 同样问题
+const modalBindings = [...html.matchAll(/modal-close[\s\S]{0,200}addEventListener\(\s*['\"]click['\"]?/g)];
+console.log('.modal-close click bindings:', modalBindings.length, modalBindings.length <= 1 ? '✓' : '✗ should be 0 or 1');
+"
+```
+
+### 怎么避免
+
+**SKILL.md Critical Rule 8** 规定：每个交互组件 class（accordion-header / tab-button / modal-close 等）**只能绑定一次** click handler。
+
+写完 JS 后，如果发现同一个 selector 在两个不同的 `addEventListener` 调用里出现——**只保留一个，删掉另一个**。
+
+最佳实践：在 JS 区块开头维护一个 "bindings done" 列表，避免重复：
+
+```javascript
+// 推荐写法
+document.querySelectorAll('.accordion-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const item = header.closest('.accordion-item');
+    item.classList.toggle('open');
+  });
+});
+// 不要再写第二个 .accordion-header 的 forEach
+```
+
+---
+
+## 完整一键验证脚本（9 项）
 
 写完跑这一段：
 
@@ -315,7 +370,7 @@ const sidebarMissing = actualParts.filter(p => !sidebarParts.includes(p));
 const sidebarOrphan = sidebarParts.filter(p => !actualParts.includes(p));
 console.log('6. Sidebar match:', (sidebarMissing.length + sidebarOrphan.length) === 0 ? '✓ (' + actualParts.length + ' parts)' : '✗ missing nav: ' + sidebarMissing + ', orphan nav: ' + sidebarOrphan);
 
-// 7. Template wiring integrity (新增 — 防止字节跳动那种黑白裸 HTML)
+// 7. Template wiring integrity (v3.0.1)
 const styleOpen = (html.match(/<style>/g) || []).length;
 const styleClose = (html.match(/<\/style>/g) || []).length;
 const duplicateStyle = styleOpen !== 1 || styleClose !== 1;
@@ -341,7 +396,7 @@ const mismatchedButtons = buttonPairs.filter(([btn, toggle]) => {
   return (htmlHasBtn && jsUsesToggle) || (htmlHasToggle && jsUsesBtn);
 });
 
-const requiredVars = ['--bg', '--bg-card', '--ink', '--accent', '--gold', '--rule'];
+const requiredVars = ['--bg', '--bg-card', '--ink', '--accent', '--gold', '--rule', '--good', '--bad', '--bg-2'];
 const missingVars = requiredVars.filter(v => !html.includes(v + ':'));
 
 const usedCustomVars = [...new Set([...html.matchAll(/var\((--[^),\s]+)/g)].map(m => m[1]))];
@@ -362,9 +417,32 @@ if (badTocMedia) wiringErrors.push('toc hidden at max-width:1500px; use ~1180px 
 
 console.log('7. Template wiring:', wiringErrors.length === 0 ? '✓' : '✗ ' + wiringErrors.join(' | '));
 
+// 8. Personalization leakage (v3.0.2)
+const leakagePatterns = [
+  /Generated for [A-Z][\u4e00-\u9fa5a-zA-Z]{1,20}/g,
+  /Built for [A-Z][\u4e00-\u9fa5a-zA-Z]{1,20}/g,
+  /Created (?:for|by) [A-Z][\u4e00-\u9fa5a-zA-Z]{1,20}/g,
+  /为\s*[\u4e00-\u9fa5a-zA-Z]{1,10}\s*编写/g,
+  /对\s*[\u4e00-\u9fa5a-zA-Z]{1,15}\s*的?\s*[\u4e00-\u9fa5]{2,10}\s*含义/g,
+];
+const leaks = leakagePatterns.flatMap(p => [...(html.match(p) || [])]);
+console.log('8. Personalization leakage:', leaks.length === 0 ? '✓' : '✗ found: ' + JSON.stringify(leaks));
+
+// 9. Component event handler integrity (v3.0.2)
+const accordionBindings = [...html.matchAll(/accordion-header[\s\S]{0,200}addEventListener\(\s*['"]click['"]?/g)];
+const tabBindings = [...html.matchAll(/tab-button[\s\S]{0,200}addEventListener\(\s*['"]click['"]?/g)];
+const componentErrors = [];
+if (accordionBindings.length > 1) componentErrors.push(`.accordion-header bound ${accordionBindings.length} times (must be 1)`);
+if (tabBindings.length > 1) componentErrors.push(`.tab-button bound ${tabBindings.length} times (must be ≤1)`);
+console.log('9. Component bindings:', componentErrors.length === 0 ? '✓' : '✗ ' + componentErrors.join(' | '));
+
 EOF
 ```
 
-**7 项全 ✓ 才能交付。**
+**9 项全 ✓ 才能交付。**
 
-任何一项 ✗ 都要回去改，改完重跑这段脚本。Check #7 (Template wiring) 是 v3.0.1 新增——**这一项失败说明你 rebuild from scratch 了，不是 surgical 替换 `assets/template.html`，必须重新开始**。
+任何一项 ✗ 都要回去改，改完重跑这段脚本。
+
+- Check #7 (Template wiring) 失败 = rebuild from scratch 了，不是 surgical 替换 → 重新开始
+- Check #8 (Personalization leakage) 失败 = 把用户个人信息写进 output 了 → 全部改成通用文案
+- Check #9 (Component bindings) 失败 = 同一个组件绑了多次 click handler → 删掉重复的
